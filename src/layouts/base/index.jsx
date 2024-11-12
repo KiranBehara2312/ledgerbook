@@ -11,9 +11,6 @@ const BaseLayout = ({ children }) => {
         overflowX: "auto",
       }}
     >
-      <div className="wave"></div>
-      <div className="wave"></div>
-      <div className="wave"></div>
       {children}
     </Box>
   );

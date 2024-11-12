@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Outlet,
-  Route,
-  Routes,
-  useRoutes,
-} from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import AuthLayout from "../layouts/auth";
-import BaseLayout from "../layouts/base";
-import SimCard from "../components/custom/Sim-Card";
+import Login from "../pages/auth/Login";
 
 const AppRoutes = () => {
   const routes = useRoutes([
@@ -20,14 +13,8 @@ const AppRoutes = () => {
       element: <AuthLayout />,
       children: [
         {
-          index: true,
-          element: (
-            <>
-              <SimCard cardStyles={{ height: "200px", width: "200px", ml :20, mt : 50, p:1 }}>
-                Login
-              </SimCard>
-            </>
-          ),
+          path: "login",
+          element: <Login />,
         },
         { path: "signup", element: <>signup</> },
       ],
