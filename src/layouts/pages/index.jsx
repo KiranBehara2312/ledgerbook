@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 const PagesLayout = () => {
   return (
     <BaseLayout>
+    
       <Outlet />
     </BaseLayout>
   );
