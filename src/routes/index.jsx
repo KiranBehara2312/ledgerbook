@@ -3,6 +3,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 import AuthLayout from "../layouts/auth";
 import Login from "../pages/auth/Login";
 import PagesLayout from "../layouts/pages";
+import Home from "../pages/Home";
 
 const AppRoutes = () => {
   const routes = useRoutes([
@@ -27,7 +28,8 @@ const AppRoutes = () => {
       children: [
         {
           path: "home",
-          element: <>Home</>,
+          index :true,
+          element: <Home />,
         },
       ],
     },
