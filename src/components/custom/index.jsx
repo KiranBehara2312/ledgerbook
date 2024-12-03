@@ -1,3 +1,3 @@
 import GlassBG from "./Glass";
-
-export default GlassBG;
+import MyHeading from "./MyHeading";
+export { GlassBG, MyHeading };
