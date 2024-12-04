@@ -1,37 +1,35 @@
-import React from "react";
 import { createTheme, ThemeProvider, Typography, Button } from "@mui/material";
 
-// Create a custom theme
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#1976d2", // Custom primary color
+      main: "#1976d2",
     },
     secondary: {
-      main: "#ff4081", // Custom secondary color
+      main: "#ff4081",
     },
     background: {
-      default: "#f4f4f4", // Background color
+      default: "#f4f4f4",
     },
     text: {
-      primary: "#333333", // Primary text color
-      secondary: "#757575", // Secondary text color
+      primary: "#333333",
+      secondary: "#757575",
     },
   },
   typography: {
-    fontFamily: '"Roboto", sans-serif', // Default font family
+    fontFamily: '"Roboto", sans-serif',
     h1: {
-      fontSize: "2rem", // Custom font size for h1
-      fontWeight: 700, // Custom font weight
+      fontSize: "1.8rem",
+      fontWeight: 700,
     },
     body1: {
       fontSize: "1rem",
-      color: "#555555", // Custom color for body text
+      color: "#555555",
     },
   },
-  spacing: 8, // 1 spacing unit = 4px
+  spacing: 8,
   shape: {
-    borderRadius: 8, // Custom border radius for components
+    borderRadius: 8,
   },
   components: {
     MuiFormHelperText: {
@@ -39,6 +37,31 @@ const theme = createTheme({
         root: {
           fontSize: "11px",
         },
+      },
+    },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          marginTop: "-1px",
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          margin: 4.5,
+          "& .MuiInputBase-root": {
+            fontSize: "0.875rem",
+            padding: "0 0",
+          },
+          "& .MuiFormLabel-root": {
+            fontSize: "0.875rem",
+          },
+        },
+      },
+      defaultProps: {
+        size: "small",
+        variant: "outlined",
       },
     },
     MuiButton: {

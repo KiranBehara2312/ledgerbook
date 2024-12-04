@@ -4,6 +4,7 @@ import AuthLayout from "../layouts/auth";
 import Login from "../pages/auth/Login";
 import PagesLayout from "../layouts/pages";
 import Home from "../pages/Home";
+import Registration from "../pages/registration";
 
 const AppRoutes = () => {
   const routes = useRoutes([
@@ -28,8 +29,16 @@ const AppRoutes = () => {
       children: [
         {
           path: "home",
-          index :true,
+          index: true,
           element: <Home />,
+        },
+        {
+          path: "registration",
+          element: <Registration />,
+        },
+        {
+          path: "appointment",
+          element: <>appointment</>,
         },
       ],
     },
