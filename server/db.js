@@ -1,21 +1,21 @@
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
-let client;
-let db;
-
 // MongoDB URI from environment variables or fallback to a default URI
-const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/yourDatabaseName';
+const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/hims';
 
-// Connect to MongoDB
+// Connect to MongoDB using Mongoose
 const connectToMongoDB = async () => {
   try {
-    if (!client) {
-      client = await MongoClient.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-      db = client.db(); // Get the database after successful connection
-      console.log('Connected to MongoDB');
+    // Check if the Mongoose connection is already established
+    if (mongoose.connection.readyState === 0) {
+      await mongoose.connect(mongoURI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        serverSelectionTimeoutMS: 30000,  // Timeout after 30 seconds
+      });
+      console.log('Connected to MongoDB using Mongoose');
     }
-    return db; // Return the db instance
   } catch (err) {
     console.error('Error connecting to MongoDB:', err);
     throw err;
