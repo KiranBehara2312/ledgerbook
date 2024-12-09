@@ -1,26 +1,24 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
+require("dotenv").config(); // Load environment variables
 
-// MongoDB URI from environment variables or fallback to a default URI
-const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/hims';
+const mongoose = require("mongoose");
+let connection;
 
-// Connect to MongoDB using Mongoose
-const connectToMongoDB = async () => {
+const connectDB = async () => {
   try {
-    // Check if the Mongoose connection is already established
-    if (mongoose.connection.readyState === 0) {
-      await mongoose.connect(mongoURI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        serverSelectionTimeoutMS: 30000,  // Timeout after 30 seconds
-      });
-      console.log('Connected to MongoDB using Mongoose');
+    const dbURI = process.env.MONGO_URI; // Use the environment variable for MongoDB URI
+
+    connection = await mongoose.connect(dbURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    if (connection) {
+      return connection.connection.db;
     }
+    console.log("MongoDB Connected Successfully!");
   } catch (err) {
-    console.error('Error connecting to MongoDB:', err);
-    throw err;
+    console.error("MongoDB connection error:", err.message);
+    process.exit(1);
   }
 };
 
-// Export the connection function to be used in other files
-module.exports = connectToMongoDB;
+module.exports = connectDB;

@@ -59,7 +59,7 @@ userSchema.pre("save", async function (next) {
     return next();
   }
 
-  try {
+  try { 
     // Generate a salt and hash the password
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -75,6 +75,6 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 };
 
 // Create the User model from the schema
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("Users", userSchema);
 
 module.exports = User;

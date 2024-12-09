@@ -1,5 +1,5 @@
 const express = require("express");
-const User = require("./models/User");
+const User = require("../models/User");
 const authoutes = express.Router();
 const mongoose = require("mongoose");
 
@@ -31,8 +31,14 @@ authoutes.post("/register", async (req, res) => {
     const existingUser = await User.findOne({
       $or: [{ userName }, { contactNumber }],
     });
-
-    console.log("10")
+    const totalDocuments = (await User.countDocuments()) ?? 0;
+    const firstFourChartacter = `${
+      firstName[0] +
+      firstName[1] +
+      lastName[0] +
+      lastName[1]
+    }`;
+    const userName = `${firstFourChartacter.toUpperCase()+totalDocuments.toString().padStart(2,"0")}`
     if (existingUser) {
       return res.status(400).json({
         message: "Already registered, please login to proceed.",
