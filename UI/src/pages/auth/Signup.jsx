@@ -23,7 +23,6 @@ const SignUp = () => {
       contactNumber,
     };
     const response = await postData("/auth/register", newUser);
-    console.log(response);
     navigate("/auth/login");
   };
 

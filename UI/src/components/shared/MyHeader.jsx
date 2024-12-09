@@ -11,17 +11,32 @@ import {
   ListItemIcon,
   ListItemText,
   ListItem,
+  Divider,
 } from "@mui/material";
 import { MdAccountCircle, MdMenu } from "react-icons/md";
+import { META } from "../../constants/projects";
 import { MENU_ITEMS } from "../../constants/MenuItems";
 import { useNavigate } from "react-router-dom";
+import { IoLogOutSharp } from "react-icons/io5";
+import useConfirmation from "../../hooks/useConfirmation";
 
 const MyHeader = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { DialogComponent, openDialog } = useConfirmation();
+
+  const logoutHanlder = () => {
+    navigate("/auth/login");
+    localStorage.removeItem("authToken");
+  };
+
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={() => setOpen(false)}>
-      <List>
+    <Box
+      sx={{ width: 250, display: "flex", flexDirection: "column" }}
+      role="presentation"
+      onClick={() => setOpen(false)}
+    >
+      <List sx={{ height: "calc(97.8vh - 50px)", overflowY: "auto" }}>
         {MENU_ITEMS.map(({ label, icon, url }, index) => (
           <ListItem
             key={label}
@@ -35,7 +50,20 @@ const MyHeader = () => {
           </ListItem>
         ))}
       </List>
-      {/* <Divider /> */}
+      <Divider />
+      <ListItem
+        disablePadding
+        onClick={() =>
+          openDialog("Are you sure you want to logout?", logoutHanlder)
+        }
+      >
+        <ListItemButton>
+          <ListItemIcon>
+            <IoLogOutSharp size={20} />
+          </ListItemIcon>
+          <ListItemText primary={"Logout"} />
+        </ListItemButton>
+      </ListItem>
     </Box>
   );
 
@@ -52,7 +80,7 @@ const MyHeader = () => {
             onClick={() => setOpen(true)}
           />
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            HIMS
+            {META.PROJECT_TITLE}
           </Typography>
 
           <IconButton color="inherit">
@@ -63,6 +91,7 @@ const MyHeader = () => {
       <Drawer open={open} onClose={() => setOpen(false)}>
         {DrawerList}
       </Drawer>
+      {DialogComponent}
     </>
   );
 };

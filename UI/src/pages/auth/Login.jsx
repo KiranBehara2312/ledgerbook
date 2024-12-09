@@ -1,9 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { TextField, Button, Box, Typography } from "@mui/material";
+import { TextField, Button, Box } from "@mui/material";
 import { GlassBG, MyHeading } from "../../components/custom";
-import { formatDate, setUserInfoInSStorage } from "../../helpers";
 import { useNavigate } from "react-router-dom";
+import { postData } from "../../helpers/http";
+import { successAlert } from "../../helpers";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,14 +14,14 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = ({ username, password }) => {
-    const userObj = {
-      uid: crypto.randomUUID(),
-      userName: username,
-      password: window.btoa(password),
-      loggedInTime: formatDate("dd/MM/yyyy"),
+  const onSubmit = async ({ userName, password }) => {
+    const loginObj = {
+      userName,
+      password,
     };
-    setUserInfoInSStorage(userObj)
+    const response = await postData("/auth/login", loginObj);
+    successAlert(response.message, { autoClose: 1500 });
+    localStorage.setItem("authToken", response.token);
     navigate("/pages/home");
   };
 
@@ -35,18 +36,22 @@ const Login = () => {
       }}
     >
       <GlassBG cardStyles={{ width: "300px", height: "auto" }}>
-        <MyHeading alignCenter text="Login" variant="h5" />
-
+        <MyHeading
+          alignCenter
+          text="Login"
+          variant="h5"
+          sx={{ mb: 1, mt: -1 }}
+        />
         <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
           <TextField
-            {...register("username", { required: "User Name is required" })}
+            {...register("userName", { required: "User Name is required" })}
             label="User Name"
             fullWidth
             margin="normal"
             size="small"
-            error={!!errors.username}
+            error={!!errors.userName}
             autoComplete="off"
-            helperText={errors.username ? errors.username.message : ""}
+            helperText={errors.userName ? errors.userName.message : ""}
           />
 
           <TextField

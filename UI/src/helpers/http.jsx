@@ -1,18 +1,20 @@
 // src/http.js
-import axios from 'axios';
+import axios from "axios";
+import { errorAlert, successAlert, infoAlert, warnAlert } from "./index";
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3000', 
+  baseURL: "http://localhost:3000",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('authToken'); // Or any other way of getting the token
+    const token = localStorage.getItem("authToken");
+
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },
@@ -21,16 +23,15 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Handle response globally
 apiClient.interceptors.response.use(
-  (response) => response.data, // Return the response data directly
+  (response) => response.data,
   (error) => {
     if (error.response) {
-      // Handle error responses (e.g., 4xx, 5xx)
-      console.error('API Error:', error.response.data.message || error.message);
+      errorAlert(error.response.data.message || error.message);
+      console.error("API Error:", error.response.data.message || error.message);
     } else {
-      // Handle network or other types of errors
-      console.error('Network Error:', error.message);
+      errorAlert(error.message);
+      console.error("Network Error:", error.message);
     }
     return Promise.reject(error);
   }
@@ -44,14 +45,14 @@ const httpRequest = async (method, url, data = null) => {
       url,
       data,
     });
-    return response; 
+    return response;
   } catch (error) {
     throw error;
   }
 };
 
-const getData = (endpoint) => httpRequest('GET', endpoint);
+const getData = (endpoint) => httpRequest("GET", endpoint);
 
-const postData = (endpoint, payload) => httpRequest('POST', endpoint, payload);
+const postData = (endpoint, payload) => httpRequest("POST", endpoint, payload);
 
 export { getData, postData, httpRequest };

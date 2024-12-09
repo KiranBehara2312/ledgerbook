@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { setuserProfile } from "./redux/slices/userProfileSlice";
 import AppRoutes from "./routes";
 import { BrowserRouter } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,6 +18,7 @@ function App() {
     <>
       <BrowserRouter>
         <AppRoutes />
+        <ToastContainer />
       </BrowserRouter>
     </>
   );

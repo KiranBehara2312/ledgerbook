@@ -1,44 +1,88 @@
 const express = require("express");
 const User = require("../models/User");
-const authoutes = express.Router();
-const mongoose = require("mongoose");
+const authRoutes = express.Router();
+const jwt = require("jsonwebtoken");
 
-// POST route to add a new user
-authoutes.post("/add-user", async (req, res) => {
+authRoutes.get("/users", async (req, res) => {
   try {
-    const newUser = new User({
-      userName: "Kiran",
-    });
-    const savedUser = await newUser.save();
-    res.status(201).json({
-      message: "User added successfully",
-      user: savedUser,
+    const total = (await User.countDocuments()) ?? 0;
+    const allUsers = await User.findOne({});
+    res.status(200).json({
+      message: "Users fetched",
+      data: allUsers ?? [],
+      total,
     });
   } catch (err) {
-    // Handle errors
     res.status(400).json({
-      message: "Error adding user",
+      message: "Error adding fetching users",
       error: err.message || err,
     });
   }
 });
 
-authoutes.post("/register", async (req, res) => {
-  const { password, firstName, lastName, userName, contactNumber } = req.body;
+authRoutes.post("/login", async (req, res) => {
+  const { userName, password } = req.body;
+  try {
+    if (!userName || !password) {
+      return res
+        .status(400)
+        .json({ message: "Bad Request, missing information" });
+    }
+    const user = await User.findOne({ userName: userName.toUpperCase() });
+    if (!user) {
+      return res.status(400).json({ message: "User not found...!" });
+    }
+
+    const isMatch = await user.comparePassword(password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        userName: user.userName,
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.json({
+      message: "Login successful",
+      token,
+      user: {
+        userName: user.userName,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    console.error("Error during login:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+authRoutes.post("/register", async (req, res) => {
+  const { password, firstName, lastName, contactNumber } = req.body;
 
   try {
     // Check if email or contactNumber already exists
     const existingUser = await User.findOne({
-      $or: [{ userName }, { contactNumber }],
+      $or: [{ contactNumber }],
     });
     const totalDocuments = (await User.countDocuments()) ?? 0;
     const firstFourChartacter = `${
-      firstName[0] +
-      firstName[1] +
-      lastName[0] +
-      lastName[1]
+      firstName[0] + firstName[1] + lastName[0] + lastName[1]
     }`;
-    const userName = `${firstFourChartacter.toUpperCase()+totalDocuments.toString().padStart(2,"0")}`
+    const userName = `${
+      firstFourChartacter.toUpperCase() +
+      totalDocuments.toString().padStart(2, "0")
+    }`;
     if (existingUser) {
       return res.status(400).json({
         message: "Already registered, please login to proceed.",
@@ -57,7 +101,12 @@ authoutes.post("/register", async (req, res) => {
     // Save the new user to the database
     await newUser.save();
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({
+      message: "User registered successfully",
+      userName,
+      firstName,
+      lastName,
+    });
   } catch (error) {
     res
       .status(400)
@@ -65,4 +114,4 @@ authoutes.post("/register", async (req, res) => {
   }
 });
 
-module.exports = authoutes;
+module.exports = authRoutes;

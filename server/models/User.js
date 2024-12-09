@@ -30,6 +30,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "STAFF",
   },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
+  isLocked: {
+    type: Boolean,
+    default: false,
+  },
   contactNumber: {
     type: String,
     required: true,
@@ -59,7 +67,7 @@ userSchema.pre("save", async function (next) {
     return next();
   }
 
-  try { 
+  try {
     // Generate a salt and hash the password
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
