@@ -66,9 +66,16 @@ const Login = () => {
             helperText={errors.password ? errors.password.message : ""}
           />
 
-          {/* Submit Button */}
           <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
             Submit
+          </Button>
+          <Button
+            type="button"
+            fullWidth
+            sx={{ mt: 2 }}
+            onClick={() => navigate("/auth/signup")}
+          >
+            Register? Click here
           </Button>
         </form>
       </GlassBG>

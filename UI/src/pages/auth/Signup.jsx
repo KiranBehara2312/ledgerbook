@@ -98,6 +98,14 @@ const SignUp = () => {
           <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
             Register / SignUp
           </Button>
+          <Button
+            type="button"
+            fullWidth
+            sx={{ mt: 2 }}
+            onClick={() => navigate("/auth/login")}
+          >
+            Already registered? click here to Login
+          </Button>
         </form>
       </GlassBG>
     </Box>

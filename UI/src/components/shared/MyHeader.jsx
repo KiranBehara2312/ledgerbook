@@ -15,10 +15,11 @@ import {
 } from "@mui/material";
 import { MdAccountCircle, MdMenu } from "react-icons/md";
 import { META } from "../../constants/projects";
-import { MENU_ITEMS } from "../../constants/MenuItems";
+import { MENU_ITEMS } from "../../constants/Menu/MenuItems";
 import { useNavigate } from "react-router-dom";
 import { IoLogOutSharp } from "react-icons/io5";
 import useConfirmation from "../../hooks/useConfirmation";
+import IconWrapper from "../custom/IconWrapper";
 
 const MyHeader = () => {
   const [open, setOpen] = useState(false);
@@ -59,7 +60,7 @@ const MyHeader = () => {
       >
         <ListItemButton>
           <ListItemIcon>
-            <IoLogOutSharp size={20} />
+            <IconWrapper icon={<IoLogOutSharp size={20} />} />
           </ListItemIcon>
           <ListItemText primary={"Logout"} />
         </ListItemButton>
@@ -76,7 +77,11 @@ const MyHeader = () => {
         <Toolbar sx={{ minHeight: "40px !important", height: "40px" }}>
           <MdMenu
             size={30}
-            style={{ paddingRight: "15px", marginLeft: "-10px" }}
+            style={{
+              paddingRight: "15px",
+              marginLeft: "-10px",
+              cursor: "pointer",
+            }}
             onClick={() => setOpen(true)}
           />
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
