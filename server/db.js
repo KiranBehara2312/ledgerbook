@@ -5,8 +5,7 @@ let connection;
 
 const connectDB = async () => {
   try {
-    const dbURI = process.env.MONGO_URI; // Use the environment variable for MongoDB URI
-
+    const dbURI = process.env.MONGO_URI; 
     connection = await mongoose.connect(dbURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

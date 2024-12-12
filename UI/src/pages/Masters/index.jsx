@@ -10,10 +10,6 @@ import MyTable from "../../components/custom/MyTable";
 const Masters = () => {
   const theme = useTheme();
   const [selectedMenuCard, setSelectedMenuCard] = useState(null);
-  const [paginationObj, setPaginationObj] = useState({
-    page: 0,
-    limit: 10,
-  });
   const [tableObj, setTableObj] = useState({
     columns: [],
     data: [],
@@ -23,11 +19,14 @@ const Masters = () => {
 
   useEffect(() => {
     if (selectedMenuCard) {
-      fetchMastersData();
+      fetchMastersData({
+        page: 1,
+        limit: 10,
+      });
     }
-  }, [selectedMenuCard, paginationObj.page]);
+  }, [selectedMenuCard]);
 
-  const fetchMastersData = async () => {
+  const fetchMastersData = async (paginationObj) => {
     const response = await postData(
       `/masters/${selectedMenuCard.collection}`,
       paginationObj
@@ -104,7 +103,7 @@ const Masters = () => {
           <MyTable
             {...tableObj}
             changedPage={(newPage) => {
-              setPaginationObj({
+              fetchMastersData({
                 page: newPage,
                 limit: 10,
               });
