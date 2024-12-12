@@ -7,6 +7,27 @@ const formatDate = (formatStr = "dd/MM/yyyy", date = new Date()) => {
   return moment(date).format(formatStr);
 };
 
+const convertMongoDBDate = (isoDateString) => {
+  const date = new Date(isoDateString);
+  return `${date.getFullYear()}/${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")} ${date
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date
+    .getSeconds()
+    .toString()
+    .padStart(2, "0")}`;
+};
+
+const camelToTitle = (camelCaseString) => {
+  // Add a space before each uppercase letter and capitalize the first letter of each word
+  const titleCaseString = camelCaseString
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+  return titleCaseString;
+};
+
 const setUserInfoInSStorage = (userObj) => {
   sessionStorage.setItem(S_USER_INFORMATION, JSON.stringify(userObj));
 };
@@ -65,4 +86,6 @@ export {
   warnAlert,
   successAlert,
   infoAlert,
+  camelToTitle,
+  convertMongoDBDate
 };

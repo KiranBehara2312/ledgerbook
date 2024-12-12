@@ -36,13 +36,19 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontSize: "11px",
+          marginTop: "-1px",
         },
       },
     },
-    MuiFormHelperText: {
+    MuiTableCell: {
       styleOverrides: {
+        head: {
+          fontWeight: "bold !important",
+          fontSize: "14px",
+        },
         root: {
-          marginTop: "-1px",
+          background: "transparent !important",
+          fontSize: "13px",
         },
       },
     },
