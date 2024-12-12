@@ -6,22 +6,20 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
-import { TableRow, useTheme } from "@mui/material";
+import { Pagination, TableRow, useTheme } from "@mui/material";
 import { camelToTitle, convertMongoDBDate } from "../../helpers";
 import { alpha } from "@mui/material/styles";
 
-export default function MyTable({ columns, data }) {
+export default function ({
+  columns,
+  data,
+  totalCount,
+  defaultPage,
+  changedPage,
+}) {
   const theme = useTheme();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+  const paginationChangeHandler = (event, value) => {
+    changedPage(value);
   };
 
   return (
@@ -49,9 +47,14 @@ export default function MyTable({ columns, data }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((row) => {
+            {data?.length === 0 && (
+              <TableRow hover role="checkbox">
+                <TableCell>No Data Found...!</TableCell>
+              </TableRow>
+            )}
+            {data?.map((row, i) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={i}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
@@ -68,14 +71,14 @@ export default function MyTable({ columns, data }) {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+      <Pagination
+        sx={{ m: 1, float: "right" }}
+        variant="outlined"
+        color="primary"
+        shape="rounded"
+        count={totalCount}
+        page={defaultPage}
+        onChange={paginationChangeHandler}
       />
     </Paper>
   );

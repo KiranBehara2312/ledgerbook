@@ -10,22 +10,24 @@ import MyTable from "../../components/custom/MyTable";
 const Masters = () => {
   const theme = useTheme();
   const [selectedMenuCard, setSelectedMenuCard] = useState(null);
+  const [paginationObj, setPaginationObj] = useState({
+    page: 0,
+    limit: 10,
+  });
   const [tableObj, setTableObj] = useState({
     columns: [],
     data: [],
+    totalCount: 0,
+    defaultPage: 0,
   });
 
   useEffect(() => {
     if (selectedMenuCard) {
       fetchMastersData();
     }
-  }, [selectedMenuCard]);
+  }, [selectedMenuCard, paginationObj.page]);
 
   const fetchMastersData = async () => {
-    const paginationObj = {
-      page: 1,
-      limit: 10,
-    };
     const response = await postData(
       `/masters/${selectedMenuCard.collection}`,
       paginationObj
@@ -42,6 +44,15 @@ const Masters = () => {
           };
         }),
         data: response?.data ?? [],
+        totalCount: response?.totalPages || 0,
+        defaultPage: response?.page || 0,
+      });
+    } else {
+      setTableObj({
+        columns: [],
+        data: [],
+        totalCount: 0,
+        defaultPage: 0,
       });
     }
   };
@@ -77,13 +88,28 @@ const Masters = () => {
   };
   return (
     <Stack direction={"row"} sx={{ display: "flex" }}>
-      <Box sx={{ flexBasis: "20%", m: 0.5 }}>
+      <Box
+        sx={{
+          flexBasis: "21%",
+          m: 0.5,
+          height: "calc(100vh - 55px)",
+          overflowY: "auto",
+        }}
+      >
         <MasterItems />
       </Box>
       {selectedMenuCard && (
         <Box sx={{ flexBasis: "80%", m: 0.5 }}>
           <HeaderWithSearch headerText={selectedMenuCard.label} />
-          <MyTable columns={tableObj.columns} data={tableObj.data} />
+          <MyTable
+            {...tableObj}
+            changedPage={(newPage) => {
+              setPaginationObj({
+                page: newPage,
+                limit: 10,
+              });
+            }}
+          />
         </Box>
       )}
     </Stack>

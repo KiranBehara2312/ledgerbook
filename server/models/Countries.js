@@ -1,20 +1,29 @@
 const mongoose = require("mongoose");
 
-// Create the user schema
-const stateSchema = new mongoose.Schema(
+const countriesSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      required: true,
     },
     shortName: {
       type: String,
       required: true,
     },
+    currencyCode: {
+      type: String,
+    },
+    dailCode: {
+      type: String,
+    },
+    isDefault: {
+      type: Boolean,
+      default: false,
+    },
     isActive: {
       type: Boolean,
       default: true,
     },
-
     createdBy: {
       type: String,
     },
@@ -25,6 +34,6 @@ const stateSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const States = mongoose.model("States", stateSchema);
+const Countries = mongoose.model("Countries", countriesSchema);
 
-module.exports = States;
+module.exports = Countries;

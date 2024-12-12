@@ -43,7 +43,7 @@ export default function HeaderWithSearch({
       }}
     >
       {headerIcon || null}
-      <MyHeading text={headerText} variant="body2" />
+      <MyHeading text={headerText} variant="body1" sx={{fontWeight : "bold"}}/>
       <Box sx={{ flex: 1 }}></Box>
       {!hideSearchBar && (
         <>

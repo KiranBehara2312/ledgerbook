@@ -13,15 +13,15 @@ app.use(cors());
 app.use(bodyParser.json());
 // Use the routes
 app.use("/auth", authRoutes);
-app.use("/masters", masterRoutes);
+app.use("/masters", isAuthenticated, masterRoutes);
 app.use("/api", isAuthenticated, routes);
 
 // Start the server after MongoDB connection is established
 const startServer = async () => {
   try {
     await connectDB(); // Wait for DB connection
-    app.listen(3000, () => {
-      console.log("Server running on port 3000");
+    app.listen(port, () => {
+      console.log("Server running on port --> " + port);
     });
   } catch (err) {
     console.error("Error starting the server:", err.message);

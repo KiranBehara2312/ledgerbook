@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
-// Create the user schema
-const stateSchema = new mongoose.Schema(
+const bloodSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -14,7 +13,6 @@ const stateSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-
     createdBy: {
       type: String,
     },
@@ -25,6 +23,6 @@ const stateSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const States = mongoose.model("States", stateSchema);
+const BloodGroups = mongoose.model("BloodGroups", bloodSchema);
 
-module.exports = States;
+module.exports = BloodGroups;
