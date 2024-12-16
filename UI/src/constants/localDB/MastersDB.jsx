@@ -119,4 +119,46 @@ const WEEK_DAYS_LIST = [
   },
 ];
 
-export { GENDER_LIST, BLOOD_GROUPS, MARITAL_STATUS, WEEK_DAYS_LIST };
+const DOCTOR_DESIGNATIONS = [
+  { label: "Cardiologist", value: "Cardiologist" },
+  { label: "Neurologist", value: "Neurologist" },
+  { label: "Dermatologist", value: "Dermatologist" },
+  { label: "Endocrinologist", value: "Endocrinologist" },
+  { label: "Obstetrician-gynecologist", value: "Obstetrician-gynecologist" },
+  { label: "Oncologist", value: "Oncologist" },
+  { label: "Pediatrician", value: "Pediatrician" },
+  { label: "Allergist", value: "Allergist" },
+  { label: "Psychiatrist", value: "Psychiatrist" },
+  { label: "Family medicine", value: "Family medicine" },
+  { label: "Gastroenterologist", value: "Gastroenterologist" },
+  { label: "Internal medicine", value: "Internal medicine" },
+  { label: "Ophthalmologist", value: "Ophthalmologist" },
+  { label: "Radiologist", value: "Radiologist" },
+  { label: "Anesthesiologist", value: "Anesthesiologist" },
+  { label: "Otolaryngologist", value: "Otolaryngologist" },
+  { label: "Cardiothoracic Surgeon", value: "Cardiothoracic Surgeon" },
+  { label: "Hematologist", value: "Hematologist" },
+  { label: "Nephrologist", value: "Nephrologist" },
+  { label: "Pulmonologist", value: "Pulmonologist" },
+  { label: "Geriatrics", value: "Geriatrics" },
+  {
+    label: "Infectious disease physician",
+    value: "Infectious disease physician",
+  },
+  { label: "Medical genetics", value: "Medical genetics" },
+  { label: "Orthopaedist", value: "Orthopaedist" },
+];
+const DAILY_SHIFT = [
+  { label: "Shift A (6AM - 2PM)", value: "Shift A" },
+  { label: "Shift B (2PM - 10PM)", value: "Shift B" },
+  { label: "Shift C (10PM - 6AM)", value: "Shift C" },
+];
+
+export {
+  GENDER_LIST,
+  BLOOD_GROUPS,
+  MARITAL_STATUS,
+  WEEK_DAYS_LIST,
+  DOCTOR_DESIGNATIONS,
+  DAILY_SHIFT,
+};

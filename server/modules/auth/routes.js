@@ -71,18 +71,14 @@ authRoutes.post("/register", async (req, res) => {
   const { password, firstName, lastName, contactNumber } = req.body;
 
   try {
-    // Check if email or contactNumber already exists
     const existingUser = await User.findOne({
       $or: [{ contactNumber }],
     });
-    const totalDocuments = (await User.countDocuments()) ?? 0;
-    const firstFourChartacter = `${
-      firstName[0] + firstName[1] + lastName[0] + lastName[1]
-    }`;
-    const userName = `${
-      firstFourChartacter.toUpperCase() +
-      totalDocuments.toString().padStart(2, "0")
-    }`;
+    let totalDocuments = (await User.countDocuments()) ?? 0;
+    if (totalDocuments === 0) {
+      totalDocuments = totalDocuments + 1;
+    }
+    const userName = `S${totalDocuments.toString().padStart(4, "0")}`;
     if (existingUser) {
       return res.status(400).json({
         message: "Already registered, please login to proceed.",

@@ -66,6 +66,20 @@ const theme = createTheme({
         },
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: "0.875rem",
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          height: "40px !important",
+        },
+      },
+    },
     MuiTextField: {
       styleOverrides: {
         root: {
