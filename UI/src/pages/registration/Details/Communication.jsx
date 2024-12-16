@@ -27,38 +27,6 @@ const Communication = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
           <TextField
-            {...register("firstName", { required: "First Name is required" })}
-            label="First Name"
-            fullWidth
-            margin="normal"
-            size="small"
-            error={!!errors.firstName}
-            autoComplete="off"
-            helperText={errors.firstName ? errors.firstName.message : ""}
-          />
-          <TextField
-            {...register("lastName", { required: "Last Name is required" })}
-            label="Last Name"
-            fullWidth
-            margin="normal"
-            size="small"
-            error={!!errors.lastName}
-            autoComplete="off"
-            helperText={errors.lastName ? errors.lastName.message : ""}
-          />
-
-          <TextField
-            {...register("dateOfBirth", { required: "DOB is required" })}
-            type="date"
-            fullWidth
-            placeholder=""
-            margin="normal"
-            size="small"
-            autoComplete="off"
-            error={!!errors.dateOfBirth}
-            helperText={errors.dateOfBirth ? errors.dateOfBirth.message : ""}
-          />
-          <TextField
             {...register("contactNo", {
               required: "Contact No is required",
               pattern: {

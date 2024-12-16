@@ -2,6 +2,7 @@ import React from "react";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import { GlassBG, MyHeading } from "../../components/custom";
 import Personal from "./Details/Personal";
+import Communication from "./Details/Communication";
 
 const Registration = () => {
   return (
@@ -15,7 +16,7 @@ const Registration = () => {
       }}
     >
       <Personal />
-      <Personal />
+      <Communication />
       <Personal />
       <Personal />
     </Box>

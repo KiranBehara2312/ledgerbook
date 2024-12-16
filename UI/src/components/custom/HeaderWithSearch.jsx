@@ -12,6 +12,7 @@ export default function HeaderWithSearch({
   searchedInput = null,
   headerText = "Default Value",
   headerIcon = null,
+  html = null,
 }) {
   const handleInputChange = (event) => {
     searchedInput(event.target.value);
@@ -43,8 +44,13 @@ export default function HeaderWithSearch({
       }}
     >
       {headerIcon || null}
-      <MyHeading text={headerText} variant="body1" sx={{fontWeight : "bold"}}/>
+      <MyHeading
+        text={headerText}
+        variant="body1"
+        sx={{ fontWeight: "bold", pl: 1 }}
+      />
       <Box sx={{ flex: 1 }}></Box>
+      {html ?? null}
       {!hideSearchBar && (
         <>
           <Divider sx={{ height: 30, m: 0.5 }} orientation="vertical" />

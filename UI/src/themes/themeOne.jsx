@@ -52,6 +52,20 @@ const theme = createTheme({
         },
       },
     },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          fontSize: "13px",
+        },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          padding: "0px !important",
+        },
+      },
+    },
     MuiTextField: {
       styleOverrides: {
         root: {

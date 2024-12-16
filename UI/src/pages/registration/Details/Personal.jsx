@@ -1,13 +1,27 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import { TextField, Button } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
+import {
+  TextField,
+  Button,
+  InputLabel,
+  FormControl,
+  Select,
+  MenuItem,
+  FormHelperText,
+} from "@mui/material";
 import { GlassBG, MyHeading } from "../../../components/custom";
 import { REGEX_PATTERNS } from "../../../constants/Regex";
+import {
+  BLOOD_GROUPS,
+  GENDER_LIST,
+  MARITAL_STATUS,
+} from "../../../constants/localDB/MastersDB";
 
 const Personal = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -58,6 +72,59 @@ const Personal = () => {
             error={!!errors.dateOfBirth}
             helperText={errors.dateOfBirth ? errors.dateOfBirth.message : ""}
           />
+
+          <TextField
+            {...register("gender", { required: "Gender is required" })}
+            select
+            label="Gender"
+            fullWidth
+            defaultValue={null}
+            helperText={errors.gender ? errors.gender.message : ""}
+            error={!!errors.gender}
+          >
+            {GENDER_LIST.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            {...register("bloodGroup", { required: "Blood Group is required" })}
+            select
+            label="Blood Group"
+            fullWidth
+            defaultValue={null}
+            helperText={errors.bloodGroup ? errors.bloodGroup.message : ""}
+            error={!!errors.bloodGroup}
+          >
+            {BLOOD_GROUPS.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            {...register("maritalStatus", {
+              required: "Marital Status is required",
+            })}
+            select
+            label="Marital Status"
+            fullWidth
+            defaultValue={null}
+            helperText={
+              errors.maritalStatus ? errors.maritalStatus.message : ""
+            }
+            error={!!errors.maritalStatus}
+          >
+            {MARITAL_STATUS.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+
           <TextField
             {...register("contactNo", {
               required: "Contact No is required",

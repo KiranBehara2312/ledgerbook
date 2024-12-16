@@ -38,7 +38,7 @@ const useConfirmation = () => {
       <DialogTitle sx={{ fontSize: "13px" }}>
         Message from {META.PROJECT_TITLE}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{padding : "4px 20px !important"}}>
         <p>{message}</p>
       </DialogContent>
       <DialogActions>

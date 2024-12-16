@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import Registration from "../pages/registration";
 import SignUp from "../pages/auth/Signup";
 import Masters from "../pages/Masters";
+import Doctor from "../pages/Doctor";
 
 const AppRoutes = () => {
   const routes = useRoutes([
@@ -41,6 +42,10 @@ const AppRoutes = () => {
         {
           path: "appointment",
           element: <>appointment</>,
+        },
+        {
+          path: "doctor",
+          element: <Doctor />,
         },
         {
           path: "masters",

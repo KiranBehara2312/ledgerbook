@@ -13,6 +13,8 @@ const REGEX_PATTERNS = {
   rtgsNeftTransactionNumber: /^[A-Z]{4}[0-9]{7}$/,
   itrFormNumber: /^[A-Z]{4}[0-9]{6}[A-Z]$/,
   electionIdNumber: /^[A-Z]{1}[0-9]{7}$/,
+  MEDICAL_LICENSE_NUMBER: /^[A-Za-z]{2}[-/]?\d{5}[-/]\d{4}$/,
+  POSITIVE_NUMBER_ONLY: /^\d+(\.\d+)?$/,
 };
 
 export { REGEX_PATTERNS };
