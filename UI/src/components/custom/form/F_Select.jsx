@@ -26,7 +26,7 @@ const F_Select = ({
       fullWidth
       variant="outlined"
       size="small"
-      sx={{ mt: 0.25, mb: 0.25, ml: "5px", maxWidth : "230px", minWidth : "230px" }}
+      sx={{ mt: 1, mb: 1, ml: "5px", maxWidth : "230px", minWidth : "230px" }}
       error={!!errors?.[name]}
     >
       <InputLabel id={`${name}-select-label`}>{label}</InputLabel>

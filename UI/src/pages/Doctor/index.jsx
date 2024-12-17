@@ -3,13 +3,37 @@ import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
 import { FaUserDoctor } from "react-icons/fa6";
 import IconWrapper from "../../components/custom/IconWrapper";
 import { Button } from "@mui/material";
-import { FaPlus } from "react-icons/fa";
+import { FaEdit, FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import DoctorInformation from "./AddEdits";
 import MyTable from "../../components/custom/MyTable";
 import { postData } from "../../helpers/http";
 
+const ACTIONS = [
+  {
+    name: "Edit",
+    icon: <IconWrapper icon={<FaEdit size={15} />} />,
+    disabled: false,
+  },
+  {
+    name: "View",
+    icon: <IconWrapper icon={<FaEye size={15} />} />,
+    disabled: false,
+  },
+  {
+    name: "Delete",
+    icon: <IconWrapper icon={<FaTrash size={15} />} />,
+    disabled: true,
+  },
+];
 const Doctor = () => {
-  const [showAddDoc, setShowAddDoc] = useState(false);
+  const [showAddDoc, setShowAddDoc] = useState({
+    show: false,
+    rerender: false,
+  });
+  const [selectedDoc, setSelectedDoc] = useState({
+    action: "Add",
+    data: null,
+  });
   const [tableObj, setTableObj] = useState({
     columns: [],
     data: [],
@@ -21,7 +45,7 @@ const Doctor = () => {
       page: 1,
       limit: 10,
     });
-  }, []);
+  }, [showAddDoc.rerender]);
   const Buttons = () => {
     return (
       <Button variant="outlined" size="small" onClick={addDoctorHandler}>
@@ -56,7 +80,25 @@ const Doctor = () => {
     }
   };
   const addDoctorHandler = () => {
-    setShowAddDoc(true);
+    setSelectedDoc({
+      action: "Add",
+      data: null,
+    });
+    setShowAddDoc({
+      show: true,
+      rerender: false,
+    });
+  };
+
+  const actionsHandler = (action, row) => {
+    setSelectedDoc({
+      action,
+      data: row,
+    });
+    setShowAddDoc({
+      show: true,
+      rerender: false,
+    });
   };
   return (
     <>
@@ -66,10 +108,12 @@ const Doctor = () => {
         html={<Buttons />}
         headerIcon={<IconWrapper icon={<FaUserDoctor size={20} />} />}
       />
-      {showAddDoc && <DoctorInformation setShowAddDoc={setShowAddDoc} />}
       {tableObj.columns?.length > 0 && (
         <MyTable
           {...tableObj}
+          helperNote={"Note: Right click on a record to view actions"}
+          actions={ACTIONS}
+          actionWithRecord={actionsHandler}
           changedPage={(newPage) => {
             fetchMastersData({
               page: newPage,
@@ -77,6 +121,9 @@ const Doctor = () => {
             });
           }}
         />
+      )}
+      {showAddDoc.show && (
+        <DoctorInformation setShowAddDoc={setShowAddDoc} docObj={selectedDoc} />
       )}
     </>
   );

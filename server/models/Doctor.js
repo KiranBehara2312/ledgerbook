@@ -63,6 +63,8 @@ const doctorSchema = new mongoose.Schema(
     },
     userName: {
       type: String,
+      unique: true,
+      trim: true,
     },
     password: {
       type: String,
@@ -73,11 +75,11 @@ const doctorSchema = new mongoose.Schema(
     },
     isLocked: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     isOnLeave: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     createdBy: {
       type: String,

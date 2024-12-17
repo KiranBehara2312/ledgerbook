@@ -11,7 +11,7 @@ doctorRoutes.post("/doctors", async (req, res) => {
     const totalCount = await Doctor.countDocuments();
     const doctors = await Doctor.find(
       { isActive: true },
-      { _id: false, __v : false, isActive: false }
+      { _id: false, __v: false, isActive: false }
     )
       .skip(skip)
       .limit(limit);
@@ -35,7 +35,6 @@ doctorRoutes.post("/add", async (req, res) => {
   try {
     const { firstName, lastName } = req.body;
     const newDocUserName = await DoctorController.registerDoctor(req.body, res);
-    console.log("newDocUserName ---> ", newDocUserName);
     const newDoctor = new Doctor({
       ...req.body,
       userName: newDocUserName,
@@ -51,6 +50,33 @@ doctorRoutes.post("/add", async (req, res) => {
     console.log(err);
     res.status(400).json({
       message: "Error while saving Doctor",
+      error: err.message || err,
+    });
+  }
+});
+
+doctorRoutes.post("/update/:doctorId", async (req, res) => {
+  try {
+    const { doctorId } = req.params;
+    const { firstName, lastName, userName, ...rest } = req.body;
+    const result = await Doctor.updateOne(
+      { userName: doctorId },
+      { $set: { ...req.body } },
+      { runValidators: true }
+    );
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({
+        message: "Doctor not found or no changes made",
+      });
+    }
+
+    res.status(200).json({
+      message: "Doctor updated successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      message: "Error while updating Doctor",
       error: err.message || err,
     });
   }

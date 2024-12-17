@@ -1,9 +1,10 @@
 import { createTheme, ThemeProvider, Typography, Button } from "@mui/material";
 
+const p_main = "#0d8672";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#0d8672",
+      main: p_main,
     },
     secondary: {
       main: "#ff4081",
@@ -56,6 +57,19 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontSize: "13px",
+          "&.Mui-selected": {
+            background: p_main,
+            color: "white",
+          },
+          "&.Mui-selected:hover": {
+            background: p_main,
+            color: "white",
+          },
+          "&:hover": {
+            background: p_main,
+            color: "white",
+
+          },
         },
       },
     },
