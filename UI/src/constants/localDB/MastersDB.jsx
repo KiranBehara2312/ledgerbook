@@ -154,6 +154,21 @@ const DAILY_SHIFT = [
   { label: "Shift C (10PM - 6AM)", value: "Shift C" },
 ];
 
+const PAYMENT_TYPES = [
+  {
+    label: "Cash",
+    value: "Cash",
+  },
+  {
+    label: "UPI",
+    value: "UPI",
+  },
+  {
+    label: "Coupon",
+    value: "Coupon",
+  },
+];
+
 const SALUTATIONS = [
   {
     label: "Mr.",
@@ -190,4 +205,5 @@ export {
   DOCTOR_DESIGNATIONS,
   DAILY_SHIFT,
   SALUTATIONS,
+  PAYMENT_TYPES,
 };
