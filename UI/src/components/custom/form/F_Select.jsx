@@ -26,7 +26,13 @@ const F_Select = ({
       fullWidth
       variant="outlined"
       size="small"
-      sx={{ mt: 1, mb: 1, ml: "5px", maxWidth : "230px", minWidth : "230px" }}
+      sx={{
+        mt: 1,
+        mb: 1,
+        ml: "5px",
+        maxWidth: props.maxWidth ?? "230px",
+        minWidth: props.minWidth ?? "230px",
+      }}
       error={!!errors?.[name]}
     >
       <InputLabel id={`${name}-select-label`}>{label}</InputLabel>
@@ -38,6 +44,7 @@ const F_Select = ({
         render={({ field: { onChange, ref, value } }) => (
           <Fragment>
             <Select
+              fullWidth
               ref={ref}
               value={value}
               label={label}
@@ -45,7 +52,8 @@ const F_Select = ({
               labelId={`${name}-select-label`}
               id={`${name}_select`}
               sx={{
-                fontSize: "13px", // Custom font size for the selected value
+                fontSize: "13px",
+                width: "100%",
               }}
               onChange={(event) => {
                 onChange(event);
@@ -55,8 +63,8 @@ const F_Select = ({
             >
               {list?.map((x, i) => {
                 return (
-                  <MenuItem value={x.value} key={i}>
-                    {x.label}
+                  <MenuItem value={x.value ?? x.name} key={i}>
+                    {x.label ?? x.name}
                   </MenuItem>
                 );
               })}

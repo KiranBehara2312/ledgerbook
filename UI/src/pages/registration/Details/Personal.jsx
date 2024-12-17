@@ -1,172 +1,99 @@
 import React from "react";
-import { Controller, useForm } from "react-hook-form";
-import {
-  TextField,
-  Button,
-  InputLabel,
-  FormControl,
-  Select,
-  MenuItem,
-  FormHelperText,
-} from "@mui/material";
 import { GlassBG, MyHeading } from "../../../components/custom";
-import { REGEX_PATTERNS } from "../../../constants/Regex";
 import {
   BLOOD_GROUPS,
   GENDER_LIST,
   MARITAL_STATUS,
+  SALUTATIONS,
 } from "../../../constants/localDB/MastersDB";
+import F_Input from "../../../components/custom/form/F_Input";
+import F_Select from "../../../components/custom/form/F_Select";
 
-const Personal = () => {
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = (formData) => {
-    console.log(formData);
-  };
-
+const Personal = ({ control, errors }) => {
   return (
     <>
-      <GlassBG cardStyles={{ width: "300px", m: 1, height: "auto" }}>
+      <GlassBG cardStyles={{ width: "240px", m: 1, height: "auto" }}>
         <MyHeading
           alignCenter
           text="Personal Information"
           variant="h6"
-          sx={{ mt: "-10px", fontSize: "15px" }}
+          sx={{ mt: "-10px", fontSize: "15px", fontWeight: "bold" }}
         />
 
-        <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-          <TextField
-            {...register("firstName", { required: "First Name is required" })}
-            label="First Name"
-            fullWidth
-            margin="normal"
-            size="small"
-            error={!!errors.firstName}
-            autoComplete="off"
-            helperText={errors.firstName ? errors.firstName.message : ""}
-          />
-          <TextField
-            {...register("lastName", { required: "Last Name is required" })}
-            label="Last Name"
-            fullWidth
-            margin="normal"
-            size="small"
-            error={!!errors.lastName}
-            autoComplete="off"
-            helperText={errors.lastName ? errors.lastName.message : ""}
-          />
+        <F_Select
+          control={control}
+          name={"salutation"}
+          label={"Salutation"}
+          list={SALUTATIONS}
+          rules={{ required: "Salutation is required" }}
+          isRequired={true}
+          errors={errors}
+        />
 
-          <TextField
-            {...register("dateOfBirth", { required: "DOB is required" })}
-            type="date"
-            fullWidth
-            placeholder=""
-            margin="normal"
-            size="small"
-            autoComplete="off"
-            error={!!errors.dateOfBirth}
-            helperText={errors.dateOfBirth ? errors.dateOfBirth.message : ""}
-          />
+        <F_Input
+          name="firstName"
+          control={control}
+          errors={errors}
+          rules={{ required: "First Name is required" }}
+          label="First Name"
+          isRequired={true}
 
-          <TextField
-            {...register("gender", { required: "Gender is required" })}
-            select
-            label="Gender"
-            fullWidth
-            defaultValue={null}
-            helperText={errors.gender ? errors.gender.message : ""}
-            error={!!errors.gender}
-          >
-            {GENDER_LIST.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+          // defaultValue={docObj?.data?.["firstName"] ?? ""}
+        />
+        <F_Input
+          name="middleName"
+          control={control}
+          errors={errors}
+          rules={{ required: "Middle Name is required" }}
+          label="Middle Name"
+          isRequired={true}
+        />
+        <F_Input
+          name="lastName"
+          control={control}
+          errors={errors}
+          rules={{ required: "Last Name is required" }}
+          label="Last Name"
+          isRequired={true}
+        />
+        <F_Input
+          name="dateOfBirth"
+          type="date"
+          control={control}
+          errors={errors}
+          rules={{ required: "Date Of birth is required" }}
+          label=""
+          defaultHelperText="Date Of Birth"
+          isRequired={true}
+        />
 
-          <TextField
-            {...register("bloodGroup", { required: "Blood Group is required" })}
-            select
-            label="Blood Group"
-            fullWidth
-            defaultValue={null}
-            helperText={errors.bloodGroup ? errors.bloodGroup.message : ""}
-            error={!!errors.bloodGroup}
-          >
-            {BLOOD_GROUPS.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+        <F_Select
+          control={control}
+          name={"gender"}
+          label={"Gender"}
+          list={GENDER_LIST}
+          rules={{ required: "Gender is required" }}
+          isRequired={true}
+          errors={errors}
+        />
 
-          <TextField
-            {...register("maritalStatus", {
-              required: "Marital Status is required",
-            })}
-            select
-            label="Marital Status"
-            fullWidth
-            defaultValue={null}
-            helperText={
-              errors.maritalStatus ? errors.maritalStatus.message : ""
-            }
-            error={!!errors.maritalStatus}
-          >
-            {MARITAL_STATUS.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+        <F_Select
+          control={control}
+          name={"bloodGroup"}
+          label={"Blood Group"}
+          list={BLOOD_GROUPS}
+          rules={{}}
+          errors={errors}
+        />
 
-          <TextField
-            {...register("contactNo", {
-              required: "Contact No is required",
-              pattern: {
-                value: REGEX_PATTERNS.mobileNumber,
-                message: "Invalid mobile number",
-              },
-            })}
-            type="text"
-            label="Contact No"
-            fullWidth
-            placeholder=""
-            margin="normal"
-            size="small"
-            autoComplete="off"
-            error={!!errors.contactNo}
-            helperText={errors.contactNo ? errors.contactNo.message : ""}
-          />
-          <TextField
-            {...register("alternateMobileNo", {
-              pattern: {
-                value: REGEX_PATTERNS.mobileNumber,
-                message: "Invalid mobile number",
-              },
-            })}
-            type="text"
-            label="Alt Contact No"
-            fullWidth
-            placeholder=""
-            margin="normal"
-            autoComplete="off"
-            error={!!errors.alternateMobileNo}
-            helperText={
-              errors.alternateMobileNo ? errors.alternateMobileNo.message : ""
-            }
-          />
-
-          {/* Submit Button */}
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
-            Submit
-          </Button>
-        </form>
+        <F_Select
+          control={control}
+          name={"maritalStatus"}
+          label={"Marital Status"}
+          list={MARITAL_STATUS}
+          rules={{}}
+          errors={errors}
+        />
       </GlassBG>
     </>
   );

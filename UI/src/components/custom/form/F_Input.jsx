@@ -19,7 +19,12 @@ const F_Input = ({
       variant="outlined"
       size="small"
       error={!!errors?.[name]}
-      sx={{ mt: 0.25, mb: 0.25, maxWidth: "230px", minWidth: "230px" }}
+      sx={{
+        mt: 0.25,
+        mb: 0.25,
+        maxWidth: props.maxWidth ?? "230px",
+        minWidth: props.minWidth ?? "230px",
+      }}
     >
       <Controller
         name={name}
@@ -40,7 +45,7 @@ const F_Input = ({
             helperText={
               errors?.[name]
                 ? errors?.[name].message
-                : props.defaultHelperText ??(props.defaultHelperText ?? "") 
+                : props.defaultHelperText ?? props.defaultHelperText ?? ""
             }
             disabled={isDisabled}
           />

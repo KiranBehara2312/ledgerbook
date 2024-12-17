@@ -37,7 +37,7 @@ const DoctorInformation = ({
   const theme = useTheme();
   const disabledState = docObj?.action === "View";
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const CARD_WIDTH = isSmallScreen ? "100%" : "300px";
+  const CARD_WIDTH = isSmallScreen ? "100%" : "250px";
   const {
     control,
     handleSubmit,

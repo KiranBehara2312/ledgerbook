@@ -154,6 +154,34 @@ const DAILY_SHIFT = [
   { label: "Shift C (10PM - 6AM)", value: "Shift C" },
 ];
 
+const SALUTATIONS = [
+  {
+    label: "Mr.",
+    value: "Mr.",
+    isActive: true,
+  },
+  {
+    label: "Mrs.",
+    value: "Mrs.",
+    isActive: true,
+  },
+  {
+    label: "Master.",
+    value: "Master.",
+    isActive: true,
+  },
+  {
+    label: "Ms.",
+    value: "Ms.",
+    isActive: true,
+  },
+  {
+    label: "Dr.",
+    value: "Dr.",
+    isActive: true,
+  },
+];
+
 export {
   GENDER_LIST,
   BLOOD_GROUPS,
@@ -161,4 +189,5 @@ export {
   WEEK_DAYS_LIST,
   DOCTOR_DESIGNATIONS,
   DAILY_SHIFT,
+  SALUTATIONS,
 };
