@@ -1,10 +1,78 @@
 import React from "react";
 import { GlassBG, MyHeading } from "../../../components/custom";
-import { PAYMENT_TYPES } from "../../../constants/localDB/MastersDB";
+import {
+  PAYMENT_STATUSES,
+  PAYMENT_TYPES,
+} from "../../../constants/localDB/MastersDB";
 import F_Input from "../../../components/custom/form/F_Input";
 import F_Select from "../../../components/custom/form/F_Select";
+import { Box, Divider, Typography } from "@mui/material";
+import { REGISTRATION_PAYMENT_SERVICE } from "../../../constants/localDB/PaymentServices";
+import PaymentStatus from "../../../components/custom/PaymentStatus";
 
-const Payment = ({ control, errors }) => {
+const Payment = ({ control, errors, formValues }) => {
+  const PaymentSummary = () => {
+    let DOCTOR_FEE_SERVICE = [];
+    if (formValues?.doctor !== "") {
+      DOCTOR_FEE_SERVICE.push({
+        name: "Doctor Consultation Fee",
+        amount: +formValues?.doctorConsultationFee,
+        canApplyDiscount: false,
+      });
+    }
+    let combinationOfFees = [
+      ...REGISTRATION_PAYMENT_SERVICE,
+      ...DOCTOR_FEE_SERVICE,
+    ];
+    const totalAmount = combinationOfFees.reduce(
+      (acc, cur) => acc + cur.amount,
+      0
+    );
+    combinationOfFees.push({
+      name: "Total",
+      amount: totalAmount,
+      canApplyDiscount: false,
+    });
+
+    return (
+      <GlassBG cardStyles={{ width: "200px", height: "auto" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{ pl: 1, color: "red", fontSize: "12px" }}
+          >
+            {"Note: All amounts are in INR"}
+          </Typography>
+          {combinationOfFees?.map((x, i) => {
+            return (
+              <span
+                key={i}
+                style={{
+                  display: "flex",
+                  marginTop: "8px",
+                  justifyContent: "space-between",
+                  borderTop:
+                    i === combinationOfFees?.length - 1
+                      ? "0.5px solid gray"
+                      : "",
+                  paddingTop: i === combinationOfFees?.length - 1 ? "8px" : "",
+                }}
+              >
+                <Typography variant="caption">{x.name}</Typography>
+                <Typography variant="body2">{x.amount}</Typography>
+              </span>
+            );
+          })}
+        </Box>
+      </GlassBG>
+    );
+  };
+
   return (
     <>
       <GlassBG cardStyles={{ width: "240px", m: 1, height: "auto" }}>
@@ -15,6 +83,15 @@ const Payment = ({ control, errors }) => {
           sx={{ mt: "-10px", fontSize: "15px", fontWeight: "bold" }}
         />
 
+        <F_Select
+          control={control}
+          name={"paymentStatus"}
+          label={"Payment Status"}
+          list={PAYMENT_STATUSES}
+          rules={{ required: "Payment Status is required" }}
+          isRequired={true}
+          errors={errors}
+        />
         <F_Select
           control={control}
           name={"paymentType"}
@@ -38,15 +115,11 @@ const Payment = ({ control, errors }) => {
           name="transactionId"
           control={control}
           errors={errors}
-          rules={{
-            required: {
-              value: true,
-              message: "Transaction ID is required",
-            },
-          }}
+          rules={{}}
           label="Transaction ID"
-          isRequired={true}
         />
+        <PaymentSummary />
+        <PaymentStatus sx={{ mt: 2 }} status={formValues?.paymentStatus} />
       </GlassBG>
     </>
   );

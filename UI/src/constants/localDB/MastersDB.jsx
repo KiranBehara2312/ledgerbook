@@ -163,10 +163,10 @@ const PAYMENT_TYPES = [
     label: "UPI",
     value: "UPI",
   },
-  {
-    label: "Coupon",
-    value: "Coupon",
-  },
+  // {
+  //   label: "Coupon",
+  //   value: "Coupon",
+  // },
 ];
 
 const SALUTATIONS = [
@@ -197,6 +197,64 @@ const SALUTATIONS = [
   },
 ];
 
+const PATIENT_TYPES = [
+  {
+    label: "Out patient",
+    value: "Out Patient",
+    shortName: "OPD",
+  },
+  {
+    label: "In patient",
+    value: "In Patient",
+    shortName: "IP",
+  },
+  {
+    label: "Emergency",
+    value: "Emergency",
+    shortName: "ER",
+  },
+];
+
+const REGISTRATION_TYPES = [
+  {
+    label: "New",
+    value: "New",
+  },
+  {
+    label: "Renewal",
+    value: "Renewal",
+  },
+];
+const VISIT_TYPES = [
+  {
+    label: "New Case",
+    value: "New Case",
+  },
+  {
+    label: "Follow-up",
+    value: "Follow-up",
+  },
+  {
+    label: "Lab",
+    value: "Lab",
+  },
+];
+
+const PAYMENT_STATUSES = [
+  {
+    label: "Success",
+    value: "Success",
+  },
+  {
+    label: "Failure",
+    value: "Failure",
+  },
+  {
+    label: "Pending",
+    value: "Pending",
+  },
+];
+
 export {
   GENDER_LIST,
   BLOOD_GROUPS,
@@ -206,4 +264,8 @@ export {
   DAILY_SHIFT,
   SALUTATIONS,
   PAYMENT_TYPES,
+  PATIENT_TYPES,
+  REGISTRATION_TYPES,
+  VISIT_TYPES,
+  PAYMENT_STATUSES,
 };

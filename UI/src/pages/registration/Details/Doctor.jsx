@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { GlassBG, MyHeading } from "../../../components/custom";
-import {
-  BLOOD_GROUPS,
-  GENDER_LIST,
-  MARITAL_STATUS,
-  SALUTATIONS,
-} from "../../../constants/localDB/MastersDB";
-import F_Input from "../../../components/custom/form/F_Input";
 import F_Select from "../../../components/custom/form/F_Select";
-import { REGEX_PATTERNS } from "../../../constants/Regex";
 import { postData } from "../../../helpers/http";
 import { Box, Typography } from "@mui/material";
+import F_Input from "../../../components/custom/form/F_Input";
 
-const Doctor = ({ control, errors }) => {
+const Doctor = ({ control, errors, formValues, setValue }) => {
   const [doctors, setDoctors] = useState([]);
   const [selectedDoc, setSelectedDoc] = useState(null);
   useEffect(() => {
     fetchDoctors();
   }, []);
+
   const fetchDoctors = async () => {
     const response = await postData("/doctor/doctors", {
       page: 1,
@@ -36,6 +30,7 @@ const Doctor = ({ control, errors }) => {
   const docSelectionHandler = (doc) => {
     const selDoc = doctors.find((x) => x.userName === doc) ?? null;
     setSelectedDoc(selDoc);
+    setValue("doctorConsultationFee", selDoc?.fee ?? 0);
   };
 
   const DocInfoCard = () => {
@@ -131,12 +126,14 @@ const Doctor = ({ control, errors }) => {
           name={"doctor"}
           label={"Doctor"}
           list={doctors}
-          rules={{ required: "Doctor is required" }}
-          isRequired={true}
+          rules={{}}
           errors={errors}
           onSelect={docSelectionHandler}
         />
-        {selectedDoc && <DocInfoCard />}
+
+        {formValues?.doctor !== null && formValues?.doctor !== "" && (
+          <DocInfoCard />
+        )}
       </GlassBG>
     </>
   );

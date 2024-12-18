@@ -48,6 +48,7 @@ const F_Input = ({
                 : props.defaultHelperText ?? props.defaultHelperText ?? ""
             }
             disabled={isDisabled}
+            slotProps={props?.slotProps ?? {}}
           />
         )}
       />
