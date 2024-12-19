@@ -8,6 +8,7 @@ import Doctor from "./Details/Doctor";
 import Payment from "./Details/Payment";
 import Primary from "./Details/Primary";
 import { formatDate } from "../../helpers";
+import { REGISTRATION_CHARGES } from "../../constants/localDB/PaymentServices";
 
 const DEFAULT_VAL = {
   UHID: "",
@@ -36,7 +37,6 @@ const DEFAULT_VAL = {
   doctorConsultationFee: 0,
   visitType: "New Case",
   paymentStatus: "",
-  payments: [],
 };
 
 const Registration = () => {
@@ -66,7 +66,15 @@ const Registration = () => {
     reset(DEFAULT_VAL);
   };
   const onSubmit = (formData) => {
-    console.log(formData);
+    const DOC_CONSULT_CHARGES = {
+      name: "Doctor Consultation Charges",
+      amount: +formData.doctorConsultationFee ?? 0,
+      discountAppliedinPercent: 0,
+    };
+    console.log({
+      ...formData,
+      payments: [REGISTRATION_CHARGES, DOC_CONSULT_CHARGES],
+    });
   };
   return (
     <Box

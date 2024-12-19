@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { GlassBG, MyHeading } from "../../../components/custom";
 import {
   PAYMENT_STATUSES,
@@ -25,7 +25,6 @@ const Payment = ({ control, errors, formValues, setValue }) => {
       (acc, cur) => acc + cur.amount,
       0
     );
-    setValue("payments", combinationOfFees);
     combinationOfFees.push({
       name: "Total",
       amount: totalAmount,
