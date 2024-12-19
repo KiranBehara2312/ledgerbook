@@ -7,31 +7,28 @@ import {
 import F_Input from "../../../components/custom/form/F_Input";
 import F_Select from "../../../components/custom/form/F_Select";
 import { Box, Divider, Typography } from "@mui/material";
-import { REGISTRATION_PAYMENT_SERVICE } from "../../../constants/localDB/PaymentServices";
+import { REGISTRATION_CHARGES } from "../../../constants/localDB/PaymentServices";
 import PaymentStatus from "../../../components/custom/PaymentStatus";
 
-const Payment = ({ control, errors, formValues }) => {
+const Payment = ({ control, errors, formValues, setValue }) => {
   const PaymentSummary = () => {
     let DOCTOR_FEE_SERVICE = [];
     if (formValues?.doctor !== "") {
       DOCTOR_FEE_SERVICE.push({
         name: "Doctor Consultation Fee",
         amount: +formValues?.doctorConsultationFee,
-        canApplyDiscount: false,
+        discountAppliedinPercent: 0,
       });
     }
-    let combinationOfFees = [
-      ...REGISTRATION_PAYMENT_SERVICE,
-      ...DOCTOR_FEE_SERVICE,
-    ];
+    let combinationOfFees = [REGISTRATION_CHARGES, ...DOCTOR_FEE_SERVICE];
     const totalAmount = combinationOfFees.reduce(
       (acc, cur) => acc + cur.amount,
       0
     );
+    setValue("payments", combinationOfFees);
     combinationOfFees.push({
       name: "Total",
       amount: totalAmount,
-      canApplyDiscount: false,
     });
 
     return (

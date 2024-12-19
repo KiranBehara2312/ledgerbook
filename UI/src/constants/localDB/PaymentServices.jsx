@@ -1,9 +1,7 @@
-const REGISTRATION_PAYMENT_SERVICE = [
-  {
-    name: "Registration Fee",
-    amount: 50,
-    canApplyDiscount: false,
-  },
-];
+const REGISTRATION_CHARGES = {
+  name: "Registration Fee",
+  amount: 50,
+  discountAppliedinPercent: 0,
+};
 
-export { REGISTRATION_PAYMENT_SERVICE };
+export { REGISTRATION_CHARGES };

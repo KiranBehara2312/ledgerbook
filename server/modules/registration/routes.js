@@ -1,4 +1,6 @@
 const express = require("express");
+const PatRegnController = require("./Controller");
+const PatientRegn = require("../../models/PatientRegn");
 const registrationRoutes = express.Router();
 
 registrationRoutes.post("/doctors", async (req, res) => {
@@ -31,23 +33,23 @@ registrationRoutes.post("/doctors", async (req, res) => {
 
 registrationRoutes.post("/create", async (req, res) => {
   try {
-    const { firstName, lastName } = req.body;
-    const newDocUserName = await DoctorController.registerDoctor(req.body, res);
-    const newDoctor = new Doctor({
+    const newUHID = await PatRegnController.generateUHID();
+    const newPatinetNo = await PatRegnController.generatePatientNo();
+    const newPatient = new PatientRegn({
       ...req.body,
-      userName: newDocUserName,
-    });
-    await newDoctor.save();
+      UHID: newUHID,
+      patientNo : newPatinetNo,
+    }); 
+    await newPatient.save();
     res.status(201).json({
-      message: "Doctor registered successfully",
-      newDocUserName,
-      firstName,
-      lastName,
+      message: "Patient registered successfully",
+      UHID : newUHID,
+      patientNo : newPatinetNo
     });
   } catch (err) {
     console.log(err);
     res.status(400).json({
-      message: "Error while saving Doctor",
+      message: "Error while saving Patient",
       error: err.message || err,
     });
   }

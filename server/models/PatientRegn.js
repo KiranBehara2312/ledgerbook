@@ -124,6 +124,6 @@ PatientRegnSchema.pre("save", function (next) {
   this.fullName = `${this.salutation} ${this.firstName} ${this.middleName} ${this.lastName}`;
   next();
 });
-const Genders = mongoose.model("Genders", PatientRegnSchema);
+const PatientRegn = mongoose.model("PatientRegn", PatientRegnSchema);
 
-module.exports = Genders;
+module.exports = PatientRegn;

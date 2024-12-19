@@ -36,6 +36,7 @@ const DEFAULT_VAL = {
   doctorConsultationFee: 0,
   visitType: "New Case",
   paymentStatus: "",
+  payments: [],
 };
 
 const Registration = () => {
@@ -98,7 +99,12 @@ const Registration = () => {
             formValues={formValues}
             setValue={setValue}
           />
-          <Payment control={control} errors={errors} formValues={formValues} />
+          <Payment
+            control={control}
+            errors={errors}
+            formValues={formValues}
+            setValue={setValue}
+          />
         </Box>
       </form>
     </Box>
