@@ -7,8 +7,9 @@ import { useForm } from "react-hook-form";
 import Doctor from "./Details/Doctor";
 import Payment from "./Details/Payment";
 import Primary from "./Details/Primary";
-import { formatDate } from "../../helpers";
+import { formatDate, successAlert } from "../../helpers";
 import { REGISTRATION_CHARGES } from "../../constants/localDB/PaymentServices";
+import { postData } from "../../helpers/http";
 
 const DEFAULT_VAL = {
   UHID: "",
@@ -24,6 +25,7 @@ const DEFAULT_VAL = {
   gender: "",
   lastName: "",
   maritalStatus: "",
+  salutation: "",
   middleName: "",
   patientNo: "",
   patientType: "Out Patient",
@@ -65,16 +67,38 @@ const Registration = () => {
   const resetForm = () => {
     reset(DEFAULT_VAL);
   };
-  const onSubmit = (formData) => {
+
+  const getPaymentDetails = (formData) => {
+    const paymentDate = formatDate("DD/MM/YYYY hh:mm:ss");
     const DOC_CONSULT_CHARGES = {
-      name: "Doctor Consultation Charges",
-      amount: +formData.doctorConsultationFee ?? 0,
+      serviceName: "Doctor Consultation Charges",
+      serviceAmount: +formData.doctorConsultationFee,
       discountAppliedinPercent: 0,
+      payeeName: formData.payeeName,
+      paymentType: formData.paymentType,
+      transactionId: formData.transactionId,
+      paymentDate,
     };
-    console.log({
+    return [
+      {
+        ...REGISTRATION_CHARGES,
+        payeeName: formData.payeeName,
+        paymentType: formData.paymentType,
+        transactionId: formData.transactionId,
+        paymentDate,
+      },
+      DOC_CONSULT_CHARGES,
+    ];
+  };
+
+  const onSubmit = async (formData) => {
+    const payload = {
       ...formData,
-      payments: [REGISTRATION_CHARGES, DOC_CONSULT_CHARGES],
-    });
+      payments: getPaymentDetails(formData),
+    };
+    // /registration/create
+    const response = await postData("/registration/create", payload);
+    successAlert(response.message, { autoClose: 1500 });
   };
   return (
     <Box

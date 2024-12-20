@@ -16,8 +16,8 @@ const PatientRegnSchema = new mongoose.Schema(
       uppercase: true,
       unique: true,
       trim: true,
-      minlength: [7, "Patient Number cannot be shorter than 7 characters"],
-      maxlength: [7, "Patient Number cannot be longer than 7 characters"],
+      minlength: [9, "Patient Number cannot be shorter than 9 characters"],
+      maxlength: [9, "Patient Number cannot be longer than 9 characters"],
       match: [/^[A-Z0-9]+$/, "Patient Number must be alphanumeric"],
     },
     patientType: {
@@ -34,6 +34,10 @@ const PatientRegnSchema = new mongoose.Schema(
     },
     fullName: {
       type: String,
+    },
+    salutation: {
+      type: String,
+      required: true,
     },
     firstName: {
       type: String,
@@ -85,24 +89,24 @@ const PatientRegnSchema = new mongoose.Schema(
     doctor: {
       type: String,
     },
-    doctorConsultationFee: {
-      type: Number,
-    },
-    paymentStatus: {
-      type: String,
-      required: true,
-    },
-    paymentType: {
-      type: String,
-      required: true,
-    },
-    payeeName: {
-      type: String,
-      required: true,
-    },
-    transactionId: {
-      type: String,
-    },
+    // doctorConsultationFee: {
+    //   type: Number,
+    // },
+    // paymentStatus: {
+    //   type: String,
+    //   required: true,
+    // },
+    // paymentType: {
+    //   type: String,
+    //   required: true,
+    // },
+    // payeeName: {
+    //   type: String,
+    //   required: true,
+    // },
+    // transactionId: {
+    //   type: String,
+    // },
     registrationDate: {
       type: String,
       required: true,

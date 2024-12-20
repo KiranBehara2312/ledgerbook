@@ -15,19 +15,19 @@ const Payment = ({ control, errors, formValues, setValue }) => {
     let DOCTOR_FEE_SERVICE = [];
     if (formValues?.doctor !== "") {
       DOCTOR_FEE_SERVICE.push({
-        name: "Doctor Consultation Fee",
-        amount: +formValues?.doctorConsultationFee,
+        serviceName: "Doctor Consultation Fee",
+        serviceAmount: +formValues?.doctorConsultationFee,
         discountAppliedinPercent: 0,
       });
     }
     let combinationOfFees = [REGISTRATION_CHARGES, ...DOCTOR_FEE_SERVICE];
     const totalAmount = combinationOfFees.reduce(
-      (acc, cur) => acc + cur.amount,
+      (acc, cur) => acc + cur.serviceAmount,
       0
     );
     combinationOfFees.push({
-      name: "Total",
-      amount: totalAmount,
+      serviceName: "Total",
+      serviceAmount: totalAmount,
     });
 
     return (
@@ -59,8 +59,8 @@ const Payment = ({ control, errors, formValues, setValue }) => {
                   paddingTop: i === combinationOfFees?.length - 1 ? "8px" : "",
                 }}
               >
-                <Typography variant="caption">{x.name}</Typography>
-                <Typography variant="body2">{x.amount}</Typography>
+                <Typography variant="caption">{x.serviceName}</Typography>
+                <Typography variant="body2">{x.serviceAmount}</Typography>
               </span>
             );
           })}

@@ -1,6 +1,7 @@
 const express = require("express");
 const PatRegnController = require("./Controller");
 const PatientRegn = require("../../models/PatientRegn");
+const PaymentLedger = require("../../models/PaymentLedger");
 const registrationRoutes = express.Router();
 
 registrationRoutes.post("/doctors", async (req, res) => {
@@ -35,16 +36,35 @@ registrationRoutes.post("/create", async (req, res) => {
   try {
     const newUHID = await PatRegnController.generateUHID();
     const newPatinetNo = await PatRegnController.generatePatientNo();
+    if (!newUHID || !newPatinetNo) {
+      res.status(400).json({
+        message: "Error while saving Patient",
+        error: "Error while generating New UHID or New Patient No",
+      });
+    }
+    console.log(newUHID);
     const newPatient = new PatientRegn({
       ...req.body,
       UHID: newUHID,
-      patientNo : newPatinetNo,
-    }); 
+      patientNo: newPatinetNo,
+    });
     await newPatient.save();
+    const { payments } = req.body;
+    await PatRegnController.insertPayments(payments, newUHID);
+    // payments?.map(async (x) => {
+    //   const newBillId = await PatRegnController.generateBillNo();
+    //   const newBill = new PaymentLedger({
+    //     //  billNo: newBillId,
+    //     UHID: newUHID,
+    //     ...x,
+    //     location: "REGISTRATION",
+    //   });
+    //   await newBill.save();
+    // });
     res.status(201).json({
       message: "Patient registered successfully",
-      UHID : newUHID,
-      patientNo : newPatinetNo
+      UHID: newUHID,
+      patientNo: newPatinetNo,
     });
   } catch (err) {
     console.log(err);
@@ -82,4 +102,4 @@ registrationRoutes.post("/update/:doctorId", async (req, res) => {
   }
 });
 
-module.exports = doctorRoutes;
+module.exports = registrationRoutes;
