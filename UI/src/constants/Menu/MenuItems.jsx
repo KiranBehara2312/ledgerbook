@@ -1,4 +1,4 @@
-import { FaBed, FaDharmachakra, FaHome } from "react-icons/fa";
+import { FaBed, FaDharmachakra, FaHome, FaUsers } from "react-icons/fa";
 import { MdPersonAdd, MdCalendarMonth } from "react-icons/md";
 import { FaUserDoctor } from "react-icons/fa6";
 import { SiCashapp } from "react-icons/si";
@@ -21,14 +21,19 @@ const MENU_ITEMS = [
     url: "appointment",
   },
   {
-    label: "Billing",
+    label: "Payment Ledger",
     icon: <IconWrapper icon={<SiCashapp size={20} />} />,
-    url: "appointment",
+    url: "paymentLedger",
   },
   {
     label: "Doctor",
     icon: <IconWrapper icon={<FaUserDoctor size={20} />} />,
     url: "doctor",
+  },
+  {
+    label: "Patients",
+    icon: <IconWrapper icon={<FaUsers size={20} />} />,
+    url: "patients",
   },
   {
     label: "Masters",

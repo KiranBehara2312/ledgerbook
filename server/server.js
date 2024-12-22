@@ -8,6 +8,8 @@ const authRoutes = require("./modules/auth/routes");
 const masterRoutes = require("./modules/masters/routes");
 const doctorRoutes = require("./modules/doctor/routes");
 const registrationRoutes = require("./modules/registration/routes");
+const paymentLedgerRoutes = require("./modules/paymentledger/routes");
+const patientRoutes = require("./modules/patients/routes");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,6 +20,8 @@ app.use("/auth", authRoutes);
 app.use("/masters", isAuthenticated, masterRoutes);
 app.use("/doctor", isAuthenticated, doctorRoutes);
 app.use("/registration", isAuthenticated, registrationRoutes);
+app.use("/paymentledger", isAuthenticated, paymentLedgerRoutes);
+app.use("/patients", isAuthenticated, patientRoutes);
 app.use("/api", isAuthenticated, routes);
 
 // Start the server after MongoDB connection is established

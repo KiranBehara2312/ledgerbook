@@ -8,6 +8,8 @@ import Registration from "../pages/registration";
 import SignUp from "../pages/auth/Signup";
 import Masters from "../pages/Masters";
 import Doctor from "../pages/Doctor";
+import PaymentLedger from "../pages/PaymentLedger";
+import Patients from "../pages/patients";
 
 const AppRoutes = () => {
   const routes = useRoutes([
@@ -46,6 +48,14 @@ const AppRoutes = () => {
         {
           path: "doctor",
           element: <Doctor />,
+        },
+        {
+          path: "paymentLedger",
+          element: <PaymentLedger />,
+        },
+        {
+          path: "patients",
+          element: <Patients />,
         },
         {
           path: "masters",
