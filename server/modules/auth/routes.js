@@ -48,7 +48,7 @@ authRoutes.post("/login", async (req, res) => {
         lastName: user.lastName,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "20m" }
     );
 
     res.json({

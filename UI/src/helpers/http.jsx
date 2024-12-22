@@ -28,9 +28,28 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response) {
       errorAlert(error.response.data.message || error.message);
+      if (
+        error.response.data?.err === "ADNTP" ||
+        error.response.data?.err === "ITP" ||
+        error.message === "ADNTP" ||
+        error.message === "ITP"
+      ) {
+        errorAlert(error.response.data.message || error.message);
+        setTimeout(() => {
+          window.location.href = window.location.origin + "/auth/login";
+          localStorage.removeItem("authToken");
+        }, 1000);
+      }
       console.error("API Error:", error.response.data.message || error.message);
     } else {
       errorAlert(error.message);
+      if (err?.err === "ADNTP" || err?.err === "ITP") {
+        errorAlert(error.message);
+        setTimeout(() => {
+          window.location.href = window.location.origin + "/auth/login";
+          localStorage.removeItem("authToken");
+        }, 1000);
+      }
       console.error("Network Error:", error.message);
     }
     return Promise.reject(error);

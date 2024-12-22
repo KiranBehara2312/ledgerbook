@@ -2,10 +2,10 @@ import React from "react";
 import BaseLayout from "../base";
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
-import HospitalSVG from "../../../public/hospital.svg";
-import BedSvg from "../../../public/bed.svg";
-import AmbulanceSvg from "../../../public/ambulance.svg";
-import Tablets from "../../../public/tablets.svg";
+import HospitalSVG from "../../assets/hospital.svg";
+import BedSvg from "../../assets/bed.svg";
+import AmbulanceSvg from "../../assets/ambulance.svg";
+import Tablets from "../../assets/tablets.svg";
 
 const AuthLayout = () => {
   return (
