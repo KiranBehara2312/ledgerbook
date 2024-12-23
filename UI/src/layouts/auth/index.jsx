@@ -2,18 +2,18 @@ import React from "react";
 import BaseLayout from "../base";
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
-import HospitalSVG from "../../assets/hospital.svg";
-import BedSvg from "../../assets/bed.svg";
-import AmbulanceSvg from "../../assets/ambulance.svg";
-import Tablets from "../../assets/tablets.svg";
-import StethSvg from "../../assets/steth.svg";
-import FirstAid from "../../assets/firstAid.svg";
-import Nurse from "../../assets/nurse.svg";
+import HospitalSVG from "../../assets/svg/hospital.svg";
+import BedSvg from "../../assets/svg/bed.svg";
+import AmbulanceSvg from "../../assets/svg/ambulance.svg";
+import Tablets from "../../assets/svg/tablets.svg";
+import StethSvg from "../../assets/svg/steth.svg";
+import FirstAid from "../../assets/svg/firstAid.svg";
+import Nurse from "../../assets/svg/nurse.svg";
 
 const AuthLayout = () => {
   return (
     <BaseLayout>
-      <Box
+      {/* <Box
         sx={{
           width: "100%",
           height: "100%",
@@ -24,7 +24,7 @@ const AuthLayout = () => {
         }}
       >
         <img src={StethSvg} alt="Steth" width={320} height={220} />
-      </Box>
+      </Box> */}
       <Box
         sx={{
           display: "flex",

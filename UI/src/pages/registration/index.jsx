@@ -10,6 +10,9 @@ import Primary from "./Details/Primary";
 import { formatDate, successAlert } from "../../helpers";
 import { REGISTRATION_CHARGES } from "../../constants/localDB/PaymentServices";
 import { postData } from "../../helpers/http";
+import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
+import IconWrapper from "../../components/custom/IconWrapper";
+import { FaUserPlus } from "react-icons/fa";
 
 const DEFAULT_VAL = {
   UHID: "",
@@ -101,45 +104,68 @@ const Registration = () => {
     successAlert(response.message, { autoClose: 1500 });
   };
   return (
-    <Box
-      sx={{
-        width: "100%",
-        minHeight: "94%",
-        height: "94%",
-      }}
-    >
-      <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-        <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
-          <Button type="submit" variant="contained">
-            Submit
-          </Button>
-          <Button type="button" variant="contained" onClick={resetForm}>
-            Reset
-          </Button>
-        </Box>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Primary control={control} errors={errors} formValues={formValues} />
-          <Personal control={control} errors={errors} formValues={formValues} />
-          <Communication
-            control={control}
-            errors={errors}
-            formValues={formValues}
+    <>
+      <Box
+        sx={{
+          width: "100%",
+          minHeight: "94%",
+          height: "94%",
+        }}
+      >
+        <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+          <HeaderWithSearch
+            headerText="Registration"
+            hideSearchBar
+            headerIcon={<IconWrapper icon={<FaUserPlus size={20} />} />}
+            html={
+              <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
+                <Button size="small" type="submit" variant="outlined">
+                  Submit
+                </Button>
+                <Button
+                  size="small"
+                  type="button"
+                  variant="outlined"
+                  onClick={resetForm}
+                >
+                  Reset
+                </Button>
+              </Box>
+            }
           />
-          <Doctor
-            control={control}
-            errors={errors}
-            formValues={formValues}
-            setValue={setValue}
-          />
-          <Payment
-            control={control}
-            errors={errors}
-            formValues={formValues}
-            setValue={setValue}
-          />
-        </Box>
-      </form>
-    </Box>
+
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Primary
+              control={control}
+              errors={errors}
+              formValues={formValues}
+            />
+            <Personal
+              control={control}
+              errors={errors}
+              formValues={formValues}
+            />
+            <Communication
+              control={control}
+              errors={errors}
+              formValues={formValues}
+            />
+            <Doctor
+              control={control}
+              errors={errors}
+              formValues={formValues}
+              setValue={setValue}
+            />
+            <Payment
+              control={control}
+              errors={errors}
+              formValues={formValues}
+              setValue={setValue}
+            />
+          </Box>
+        </form>
+      </Box>
+    </>
   );
 };
 

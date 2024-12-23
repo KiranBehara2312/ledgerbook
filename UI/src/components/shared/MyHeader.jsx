@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { IoLogOutSharp } from "react-icons/io5";
 import useConfirmation from "../../hooks/useConfirmation";
 import IconWrapper from "../custom/IconWrapper";
+import HospitalDetailsLogo from "./HospitalDetailsLogo";
 
 const MyHeader = () => {
   const [open, setOpen] = useState(false);
@@ -37,7 +38,12 @@ const MyHeader = () => {
       role="presentation"
       onClick={() => setOpen(false)}
     >
-      <List sx={{ height: "calc(97.8vh - 50px)", overflowY: "auto" }}>
+      <Box sx={{m:1}}>
+      <HospitalDetailsLogo />
+      </Box>
+      <Divider />
+
+      <List sx={{ height: "calc(98.8vh - 125px)", overflowY: "auto" }}>
         {MENU_ITEMS.map(({ label, icon, url }, index) => (
           <ListItem
             key={label}
