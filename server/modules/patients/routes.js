@@ -10,7 +10,7 @@ patientRoutes.post("/all", async (req, res) => {
     const totalCount = await PatientRegn.countDocuments();
     const patients = await PatientRegn.find(
       { isActive: true },
-      { _id: false, __v: false, isActive: false, doctor: false }
+      { _id: false, __v: false, isActive: false }
     )
       .skip(skip)
       .limit(limit);

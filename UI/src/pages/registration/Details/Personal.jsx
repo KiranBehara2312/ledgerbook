@@ -9,7 +9,7 @@ import {
 import F_Input from "../../../components/custom/form/F_Input";
 import F_Select from "../../../components/custom/form/F_Select";
 
-const Personal = ({ control, errors }) => {
+const Personal = ({ control, errors, readOnly = false }) => {
   return (
     <>
       <GlassBG cardStyles={{ width: "240px", m: 1, height: "auto" }}>
@@ -28,6 +28,7 @@ const Personal = ({ control, errors }) => {
           rules={{ required: "Salutation is required" }}
           isRequired={true}
           errors={errors}
+          readOnly={readOnly}
         />
 
         <F_Input
@@ -37,8 +38,7 @@ const Personal = ({ control, errors }) => {
           rules={{ required: "First Name is required" }}
           label="First Name"
           isRequired={true}
-
-          // defaultValue={docObj?.data?.["firstName"] ?? ""}
+          readOnly={readOnly}
         />
         <F_Input
           name="middleName"
@@ -47,6 +47,7 @@ const Personal = ({ control, errors }) => {
           rules={{ required: "Middle Name is required" }}
           label="Middle Name"
           isRequired={true}
+          readOnly={readOnly}
         />
         <F_Input
           name="lastName"
@@ -55,6 +56,7 @@ const Personal = ({ control, errors }) => {
           rules={{ required: "Last Name is required" }}
           label="Last Name"
           isRequired={true}
+          readOnly={readOnly}
         />
         <F_Input
           name="dateOfBirth"
@@ -65,6 +67,7 @@ const Personal = ({ control, errors }) => {
           label=""
           defaultHelperText="Date Of Birth"
           isRequired={true}
+          readOnly={readOnly}
         />
 
         <F_Select
@@ -75,6 +78,7 @@ const Personal = ({ control, errors }) => {
           rules={{ required: "Gender is required" }}
           isRequired={true}
           errors={errors}
+          readOnly={readOnly}
         />
 
         <F_Select
@@ -84,6 +88,7 @@ const Personal = ({ control, errors }) => {
           list={BLOOD_GROUPS}
           rules={{}}
           errors={errors}
+          readOnly={readOnly}
         />
 
         <F_Select
@@ -93,6 +98,7 @@ const Personal = ({ control, errors }) => {
           list={MARITAL_STATUS}
           rules={{}}
           errors={errors}
+          readOnly={readOnly}
         />
       </GlassBG>
     </>

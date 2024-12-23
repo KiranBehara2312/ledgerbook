@@ -19,6 +19,7 @@ const F_Select = ({
   errors = {},
   rules = {},
   multiple = false,
+  readOnly = false,
   ...props
 }) => {
   return (
@@ -44,6 +45,7 @@ const F_Select = ({
         render={({ field: { onChange, ref, value } }) => (
           <Fragment>
             <Select
+              readOnly={readOnly}
               fullWidth
               ref={ref}
               value={value}

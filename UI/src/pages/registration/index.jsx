@@ -44,7 +44,13 @@ const DEFAULT_VAL = {
   paymentStatus: "",
 };
 
-const Registration = () => {
+const Registration = ({
+  dialogCloseBtn = null,
+  headerText = "Registration",
+  selectedPatient = null,
+  action = null,
+  setShowPatientRegn = () => {},
+}) => {
   const {
     register,
     handleSubmit,
@@ -55,17 +61,32 @@ const Registration = () => {
     formState: { errors },
   } = useForm({
     defaultValues: DEFAULT_VAL,
+    mode: "all",
+    reValidateMode: "onBlur",
   });
   const formValues = watch();
 
   useEffect(() => {
+    if (selectedPatient !== null) return;
     const interval = setInterval(() => {
       setValue("registrationDate", formatDate("DD/MM/YYYY HH:mm"));
     }, 1000);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [selectedPatient]);
+
+  useEffect(() => {
+    if (selectedPatient !== null) {
+      Object.entries(selectedPatient)?.map(([key, val], index) => {
+        setValue(key, val, {
+          shouldValidate: true,
+          shouldTouch: true,
+          shouldDirty: true,
+        });
+      });
+    }
+  }, [selectedPatient]);
 
   const resetForm = () => {
     reset(DEFAULT_VAL);
@@ -103,6 +124,18 @@ const Registration = () => {
     const response = await postData("/registration/create", payload);
     successAlert(response.message, { autoClose: 1500 });
   };
+
+  const onUpdate = async (formData) => {
+    const response = await postData(
+      `/registration/update/${selectedPatient?.UHID}`,
+      formData
+    );
+    successAlert(response.message, { autoClose: 1500 });
+    setShowPatientRegn({
+      show: false,
+      rerender: true,
+    });
+  };
   return (
     <>
       <Box
@@ -112,24 +145,32 @@ const Registration = () => {
           height: "94%",
         }}
       >
-        <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+        <form
+          onSubmit={handleSubmit(action === "Edit" ? onUpdate : onSubmit)}
+          style={{ width: "100%" }}
+        >
           <HeaderWithSearch
-            headerText="Registration"
+            headerText={headerText}
             hideSearchBar
             headerIcon={<IconWrapper icon={<FaUserPlus size={20} />} />}
             html={
               <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
-                <Button size="small" type="submit" variant="outlined">
-                  Submit
-                </Button>
-                <Button
-                  size="small"
-                  type="button"
-                  variant="outlined"
-                  onClick={resetForm}
-                >
-                  Reset
-                </Button>
+                {action !== "View" && (
+                  <>
+                    <Button size="small" type="submit" variant="outlined">
+                      Submit
+                    </Button>
+                    <Button
+                      size="small"
+                      type="button"
+                      variant="outlined"
+                      onClick={resetForm}
+                    >
+                      Reset
+                    </Button>
+                  </>
+                )}
+                {dialogCloseBtn}
               </Box>
             }
           />
@@ -139,29 +180,35 @@ const Registration = () => {
               control={control}
               errors={errors}
               formValues={formValues}
+              readOnly={action}
             />
             <Personal
               control={control}
               errors={errors}
               formValues={formValues}
+              readOnly={action === "View"}
             />
             <Communication
               control={control}
               errors={errors}
               formValues={formValues}
+              readOnly={action === "View"}
             />
             <Doctor
               control={control}
               errors={errors}
               formValues={formValues}
+              readOnly={action === "View" || action === "Edit"}
               setValue={setValue}
             />
-            <Payment
-              control={control}
-              errors={errors}
-              formValues={formValues}
-              setValue={setValue}
-            />
+            {selectedPatient === null && (
+              <Payment
+                control={control}
+                errors={errors}
+                formValues={formValues}
+                setValue={setValue}
+              />
+            )}
           </Box>
         </form>
       </Box>

@@ -38,24 +38,6 @@ const PatRegnController = {
         });
     });
   },
-  generateBillNo: () => {
-    return new Promise((resolve, reject) => {
-      PaymentLedger.findOne()
-        .sort({ _id: -1 })
-        .then((lastPayment) => {
-          let lastBillNo = +lastPayment?.billNo?.split("LL")[1] + 1;
-          if (isNaN(lastBillNo)) {
-            lastBillNo = "1";
-          }
-          const uid = `BILL${lastBillNo.toString().padStart(8, "0")}`;
-          resolve(uid);
-        })
-        .catch((error) => {
-          console.error("Error while generating Bill No", error);
-          reject(error);
-        });
-    });
-  },
   insertPayments: async (payments, newUHID) => {
     try {
       // Fetch the last billNo from the PaymentLedger collection
@@ -92,80 +74,6 @@ const PatRegnController = {
     } catch (error) {
       console.error("Error inserting payments:", error);
     }
-  },
-
-  generateUHdID: () => {
-    let uhid = "";
-    // (await PatientRegn.countDocuments()) ?? 0;
-    // if (totalDocuments === 0) {
-    //   totalDocuments = totalDocuments + 1;
-    // }
-    // const UHID = `UHID${totalDocuments.toString().padStart(6, "0")}`;
-
-    PatientRegn.findOne()
-      .sort({ _id: -1 })
-      .then((lastUser) => {
-        let lastUserUHIDCount = +lastUser?.UHID?.split("D")[1] + 1;
-        if (isNaN(lastUserUHIDCount)) {
-          lastUserUHIDCount = "1";
-        }
-        console.log("UHID", lastUserUHIDCount.toString().padStart(6, "0"));
-        const uid = `UHID${lastUserUHIDCount.toString().padStart(6, "0")}`;
-        uhid = uid;
-      })
-      .catch((error) => {
-        console.error("Error while generating UHID", error);
-      });
-    return uhid;
-  },
-  generatePatizzzzentNo: () => {
-    let patNo = "";
-    // let totalDocuments = (await PatientRegn.countDocuments()) ?? 0;
-    // if (totalDocuments === 0) {
-    //   totalDocuments = totalDocuments + 1;
-    // }
-    // const patientNo = `PAT${totalDocuments.toString().padStart(6, "0")}`;
-    // return patientNo;
-    PatientRegn.findOne()
-      .sort({ _id: -1 })
-      .then((lastUser) => {
-        let lastUserPatCount = +lastUser?.patientNo.split("D")[1] + 1;
-        if (isNaN(lastUserPatCount)) {
-          lastUserPatCount = "1";
-        }
-        const pid = `PAT${lastUserPatCount.toString().padStart(6, "0")}`;
-        patNo = pid;
-        console.log("Pat No", pid);
-      })
-      .catch((error) => {
-        console.error("Error while generating patient No", error);
-      });
-    return patNo;
-  },
-  generatezzzBillID: () => {
-    let billNo = "";
-    // let totalDocuments = (await PaymentLedger.countDocuments()) ?? 0;
-    // if (totalDocuments === 0 || totalDocuments === 1) {
-    //   totalDocuments = totalDocuments + 1;
-    // }
-    // const BILL_ID = `BILL${totalDocuments.toString().padStart(8, "0")}`;
-    // return BILL_ID;
-
-    PaymentLedger.findOne()
-      .sort({ _id: -1 })
-      .then((lastUser) => {
-        let lastBillNo = +lastUser?.billNo.split("LL")[1] + 1;
-        if (isNaN(lastBillNo)) {
-          lastBillNo = "1";
-        }
-        const bid = `BILL${lastBillNo.toString().padStart(8, "0")}`;
-        console.log("Bill No", bid);
-        billNo = bid;
-      })
-      .catch((error) => {
-        console.error("Error while generating Bill No", error);
-      });
-    return billNo;
   },
 };
 

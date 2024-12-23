@@ -10,7 +10,7 @@ import F_Select from "../../../components/custom/form/F_Select";
 import { InputAdornment } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
 
-const Primary = ({ control, errors }) => {
+const Primary = ({ control, errors, readOnly = "" }) => {
   return (
     <>
       <GlassBG cardStyles={{ width: "240px", m: 1, height: "auto" }}>
@@ -39,6 +39,8 @@ const Primary = ({ control, errors }) => {
           defaultValue={"Out Patient" ?? ""}
           isRequired={true}
           errors={errors}
+          isDisabled={readOnly === "View"}
+          readOnly={readOnly === "View"}
         />
         <F_Select
           control={control}
@@ -49,6 +51,8 @@ const Primary = ({ control, errors }) => {
           defaultValue={"New" ?? ""}
           isRequired={true}
           errors={errors}
+          isDisabled={readOnly === "View"}
+          readOnly={readOnly === "View"}
         />
         <F_Select
           control={control}
@@ -59,6 +63,8 @@ const Primary = ({ control, errors }) => {
           defaultValue={"New Case" ?? ""}
           isRequired={true}
           errors={errors}
+          isDisabled={readOnly === "View"}
+          readOnly={readOnly === "View"}
         />
         <F_Input
           name="UHID"
@@ -66,19 +72,17 @@ const Primary = ({ control, errors }) => {
           errors={errors}
           rules={{}}
           label="UHID"
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment
-                  position="start"
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => alert("Hi")}
-                >
-                  <FaSearch />
-                </InputAdornment>
-              ),
-            },
-          }}
+          readOnly={readOnly === "Edit" || readOnly === "View"}
+          isDisabled={readOnly === "Edit" || readOnly === "View"}
+          endAdornment={
+            <InputAdornment
+              position="start"
+              sx={{ cursor: "pointer" }}
+              onClick={() => alert("Hi")}
+            >
+              <FaSearch />
+            </InputAdornment>
+          }
           defaultHelperText="Type UHID and hit enter to load data"
         />
         <F_Input
@@ -88,19 +92,17 @@ const Primary = ({ control, errors }) => {
           rules={{}}
           label="Patient No"
           defaultHelperText="Type PatientNo and hit enter to load data"
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment
-                  position="start"
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => alert("Hi")}
-                >
-                  <FaSearch />
-                </InputAdornment>
-              ),
-            },
-          }}
+          readOnly={readOnly === "Edit" || readOnly === "View"}
+          isDisabled={readOnly === "Edit" || readOnly === "View"}
+          endAdornment={
+            <InputAdornment
+              position="start"
+              sx={{ cursor: "pointer" }}
+              onClick={() => alert("Hi")}
+            >
+              <FaSearch />
+            </InputAdornment>
+          }
         />
       </GlassBG>
     </>

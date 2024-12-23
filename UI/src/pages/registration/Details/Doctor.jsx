@@ -5,12 +5,24 @@ import { postData } from "../../../helpers/http";
 import { Box, Typography } from "@mui/material";
 import F_Input from "../../../components/custom/form/F_Input";
 
-const Doctor = ({ control, errors, formValues, setValue }) => {
+const Doctor = ({
+  control,
+  errors,
+  formValues,
+  setValue,
+  readOnly = false,
+}) => {
   const [doctors, setDoctors] = useState([]);
   const [selectedDoc, setSelectedDoc] = useState(null);
   useEffect(() => {
     fetchDoctors();
   }, []);
+
+  useEffect(() => {
+    if (formValues.doctor !== "") {
+      docSelectionHandler(formValues.doctor);
+    }
+  }, [formValues]);
 
   const fetchDoctors = async () => {
     const response = await postData("/doctor/doctors", {
@@ -129,6 +141,7 @@ const Doctor = ({ control, errors, formValues, setValue }) => {
           rules={{}}
           errors={errors}
           onSelect={docSelectionHandler}
+          readOnly={readOnly}
         />
 
         {formValues?.doctor !== null && formValues?.doctor !== "" && (

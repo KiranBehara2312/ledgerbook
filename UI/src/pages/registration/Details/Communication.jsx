@@ -11,7 +11,7 @@ import F_Select from "../../../components/custom/form/F_Select";
 import { REGEX_PATTERNS } from "../../../constants/Regex";
 import { postData } from "../../../helpers/http";
 
-const Communication = ({ control, errors }) => {
+const Communication = ({ control, errors, readOnly = false }) => {
   const [states, setStates] = useState([]);
   useEffect(() => {
     fetchStates();
@@ -45,6 +45,7 @@ const Communication = ({ control, errors }) => {
             },
           }}
           label="Contact No"
+          readOnly={readOnly}
         />
 
         <F_Input
@@ -58,6 +59,7 @@ const Communication = ({ control, errors }) => {
             },
           }}
           label="Alt Contact No"
+          readOnly={readOnly}
         />
 
         <F_Input
@@ -67,7 +69,7 @@ const Communication = ({ control, errors }) => {
           rules={{ required: "Address line is required" }}
           label="Address Line 1"
           isRequired={true}
-          // defaultValue={docObj?.data?.["firstName"] ?? ""}
+          readOnly={readOnly}
         />
 
         <F_Input
@@ -76,6 +78,7 @@ const Communication = ({ control, errors }) => {
           errors={errors}
           rules={{}}
           label="Address Line 2"
+          readOnly={readOnly}
         />
 
         <F_Select
@@ -86,6 +89,7 @@ const Communication = ({ control, errors }) => {
           rules={{ required: "State is required" }}
           isRequired={true}
           errors={errors}
+          readOnly={readOnly}
         />
 
         <F_Input
@@ -99,6 +103,7 @@ const Communication = ({ control, errors }) => {
             },
           }}
           label="Pin Code"
+          readOnly={readOnly}
         />
       </GlassBG>
     </>

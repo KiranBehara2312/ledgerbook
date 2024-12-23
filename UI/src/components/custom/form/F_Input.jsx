@@ -11,6 +11,8 @@ const F_Input = ({
   isRequired = false,
   errors = {},
   rules = {},
+  endAdornment = null,
+  readOnly = false,
   ...props
 }) => {
   return (
@@ -47,8 +49,14 @@ const F_Input = ({
                 ? errors?.[name].message
                 : props.defaultHelperText ?? props.defaultHelperText ?? ""
             }
+            inp
             disabled={isDisabled}
-            slotProps={props?.slotProps ?? {}}
+            slotProps={{
+              input: {
+                endAdornment: endAdornment,
+                readOnly: readOnly,
+              },
+            }}
           />
         )}
       />

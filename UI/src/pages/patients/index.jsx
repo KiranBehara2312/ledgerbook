@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
 import IconWrapper from "../../components/custom/IconWrapper";
-import { Button } from "@mui/material";
+import { Button, Dialog, DialogTitle } from "@mui/material";
 import { FaEdit, FaEye, FaPrint, FaTrash, FaUsers } from "react-icons/fa";
 import MyTable from "../../components/custom/MyTable";
 import { postData } from "../../helpers/http";
 import { SiCashapp } from "react-icons/si";
 import { MdPersonAdd } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import Registration from "../registration";
 
 const ACTIONS = [
   {
@@ -20,20 +21,15 @@ const ACTIONS = [
     icon: <IconWrapper icon={<FaEye size={15} />} />,
     disabled: false,
   },
-  {
-    name: "Delete",
-    icon: <IconWrapper icon={<FaTrash size={15} />} />,
-    disabled: true,
-  },
 ];
 const Patients = () => {
   const navigate = useNavigate();
-  const [showAddDoc, setShowAddDoc] = useState({
+  const [showPatientRegn, setShowPatientRegn] = useState({
     show: false,
     rerender: false,
   });
-  const [selectedDoc, setSelectedDoc] = useState({
-    action: "Add",
+  const [selectedPatient, setSelectedPatient] = useState({
+    action: "Edit",
     data: null,
   });
   const [tableObj, setTableObj] = useState({
@@ -43,11 +39,11 @@ const Patients = () => {
     defaultPage: 0,
   });
   useEffect(() => {
-    fetchDoctors({
+    fetchPatients({
       page: 1,
       limit: 10,
     });
-  }, [showAddDoc.rerender]);
+  }, [showPatientRegn.rerender]);
   const Buttons = () => {
     return (
       <Button variant="outlined" size="small" onClick={newRegnClickHandler}>
@@ -56,7 +52,7 @@ const Patients = () => {
       </Button>
     );
   };
-  const fetchDoctors = async (paginationObj) => {
+  const fetchPatients = async (paginationObj) => {
     const response = await postData(`/patients/all`, paginationObj);
     if (response) {
       const oneObj = response?.data?.[0];
@@ -87,14 +83,27 @@ const Patients = () => {
   };
 
   const actionsHandler = (action, row) => {
-    setSelectedDoc({
+    setSelectedPatient({
       action,
       data: row,
     });
-    setShowAddDoc({
+    setShowPatientRegn({
       show: true,
       rerender: false,
     });
+  };
+  const CloseBtnHtml = () => {
+    return (
+      <Button
+        size="small"
+        type="button"
+        variant="outlined"
+        color="error"
+        onClick={() => setShowPatientRegn({ rerender: false, show: false })}
+      >
+        close
+      </Button>
+    );
   };
   return (
     <>
@@ -117,6 +126,18 @@ const Patients = () => {
             });
           }}
         />
+      )}
+
+      {showPatientRegn.show && (
+        <Dialog maxWidth="xl" fullWidth open={true}>
+          <Registration
+            dialogCloseBtn={<CloseBtnHtml />}
+            headerText={`${selectedPatient?.action} Regitration`}
+            selectedPatient={selectedPatient?.data}
+            action={selectedPatient?.action}
+            setShowPatientRegn={setShowPatientRegn}
+          />
+        </Dialog>
       )}
     </>
   );
