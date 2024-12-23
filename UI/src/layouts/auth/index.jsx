@@ -6,10 +6,25 @@ import HospitalSVG from "../../assets/hospital.svg";
 import BedSvg from "../../assets/bed.svg";
 import AmbulanceSvg from "../../assets/ambulance.svg";
 import Tablets from "../../assets/tablets.svg";
+import StethSvg from "../../assets/steth.svg";
+import FirstAid from "../../assets/firstAid.svg";
+import Nurse from "../../assets/nurse.svg";
 
 const AuthLayout = () => {
   return (
     <BaseLayout>
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src={StethSvg} alt="Steth" width={320} height={220} />
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -27,28 +42,52 @@ const AuthLayout = () => {
           }}
         >
           <img src={HospitalSVG} alt="Hospital" width={300} height={280} />
+
           <img
             src={BedSvg}
             alt="Hospital"
             style={{
-              width: 50,
-              height: 50,
+              width: 75,
+              height: 75,
               position: "absolute",
-              top: 20,
+              top: 30,
               left: 50,
+            }}
+          />
+          <img
+            src={Nurse}
+            alt="Hospital"
+            style={{
+              width: 75,
+              height: 75,
+              position: "absolute",
+              bottom: 30,
+              right: 50,
             }}
           />
           <img
             src={Tablets}
             alt="Hospital"
             style={{
-              width: 100,
-              height: 100,
+              width: 75,
+              height: 75,
               position: "absolute",
-              top: 100,
+              top: 30,
               right: 50,
             }}
           />
+          <img
+            src={FirstAid}
+            alt="Ambulance"
+            width={75}
+            height={75}
+            style={{
+              position: "absolute",
+              bottom: 30,
+              left: 50,
+            }}
+          />
+
           <Outlet />
           <img src={AmbulanceSvg} alt="Ambulance" width={300} height={280} />
         </Box>
