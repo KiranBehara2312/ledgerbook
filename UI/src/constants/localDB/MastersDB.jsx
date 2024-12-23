@@ -19,22 +19,18 @@ const MARITAL_STATUS = [
   {
     label: "Single",
     value: "Single",
-    isActive: true,
   },
   {
     label: "Married",
     value: "Married",
-    isActive: true,
   },
   {
     label: "Widowed",
     value: "Widowed",
-    isActive: true,
   },
   {
     label: "Divorced",
     value: "Divorced",
-    isActive: true,
   },
 ];
 const BLOOD_GROUPS = [
@@ -42,49 +38,41 @@ const BLOOD_GROUPS = [
     shortName: "A+",
     label: "A Positive",
     value: "A Positive",
-    isActive: true,
   },
   {
     shortName: "A-",
     label: "A Negative",
     value: "A Negative",
-    isActive: true,
   },
   {
     shortName: "B+",
     label: "B Positive",
     value: "B Positive",
-    isActive: true,
   },
   {
     shortName: "B-",
     label: "B Negative",
     value: "B Negative",
-    isActive: true,
   },
   {
     shortName: "O+",
     label: "O Positive",
     value: "O Positive",
-    isActive: true,
   },
   {
     shortName: "O-",
     label: "O Negative",
     value: "O Negative",
-    isActive: true,
   },
   {
     shortName: "AB+",
     label: "AB Positive",
     value: "AB Positive",
-    isActive: true,
   },
   {
     shortName: "AB-",
     label: "AB Negative",
     value: "AB Negative",
-    isActive: true,
   },
 ];
 
@@ -173,27 +161,22 @@ const SALUTATIONS = [
   {
     label: "Mr.",
     value: "Mr.",
-    isActive: true,
   },
   {
     label: "Mrs.",
     value: "Mrs.",
-    isActive: true,
   },
   {
     label: "Master.",
     value: "Master.",
-    isActive: true,
   },
   {
     label: "Ms.",
     value: "Ms.",
-    isActive: true,
   },
   {
     label: "Dr.",
     value: "Dr.",
-    isActive: true,
   },
 ];
 
@@ -212,6 +195,34 @@ const PATIENT_TYPES = [
     label: "Emergency",
     value: "Emergency",
     shortName: "ER",
+  },
+];
+
+const APP_USER_TYPES = [
+  {
+    label: "ADMIN",
+    value: "ADMIN",
+    description: "",
+  },
+  {
+    label: "DOCTOR",
+    value: "DOCTOR",
+    description: "",
+  },
+  {
+    label: "NURSE",
+    value: "NURSE",
+    description: "",
+  },
+  {
+    label: "STAFF",
+    value: "STAFF",
+    description: "",
+  },
+  {
+    label: "PATIENT",
+    value: "PATIENT",
+    description: "",
   },
 ];
 
@@ -268,4 +279,5 @@ export {
   REGISTRATION_TYPES,
   VISIT_TYPES,
   PAYMENT_STATUSES,
+  APP_USER_TYPES,
 };

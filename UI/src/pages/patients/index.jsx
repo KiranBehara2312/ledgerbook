@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
 import IconWrapper from "../../components/custom/IconWrapper";
-import { Button, Dialog, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogTitle, useTheme } from "@mui/material";
 import { FaEdit, FaEye, FaPrint, FaTrash, FaUsers } from "react-icons/fa";
 import MyTable from "../../components/custom/MyTable";
 import { postData } from "../../helpers/http";
@@ -23,6 +23,8 @@ const ACTIONS = [
   },
 ];
 const Patients = () => {
+  const theme = useTheme();
+
   const navigate = useNavigate();
   const [showPatientRegn, setShowPatientRegn] = useState({
     show: false,
@@ -111,7 +113,12 @@ const Patients = () => {
         headerText="Patients"
         hideSearchBar
         html={<Buttons />}
-        headerIcon={<IconWrapper icon={<FaUsers size={20} />} />}
+        headerIcon={
+          <IconWrapper
+            icon={<FaUsers size={20} />}
+            color={theme.palette.primary.main}
+          />
+        }
       />
       {tableObj.columns?.length > 0 && (
         <MyTable

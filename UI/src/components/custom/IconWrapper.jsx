@@ -1,9 +1,7 @@
-import { useTheme } from "@mui/material";
 import React from "react";
 
-const IconWrapper = ({ icon = null }) => {
-  const theme = useTheme();
-  return <div style={{ color: theme.palette.primary.main }}>{icon}</div>;
+const IconWrapper = ({ icon = null, color = null }) => {
+  return <div style={{ color: color != null ? color : 'gray' }}>{icon}</div>;
 };
 
 export default IconWrapper;

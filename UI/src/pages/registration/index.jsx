@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TextField, Button, Box, Typography } from "@mui/material";
+import { TextField, Button, Box, Typography, useTheme } from "@mui/material";
 import { GlassBG, MyHeading } from "../../components/custom";
 import Personal from "./Details/Personal";
 import Communication from "./Details/Communication";
@@ -13,6 +13,7 @@ import { postData } from "../../helpers/http";
 import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
 import IconWrapper from "../../components/custom/IconWrapper";
 import { FaUserPlus } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const DEFAULT_VAL = {
   UHID: "",
@@ -51,6 +52,8 @@ const Registration = ({
   action = null,
   setShowPatientRegn = () => {},
 }) => {
+  const theme = useTheme();
+  const loggedInUser = useSelector((state) => state?.userDetails?.user);
   const {
     register,
     handleSubmit,
@@ -67,6 +70,7 @@ const Registration = ({
   const formValues = watch();
 
   useEffect(() => {
+    console.log(loggedInUser);
     if (selectedPatient !== null) return;
     const interval = setInterval(() => {
       setValue("registrationDate", formatDate("DD/MM/YYYY HH:mm"));
@@ -152,7 +156,13 @@ const Registration = ({
           <HeaderWithSearch
             headerText={headerText}
             hideSearchBar
-            headerIcon={<IconWrapper icon={<FaUserPlus size={20} />} />}
+            headerIcon={
+              <IconWrapper
+                icon={
+                  <FaUserPlus size={20} color={theme.palette.primary.main} />
+                }
+              />
+            }
             html={
               <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
                 {action !== "View" && (

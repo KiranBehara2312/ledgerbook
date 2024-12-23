@@ -5,9 +5,12 @@ import { GlassBG, MyHeading } from "../../components/custom";
 import { useNavigate } from "react-router-dom";
 import { postData } from "../../helpers/http";
 import { successAlert } from "../../helpers";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../../redux/slices/userDetailsSlice";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -21,6 +24,7 @@ const Login = () => {
     };
     const response = await postData("/auth/login", loginObj);
     successAlert(response.message, { autoClose: 1500 });
+    dispatch(setUserDetails(response.token));
     localStorage.setItem("authToken", response.token);
     navigate("/pages/home");
   };

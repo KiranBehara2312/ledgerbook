@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
 import IconWrapper from "../../components/custom/IconWrapper";
-import { Button } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import { FaEdit, FaEye, FaPrint, FaTrash } from "react-icons/fa";
 import MyTable from "../../components/custom/MyTable";
 import { postData } from "../../helpers/http";
@@ -25,6 +25,8 @@ const ACTIONS = [
   },
 ];
 const PaymentLedger = () => {
+  const theme = useTheme();
+
   const [showAddDoc, setShowAddDoc] = useState({
     show: false,
     rerender: false,
@@ -105,7 +107,12 @@ const PaymentLedger = () => {
         headerText="Payment Ledger"
         hideSearchBar
         html={<Buttons />}
-        headerIcon={<IconWrapper icon={<SiCashapp size={20} />} />}
+        headerIcon={
+          <IconWrapper
+            icon={<SiCashapp size={20} />}
+            color={theme.palette.primary.main}
+          />
+        }
       />
       {tableObj.columns?.length > 0 && (
         <MyTable

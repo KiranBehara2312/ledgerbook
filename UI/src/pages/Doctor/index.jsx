@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
 import { FaUserDoctor } from "react-icons/fa6";
 import IconWrapper from "../../components/custom/IconWrapper";
-import { Button } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import { FaEdit, FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import DoctorInformation from "./AddEdits";
 import MyTable from "../../components/custom/MyTable";
@@ -26,6 +26,7 @@ const ACTIONS = [
   },
 ];
 const Doctor = () => {
+  const theme = useTheme();
   const [showAddDoc, setShowAddDoc] = useState({
     show: false,
     rerender: false,
@@ -106,7 +107,11 @@ const Doctor = () => {
         headerText="Doctor"
         hideSearchBar
         html={<Buttons />}
-        headerIcon={<IconWrapper icon={<FaUserDoctor size={20} />} />}
+        headerIcon={
+          <IconWrapper
+            icon={<FaUserDoctor size={20} color={theme.palette.primary.main} />}
+          />
+        }
       />
       {tableObj.columns?.length > 0 && (
         <MyTable

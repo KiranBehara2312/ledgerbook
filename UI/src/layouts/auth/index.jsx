@@ -41,7 +41,7 @@ const AuthLayout = () => {
             gap: 1,
           }}
         >
-          <img src={HospitalSVG} alt="Hospital" width={300} height={280} />
+          <img src={HospitalSVG} alt="Hospital" width={300} height={220} />
 
           <img
             src={BedSvg}
