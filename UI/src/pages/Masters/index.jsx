@@ -34,8 +34,8 @@ const Masters = () => {
           };
         }),
         data: selectedMenuCard?.collection ?? [],
-        totalCount: selectedMenuCard?.collection?.length || 0,
-        defaultPage: 0,
+        totalCount:  1,
+        defaultPage: 1,
       });
     }
   }, [selectedMenuCard]);
@@ -85,19 +85,21 @@ const Masters = () => {
           return (
             <Box
               onClick={() => setSelectedMenuCard(x)}
-              sx={{
-                // flexBasis: "47.4%",
-                // ml: 1,
-                // mr: 1,
-              }}
+              sx={
+                {
+                  // flexBasis: "47.4%",
+                  // ml: 1,
+                  // mr: 1,
+                }
+              }
               key={i}
             >
               <GlassBG
                 cardStyles={{
                   height: "40px",
                   cursor: "pointer",
-                  minWidth: "100px",
-                  maxWidth: "100px",
+                  minWidth: "95px",
+                  maxWidth: "95px",
                 }}
               >
                 <MyHeading
@@ -115,14 +117,15 @@ const Masters = () => {
                   variant="body1"
                 />
                 <MyHeading
-                  text={x.label}
+                  text={
+                    x.label?.length > 15 ? (
+                      <marquee>{x.label}</marquee>
+                    ) : (
+                      x.label
+                    )
+                  }
                   alignCenter
                   variant="caption"
-                  sx={{
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
                 />
               </GlassBG>
             </Box>

@@ -1,9 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import "./base.css";
 
 const BaseLayout = ({ children }) => {
   return (
-    <Box
+    <Paper
       sx={{
         height: "100vh",
         width: "100vw",
@@ -12,7 +12,7 @@ const BaseLayout = ({ children }) => {
       }}
     >
       {children}
-    </Box>
+    </Paper>
   );
 };
 
