@@ -78,7 +78,7 @@ const Masters = () => {
           display: "flex",
           flexWrap: "wrap",
           gap: 0.75,
-          justifyContent: "space-between",
+          justifyContent: "space-around",
         }}
       >
         {MASTERS_ITEMS.map((x, i) => {
@@ -87,8 +87,8 @@ const Masters = () => {
               onClick={() => setSelectedMenuCard(x)}
               sx={{
                 // flexBasis: "47.4%",
-                ml: 1,
-                mr: 1,
+                // ml: 1,
+                // mr: 1,
               }}
               key={i}
             >
