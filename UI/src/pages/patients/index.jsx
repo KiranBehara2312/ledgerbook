@@ -53,7 +53,7 @@ const ACTIONS = [
     icon: <IconWrapper defaultColor icon={<MdNoteAlt size={18} />} />,
     disabled: false,
     access: [ADMIN, NURSE, DOCTOR],
-    modalWidth: "md",
+    modalWidth: "xl",
   },
   {
     name: "Patient Registration Card",
