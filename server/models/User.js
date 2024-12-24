@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema(
       match: [/^[7-9][0-9]{9}$/, "Please enter a valid Indian phone number"],
       unique: true,
     },
+    colorTheme: {
+      type: String,
+      default: "#0d8672",
+    },
     createdBy: {
       type: String,
     },
@@ -56,6 +60,14 @@ const userSchema = new mongoose.Schema(
 
 // Password hashing before saving the user
 userSchema.pre("save", async function (next) {
+  const COLOR_THEME_OBJ = {
+    NURSE: "#86320d",
+    DOCTOR: "#860d74",
+    ADMIN: "#86690d",
+    STAFF: "#0d8672",
+  };
+  this.colorTheme = COLOR_THEME_OBJ[this.role];
+
   // Only hash the password if it is modified or new
   if (!this.isModified("password")) {
     return next();

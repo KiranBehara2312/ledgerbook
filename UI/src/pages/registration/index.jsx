@@ -37,7 +37,6 @@ const DEFAULT_VAL = {
   paymentType: "",
   pinCode: "",
   registrationType: "New",
-  salutation: "",
   state: "",
   transactionId: "",
   doctorConsultationFee: 0,

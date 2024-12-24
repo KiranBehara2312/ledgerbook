@@ -29,6 +29,7 @@ export default function HeaderWithSearch({
 
   return (
     <Paper
+      elevation={2}
       key={headerText}
       sx={{
         p: "0 10px",

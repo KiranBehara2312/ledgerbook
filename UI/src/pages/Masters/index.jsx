@@ -1,4 +1,4 @@
-import { Box, Stack, useTheme } from "@mui/material";
+import { Box, Button, Stack, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { MASTERS_ITEMS } from "../../constants/Menu/MastersItems";
 import { GlassBG, MyHeading } from "../../components/custom";
@@ -6,6 +6,7 @@ import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
 import { postData } from "../../helpers/http";
 import MyTable from "../../components/custom/MyTable";
 import IconWrapper from "../../components/custom/IconWrapper";
+import { FaPlus } from "react-icons/fa";
 
 const Masters = () => {
   const theme = useTheme();
@@ -34,7 +35,7 @@ const Masters = () => {
           };
         }),
         data: selectedMenuCard?.collection ?? [],
-        totalCount:  1,
+        totalCount: 1,
         defaultPage: 1,
       });
     }
@@ -83,17 +84,7 @@ const Masters = () => {
       >
         {MASTERS_ITEMS.map((x, i) => {
           return (
-            <Box
-              onClick={() => setSelectedMenuCard(x)}
-              sx={
-                {
-                  // flexBasis: "47.4%",
-                  // ml: 1,
-                  // mr: 1,
-                }
-              }
-              key={i}
-            >
+            <Box onClick={() => setSelectedMenuCard(x)} key={i}>
               <GlassBG
                 cardStyles={{
                   height: "40px",
@@ -119,7 +110,7 @@ const Masters = () => {
                 <MyHeading
                   text={
                     x.label?.length > 15 ? (
-                      <marquee>{x.label}</marquee>
+                      <marquee scrollamount={3}>{x.label}</marquee>
                     ) : (
                       x.label
                     )
@@ -134,20 +125,30 @@ const Masters = () => {
       </Stack>
     );
   };
+
+  const getActionButtons = (action) => {
+    const obj = {
+      "Application Users": (
+        <Button variant="outlined" size="small">
+          <FaPlus size={15} style={{ marginRight: "8px" }} /> Add User
+        </Button>
+      ),
+    };
+    return obj[action] ?? null;
+  };
   return (
-    <Stack direction={"row"} sx={{ display: "flex" }}>
+    <Stack sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
       <Box
         sx={{
-          flexBasis: "21%",
-          m: 0.5,
           height: "calc(100vh - 55px)",
           overflowY: "auto",
+          maxWidth: "20%",
         }}
       >
         <MasterItems />
       </Box>
       {selectedMenuCard && (
-        <Box sx={{ flexBasis: "80%", m: 0.5 }}>
+        <Box sx={{ minWidth: "80%", maxWidth: "100%", overflowX: "auto" }}>
           <HeaderWithSearch
             headerText={selectedMenuCard.label}
             headerIcon={
@@ -156,6 +157,7 @@ const Masters = () => {
                 color={theme.palette.primary.main}
               />
             }
+            html={getActionButtons(selectedMenuCard.label)}
           />
           <MyTable
             {...tableObj}

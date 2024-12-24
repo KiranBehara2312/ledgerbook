@@ -5,6 +5,7 @@ const Genders = require("../../models/Genders");
 const BloodGroups = require("../../models/BloodGroups");
 const PatientTypes = require("../../models/PatientTypes");
 const Countries = require("../../models/Countries");
+const User = require("../../models/User");
 const masterRoutes = express.Router();
 
 masterRoutes.post("/states", async (req, res) => {
@@ -34,6 +35,35 @@ masterRoutes.post("/states", async (req, res) => {
     });
   }
 });
+
+masterRoutes.post("/users", async (req, res) => {
+  const page = parseInt(req.body.page) || 1;
+  const limit = parseInt(req.body.limit) || 10;
+  const skip = (page - 1) * limit;
+  try {
+    const totalCount = await User.countDocuments();
+    const users = await User.find(
+      { isActive: true },
+      { _id: false, isActive: false, password: false, __v : false }
+    )
+      .skip(skip)
+      .limit(limit);
+    const totalPages = Math.ceil(totalCount / limit);
+    res.json({
+      page,
+      totalPages,
+      totalCount,
+      data: users,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      message: "Error fetching Users",
+      error: err.message || err,
+    });
+  }
+});
+
 masterRoutes.post("/salutations", async (req, res) => {
   const page = parseInt(req.body.page) || 1;
   const limit = parseInt(req.body.limit) || 10;

@@ -4,6 +4,7 @@ import {
   FaHandshake,
   FaPeopleArrows,
   FaTransgenderAlt,
+  FaUsers,
   FaUsersCog,
 } from "react-icons/fa";
 import { IoMaleFemale } from "react-icons/io5";
@@ -28,6 +29,12 @@ const MASTERS_ITEMS = [
     label: "State",
     collection: "states",
     icon: <HiMiniBuildingLibrary size={25} />,
+    category: null,
+  },
+  {
+    label: "Application Users",
+    collection: "users",
+    icon: <FaUsers size={25} />,
     category: null,
   },
   {

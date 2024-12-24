@@ -1,23 +1,26 @@
 import { createTheme } from "@mui/material";
 
 // Define your custom theme configuration
-const p_main = "#0d8672";
-
-const useCustomTheme = () => {
+  // nurse = #86320d
+// doctor = #860d74
+// admin = #86690d
+// staff = #0d8672
+const useCustomTheme = (curmode = "light", dColor = "#0d8672") => {
   const theme = createTheme({
     palette: {
+      mode: curmode,
       primary: {
-        main: p_main,
+        main: dColor,
       },
       secondary: {
         main: "#ff4081",
       },
       background: {
-        default: "#f4f4f4",
+        default: curmode === "light" ? "#fff" : "#121212bd",
       },
       text: {
-        primary: "#333333",
-        secondary: "#757575",
+        primary: curmode === "dark" ? "#fff" : "#333333",
+        secondary: curmode === "dark" ? "#fff" : "#757575",
       },
     },
     typography: {
@@ -28,7 +31,7 @@ const useCustomTheme = () => {
       },
       body1: {
         fontSize: "1rem",
-        color: "#555555",
+        color: curmode === "dark" ? "#fff" : "#555555",
       },
     },
     spacing: 8,
@@ -61,15 +64,15 @@ const useCustomTheme = () => {
           root: {
             fontSize: "13px",
             "&.Mui-selected": {
-              background: p_main,
-              color: "white",
+              background: dColor,
+              color: curmode === "dark" ? "#fff" : "white",
             },
             "&.Mui-selected:hover": {
-              background: p_main,
+              background: dColor,
               color: "white",
             },
             "&:hover": {
-              background: p_main,
+              background: dColor,
               color: "white",
             },
           },

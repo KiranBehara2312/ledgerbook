@@ -27,7 +27,7 @@ import IconWrapper from "../custom/IconWrapper";
 import HospitalDetailsLogo from "./HospitalDetailsLogo";
 import { useDispatch, useSelector } from "react-redux";
 import { emptyUserDetails } from "../../redux/slices/userDetailsSlice";
-import { FaUserAlt } from "react-icons/fa";
+import { FaUserAlt, FaUserCog, FaUserNurse } from "react-icons/fa";
 import MyHeading from "../custom/MyHeading";
 import { FaUserDoctor } from "react-icons/fa6";
 
@@ -52,65 +52,72 @@ const MyHeader = () => {
     setSelectedMenuItem(currentURL);
   }, []);
 
-  const DrawerList = (
-    <Box
-      sx={{ width: 250, display: "flex", flexDirection: "column" }}
-      role="presentation"
-      onClick={() => setOpen(false)}
-    >
-      <Box sx={{ m: 1 }}>
-        <HospitalDetailsLogo />
-      </Box>
-      <Divider />
-
-      <List sx={{ height: "calc(98.8vh - 125px)", overflowY: "auto" }}>
-        {MENU_ITEMS.map(({ label, icon, url }, index) => (
-          <ListItem
-            key={label}
-            disablePadding
-            onClick={() => routeChangeHandler(url)}
-          >
-            <ListItemButton
-              sx={{
-                background:
-                  selectedMenuItem === url
-                    ? alpha(theme.palette.primary.main, 0.2)
-                    : "",
-              }}
-            >
-              <ListItemIcon>
-                <IconWrapper
-                  icon={icon}
-                  color={
-                    selectedMenuItem === url ? theme.palette.primary.main : null
-                  }
-                />
-              </ListItemIcon>
-              <ListItemText primary={label} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <ListItem
-        disablePadding
-        onClick={() =>
-          openDialog("Are you sure you want to logout?", logoutHanlder)
-        }
+  const DrawerList = () => {
+    const FILTERED_ITEMS_BY_ROLE = MENU_ITEMS.filter((item) =>
+      item.access.includes(loggedInUser?.role)
+    );
+    return (
+      <Box
+        sx={{ width: 250, display: "flex", flexDirection: "column" }}
+        role="presentation"
+        onClick={() => setOpen(false)}
       >
-        <ListItemButton>
-          <ListItemIcon>
-            <IconWrapper
-              icon={
-                <IoLogOutSharp size={20} color={theme.palette.primary.main} />
-              }
-            />
-          </ListItemIcon>
-          <ListItemText primary={"Logout"} />
-        </ListItemButton>
-      </ListItem>
-    </Box>
-  );
+        <Box sx={{ m: 1 }}>
+          <HospitalDetailsLogo />
+        </Box>
+        <Divider />
+
+        <List sx={{ height: "calc(98.8vh - 125px)", overflowY: "auto" }}>
+          {FILTERED_ITEMS_BY_ROLE.map(({ label, icon, url }, index) => (
+            <ListItem
+              key={label}
+              disablePadding
+              onClick={() => routeChangeHandler(url)}
+            >
+              <ListItemButton
+                sx={{
+                  background:
+                    selectedMenuItem === url
+                      ? alpha(theme.palette.primary.main, 0.2)
+                      : "",
+                }}
+              >
+                <ListItemIcon>
+                  <IconWrapper
+                    icon={icon}
+                    color={
+                      selectedMenuItem === url
+                        ? theme.palette.primary.main
+                        : null
+                    }
+                  />
+                </ListItemIcon>
+                <ListItemText primary={label} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <ListItem
+          disablePadding
+          onClick={() =>
+            openDialog("Are you sure you want to logout?", logoutHanlder)
+          }
+        >
+          <ListItemButton>
+            <ListItemIcon>
+              <IconWrapper
+                icon={
+                  <IoLogOutSharp size={20} color={theme.palette.primary.main} />
+                }
+              />
+            </ListItemIcon>
+            <ListItemText primary={"Logout"} />
+          </ListItemButton>
+        </ListItem>
+      </Box>
+    );
+  };
 
   const routeChangeHandler = (url) => {
     navigate(url);
@@ -119,6 +126,16 @@ const MyHeader = () => {
 
   const accountClickHandler = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const getIconByRole = (role = "STAFF", size = 75) => {
+    const ICON_BY_ROLE = {
+      ADMIN: <FaUserCog size={size} />,
+      DOCTOR: <FaUserDoctor size={size} />,
+      STAFF: <FaUserAlt size={size} />,
+      NURSE: <FaUserNurse size={size} />,
+    };
+    return ICON_BY_ROLE[role];
   };
 
   return (
@@ -139,12 +156,13 @@ const MyHeader = () => {
           </Typography>
 
           <IconButton color="inherit" onClick={accountClickHandler}>
-            <MdAccountCircle />
+            {/* <MdAccountCircle /> */}
+            {getIconByRole(loggedInUser?.role, 25)}
           </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer open={open} onClose={() => setOpen(false)}>
-        {DrawerList}
+        <DrawerList />
       </Drawer>
       {DialogComponent}
 
@@ -154,7 +172,7 @@ const MyHeader = () => {
         onClose={() => setAnchorEl(null)}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "left",
+          horizontal: "left", 
         }}
         transformOrigin={{
           vertical: "top",
@@ -172,13 +190,7 @@ const MyHeader = () => {
             alignCenter
             text={
               <IconWrapper
-                icon={
-                  loggedInUser?.role === "STAFF" ? (
-                    <FaUserAlt size={75} />
-                  ) : (
-                    <FaUserDoctor size={75} />
-                  )
-                }
+                icon={getIconByRole(loggedInUser?.role)}
                 color={theme.palette.primary.main}
               />
             }

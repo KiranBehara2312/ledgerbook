@@ -3,22 +3,7 @@ const User = require("../../models/User");
 const authRoutes = express.Router();
 const jwt = require("jsonwebtoken");
 
-authRoutes.get("/users", async (req, res) => {
-  try {
-    const total = (await User.countDocuments()) ?? 0;
-    const allUsers = await User.findOne({});
-    res.status(200).json({
-      message: "Users fetched",
-      data: allUsers ?? [],
-      total,
-    });
-  } catch (err) {
-    res.status(400).json({
-      message: "Error adding fetching users",
-      error: err.message || err,
-    });
-  }
-});
+
 
 authRoutes.post("/login", async (req, res) => {
   const { userName, password } = req.body;
@@ -46,9 +31,10 @@ authRoutes.post("/login", async (req, res) => {
         role: user.role,
         firstName: user.firstName,
         lastName: user.lastName,
+        colorTheme: user.colorTheme,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "20m" }
+      { expiresIn: "30m" }
     );
 
     res.json({

@@ -6,24 +6,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 import useCustomTheme from "./hooks/useCustomTheme";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [colorScheme, setColorScheme] = useState("dark");
-   const customTheme = useCustomTheme();
-  const theme = createTheme({
-    palette: {
-      mode: colorScheme, // 'light' or 'dark'
-      primary: {
-        main: colorScheme === "light" ? "#1976d2" : "#90caf9",
-      },
-      background: {
-        default: colorScheme === "light" ? "#fff" : "#121212bd",
-      },
-    },
-    typography: {
-      fontFamily: "Arial, sans-serif",
-    },
-  });
+  const [colorScheme, setColorScheme] = useState("light");
+  const loggedInUser = useSelector((state) => state.userDetails.user);
+  const customTheme = useCustomTheme(colorScheme, loggedInUser?.colorTheme);
   return (
     <>
       <ThemeProvider theme={customTheme}>

@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { camelToTitle, convertMongoDBDate } from "../../helpers";
 import { alpha } from "@mui/material/styles";
+import MyHeading from "./MyHeading";
 
 export default function ({
   columns,
@@ -104,7 +105,16 @@ export default function ({
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        sx={{
+                          maxWidth: column.minWidth,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
                         {column.type === "date"
                           ? convertMongoDBDate(value)
                           : convertDisplayValueBasedOnType(value)}
@@ -166,23 +176,20 @@ export default function ({
                 sx={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-between",
+                  justifyContent: "flex-start",
                   alignItems: "center",
-                  minWidth: "80px",
+                  minWidth: "120px",
+                  width: "200px",
+                  maxWidth: "370px",
                   m: 1,
-                  cursor: x.disabled ? 'no-drop' : 'pointer',
+                  cursor: x.disabled ? "no-drop" : "pointer",
                   opacity: x.disabled ? 0.2 : 1,
                   pointerEvents: x.disabled ? "none" : "all",
                 }}
                 onClick={() => actionClickHandler(x.name)}
               >
-                <span style={{ flexBasis: "25%" }}>{x.icon}</span>
-                <Typography
-                  variant="body2"
-                  style={{ flexBasis: "75%", marginLeft: "8px" }}
-                >
-                  {x.name}
-                </Typography>
+                <span style={{ flexBasis: "15%" }}>{x.icon}</span>
+                <MyHeading variant="caption" text={x.name} />
               </Box>
             );
           })}
