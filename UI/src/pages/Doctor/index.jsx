@@ -11,16 +11,19 @@ import { postData } from "../../helpers/http";
 const ACTIONS = [
   {
     name: "Edit",
+    privilege: "EDIT",
     icon: <IconWrapper icon={<FaEdit size={15} />} />,
     disabled: false,
   },
   {
     name: "View",
+    privilege: "VIEW",
     icon: <IconWrapper icon={<FaEye size={15} />} />,
     disabled: false,
   },
   {
     name: "Delete",
+    privilege: "DELETE",
     icon: <IconWrapper icon={<FaTrash size={15} />} />,
     disabled: true,
   },
@@ -82,7 +85,7 @@ const Doctor = () => {
   };
   const addDoctorHandler = () => {
     setSelectedDoc({
-      action: "Add",
+      action: "ADD",
       data: null,
     });
     setShowAddDoc({
@@ -91,7 +94,7 @@ const Doctor = () => {
     });
   };
 
-  const actionsHandler = (action, row) => {
+  const actionsHandler = (action, modalWidth = null, row) => {
     setSelectedDoc({
       action,
       data: row,

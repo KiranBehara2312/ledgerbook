@@ -39,8 +39,8 @@ const Primary = ({ control, errors, readOnly = "" }) => {
           defaultValue={"Out Patient" ?? ""}
           isRequired={true}
           errors={errors}
-          isDisabled={readOnly === "View"}
-          readOnly={readOnly === "View"}
+          isDisabled={readOnly === "VIEW"}
+          readOnly={readOnly === "VIEW"}
         />
         <F_Select
           control={control}
@@ -51,8 +51,8 @@ const Primary = ({ control, errors, readOnly = "" }) => {
           defaultValue={"New" ?? ""}
           isRequired={true}
           errors={errors}
-          isDisabled={readOnly === "View"}
-          readOnly={readOnly === "View"}
+          isDisabled={readOnly === "VIEW"}
+          readOnly={readOnly === "VIEW"}
         />
         <F_Select
           control={control}
@@ -63,8 +63,8 @@ const Primary = ({ control, errors, readOnly = "" }) => {
           defaultValue={"New Case" ?? ""}
           isRequired={true}
           errors={errors}
-          isDisabled={readOnly === "View"}
-          readOnly={readOnly === "View"}
+          isDisabled={readOnly === "VIEW"}
+          readOnly={readOnly === "VIEW"}
         />
         <F_Input
           name="UHID"
@@ -72,8 +72,8 @@ const Primary = ({ control, errors, readOnly = "" }) => {
           errors={errors}
           rules={{}}
           label="UHID"
-          readOnly={readOnly === "Edit" || readOnly === "View"}
-          isDisabled={readOnly === "Edit" || readOnly === "View"}
+          readOnly={readOnly === "EDIT" || readOnly === "VIEW"}
+          isDisabled={readOnly === "EDIT" || readOnly === "VIEW"}
           endAdornment={
             <InputAdornment
               position="start"
@@ -92,8 +92,8 @@ const Primary = ({ control, errors, readOnly = "" }) => {
           rules={{}}
           label="Patient No"
           defaultHelperText="Type PatientNo and hit enter to load data"
-          readOnly={readOnly === "Edit" || readOnly === "View"}
-          isDisabled={readOnly === "Edit" || readOnly === "View"}
+          readOnly={readOnly === "EDIT" || readOnly === "VIEW"}
+          isDisabled={readOnly === "EDIT" || readOnly === "VIEW"}
           endAdornment={
             <InputAdornment
               position="start"

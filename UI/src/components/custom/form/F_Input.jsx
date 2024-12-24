@@ -13,6 +13,8 @@ const F_Input = ({
   rules = {},
   endAdornment = null,
   readOnly = false,
+  multiline = false,
+  maxRows = 1,
   ...props
 }) => {
   return (
@@ -44,12 +46,19 @@ const F_Input = ({
             size="small"
             error={!!errors?.[name]}
             autoComplete="off"
+            multiline={multiline}
+            rows={maxRows}
+            sx={{
+              "& .MuiInputBase-root": {
+                height: multiline ? "80px !important" : "auto",
+                padding: multiline ? "10px !important" : "auto",
+              },
+            }}
             helperText={
               errors?.[name]
                 ? errors?.[name].message
                 : props.defaultHelperText ?? props.defaultHelperText ?? ""
             }
-            inp
             disabled={isDisabled}
             slotProps={{
               input: {

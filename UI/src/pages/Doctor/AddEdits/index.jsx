@@ -28,14 +28,14 @@ import F_Select from "../../../components/custom/form/F_Select";
 import F_Input from "../../../components/custom/form/F_Input";
 import { IoCloseCircle } from "react-icons/io5";
 import { postData } from "../../../helpers/http";
-import { successAlert } from "../../../helpers";
+import { camelToTitle, successAlert } from "../../../helpers";
 
 const DoctorInformation = ({
   setShowAddDoc,
-  docObj = { action: "New", data: [] },
+  docObj = { action: "ADD", data: [] },
 }) => {
   const theme = useTheme();
-  const disabledState = docObj?.action === "View";
+  const disabledState = docObj?.action === "VIEW";
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const CARD_WIDTH = isSmallScreen ? "100%" : "250px";
   const {
@@ -44,6 +44,8 @@ const DoctorInformation = ({
     reset,
     formState: { errors },
   } = useForm();
+
+  console.log(docObj);
 
   const onSubmit = async (formData) => {
     const response = await postData("/doctor/add", formData);
@@ -88,8 +90,8 @@ const DoctorInformation = ({
         }}
       >
         <span>
-          {docObj?.action ?? "Add"} Doctor{" "}
-          {docObj?.action !== "Add" ? ` - (${docObj?.data?.userName})` : ""}
+          {camelToTitle(docObj?.action.toLocaleLowerCase()) ?? "ADD"} Doctor
+          {docObj?.action !== "ADD" ? ` - (${docObj?.data?.userName})` : ""}
         </span>
         <IoCloseCircle
           size={20}
@@ -105,7 +107,7 @@ const DoctorInformation = ({
       <DialogContent>
         <form
           onSubmit={handleSubmit(
-            docObj?.action === "Add" ? onSubmit : onUpdate
+            docObj?.action === "ADD" ? onSubmit : onUpdate
           )}
           style={{ width: "100%" }}
         >

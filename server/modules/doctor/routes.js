@@ -31,6 +31,30 @@ doctorRoutes.post("/doctors", async (req, res) => {
   }
 });
 
+doctorRoutes.get("/doctorById/:doctorId", async (req, res) => {
+  try {
+    const { doctorId } = req.params;
+    const doctors = await Doctor.find(
+      { userName: doctorId, isActive: true },
+      { _id: false, __v: false, isActive: false }
+    );
+    if (doctorRoutes?.length === 0) {
+      return res.status(404).json({
+        message: "Doctor not found..!",
+      });
+    }
+    res.json({
+      data: doctors,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      message: "Error fetching doctors",
+      error: err.message || err,
+    });
+  }
+});
+
 doctorRoutes.post("/add", async (req, res) => {
   try {
     const { firstName, lastName } = req.body;

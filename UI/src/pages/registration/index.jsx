@@ -14,6 +14,7 @@ import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
 import IconWrapper from "../../components/custom/IconWrapper";
 import { FaUserPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const DEFAULT_VAL = {
   UHID: "",
@@ -49,9 +50,10 @@ const Registration = ({
   headerText = "Registration",
   selectedPatient = null,
   action = null,
-  setShowPatientRegn = () => {},
+  setShowDialog = () => {},
 }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const loggedInUser = useSelector((state) => state?.userDetails?.user);
   const {
     register,
@@ -123,9 +125,10 @@ const Registration = ({
       ...formData,
       payments: getPaymentDetails(formData),
     };
-    // /registration/create
     const response = await postData("/registration/create", payload);
     successAlert(response.message, { autoClose: 1500 });
+    resetForm();
+    navigate("/pages/patients");
   };
 
   const onUpdate = async (formData) => {
@@ -134,7 +137,7 @@ const Registration = ({
       formData
     );
     successAlert(response.message, { autoClose: 1500 });
-    setShowPatientRegn({
+    setShowDialog({
       show: false,
       rerender: true,
     });
@@ -149,7 +152,7 @@ const Registration = ({
         }}
       >
         <form
-          onSubmit={handleSubmit(action === "Edit" ? onUpdate : onSubmit)}
+          onSubmit={handleSubmit(action === "EDIT" ? onUpdate : onSubmit)}
           style={{ width: "100%" }}
         >
           <HeaderWithSearch
@@ -164,7 +167,7 @@ const Registration = ({
             }
             html={
               <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end" }}>
-                {action !== "View" && (
+                {action !== "VIEW" && (
                   <>
                     <Button size="small" type="submit" variant="outlined">
                       Submit
@@ -195,19 +198,19 @@ const Registration = ({
               control={control}
               errors={errors}
               formValues={formValues}
-              readOnly={action === "View"}
+              readOnly={action === "VIEW"}
             />
             <Communication
               control={control}
               errors={errors}
               formValues={formValues}
-              readOnly={action === "View"}
+              readOnly={action === "VIEW"}
             />
             <Doctor
               control={control}
               errors={errors}
               formValues={formValues}
-              readOnly={action === "View" || action === "Edit"}
+              readOnly={action === "VIEW" || action === "EDIT"}
               setValue={setValue}
             />
             {selectedPatient === null && (

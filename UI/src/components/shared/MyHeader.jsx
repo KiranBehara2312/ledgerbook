@@ -48,8 +48,13 @@ const MyHeader = () => {
   };
 
   useEffect(() => {
-    const currentURL = window.location.pathname.split("/pages/")[1];
-    setSelectedMenuItem(currentURL);
+    let inte = setInterval(() => {
+      const currentURL = window.location.pathname.split("/pages/")[1];
+      setSelectedMenuItem(currentURL);
+    }, 1000);
+    return () => {
+      clearInterval(inte);
+    };
   }, []);
 
   const DrawerList = () => {
@@ -172,7 +177,7 @@ const MyHeader = () => {
         onClose={() => setAnchorEl(null)}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "left", 
+          horizontal: "left",
         }}
         transformOrigin={{
           vertical: "top",

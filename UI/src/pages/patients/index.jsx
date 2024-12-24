@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
 import IconWrapper from "../../components/custom/IconWrapper";
-import { Button, Dialog, DialogTitle, useTheme } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  useTheme,
+} from "@mui/material";
 import {
   FaAddressCard,
   FaCalendar,
@@ -21,49 +27,73 @@ import { useNavigate } from "react-router-dom";
 import Registration from "../registration";
 import { useSelector } from "react-redux";
 import { ADMIN, DOCTOR, NURSE, STAFF } from "../../constants/roles";
+import { camelToTitle } from "../../helpers";
+import PatientVitals from "./AddEdits/PatientVitals";
 
 const ACTIONS = [
   {
     name: "Edit",
-    icon: <IconWrapper defaultColor icon={<FaEdit size={15} />} />,
+    privilege: "EDIT",
+    icon: <IconWrapper defaultColor icon={<FaEdit size={18} />} />,
     disabled: false,
     access: [ADMIN, STAFF],
+    modalWidth: "xl",
   },
   {
     name: "View",
-    icon: <IconWrapper defaultColor icon={<FaEye size={15} />} />,
+    privilege: "VIEW",
+    icon: <IconWrapper defaultColor icon={<FaEye size={18} />} />,
     disabled: false,
     access: [ADMIN, STAFF, NURSE, DOCTOR],
+    modalWidth: "xl",
   },
   {
-    name: "Collect Patient Vitals",
-    icon: <IconWrapper defaultColor icon={<MdNoteAlt size={15} />} />,
+    name: "Patient Vitals",
+    privilege: "PATIENT_VITALS",
+    icon: <IconWrapper defaultColor icon={<MdNoteAlt size={18} />} />,
     disabled: false,
-    access: [ADMIN, NURSE],
+    access: [ADMIN, NURSE, DOCTOR],
+    modalWidth: "md",
   },
   {
     name: "Patient Registration Card",
-    icon: <IconWrapper defaultColor icon={<FaAddressCard size={15} />} />,
+    privilege: "PATIENT_REGISTRATION_CARD",
+    icon: <IconWrapper defaultColor icon={<FaAddressCard size={18} />} />,
     disabled: false,
     access: [ADMIN, STAFF],
+    modalWidth: "",
   },
   {
     name: "Book an Appointment",
-    icon: <IconWrapper defaultColor icon={<FaCalendar size={15} />} />,
+    privilege: "BOOK_APPOINTMENT",
+    icon: <IconWrapper defaultColor icon={<FaCalendar size={18} />} />,
     disabled: false,
     access: [ADMIN, STAFF],
+    modalWidth: "md",
   },
   {
     name: "Visit History",
-    icon: <IconWrapper defaultColor icon={<FaHistory size={15} />} />,
+    privilege: "VISIT_HISTORY",
+    icon: <IconWrapper defaultColor icon={<FaHistory size={18} />} />,
     disabled: false,
     access: [ADMIN, STAFF, NURSE, DOCTOR],
+    modalWidth: "md",
   },
   {
     name: "Prescription Notes",
-    icon: <IconWrapper defaultColor icon={<GrNotes size={15} />} />,
+    privilege: "PRESCRIPTION_NOTES",
+    icon: <IconWrapper defaultColor icon={<GrNotes size={18} />} />,
     disabled: false,
-    access: [ADMIN, STAFF, NURSE, DOCTOR],
+    access: [ADMIN, NURSE, DOCTOR],
+    modalWidth: "md",
+  },
+  {
+    name: "Prescription Print",
+    privilege: "PRESCRIPTION_PRINT",
+    icon: <IconWrapper defaultColor icon={<GrNotes size={18} />} />,
+    disabled: false,
+    access: [ADMIN, STAFF],
+    modalWidth: "md",
   },
 ];
 
@@ -71,26 +101,31 @@ const Patients = () => {
   const theme = useTheme();
   const loggedInUser = useSelector((state) => state.userDetails.user);
   const navigate = useNavigate();
-  const [showPatientRegn, setShowPatientRegn] = useState({
+
+  const [showDialog, setShowDialog] = useState({
     show: false,
     rerender: false,
+    modalWidth: "md",
   });
+
   const [selectedPatient, setSelectedPatient] = useState({
-    action: "Edit",
+    action: "",
     data: null,
   });
+
   const [tableObj, setTableObj] = useState({
     columns: [],
     data: [],
     totalCount: 0,
     defaultPage: 0,
   });
+
   useEffect(() => {
     fetchPatients({
       page: 1,
       limit: 10,
     });
-  }, [showPatientRegn.rerender]);
+  }, [showDialog.rerender]);
 
   const fetchPatients = async (paginationObj) => {
     const response = await postData(`/patients/all`, paginationObj);
@@ -119,6 +154,11 @@ const Patients = () => {
     }
   };
 
+  const closeDialog = () => {
+    setShowDialog({ rerender: false, show: false });
+    setSelectedPatient({ action: null, data: null });
+  };
+
   const Buttons = () => {
     return (
       <>
@@ -136,14 +176,15 @@ const Patients = () => {
     navigate("/pages/registration");
   };
 
-  const actionsHandler = (action, row) => {
+  const actionsHandler = (action, modalWidth, row) => {
     setSelectedPatient({
       action,
       data: row,
     });
-    setShowPatientRegn({
+    setShowDialog({
       show: true,
       rerender: false,
+      modalWidth: modalWidth,
     });
   };
   const CloseBtnHtml = () => {
@@ -153,9 +194,14 @@ const Patients = () => {
         type="button"
         variant="outlined"
         color="error"
-        onClick={() => setShowPatientRegn({ rerender: false, show: false })}
+        sx={{
+          maxWidth: "30px !important",
+          minWidth: "30px !important",
+          width: "30px !important",
+        }}
+        onClick={() => closeDialog()}
       >
-        close
+        X
       </Button>
     );
   };
@@ -187,15 +233,32 @@ const Patients = () => {
         />
       )}
 
-      {showPatientRegn.show && (
-        <Dialog maxWidth="xl" fullWidth open={true}>
-          <Registration
-            dialogCloseBtn={<CloseBtnHtml />}
-            headerText={`${selectedPatient?.action} Registration`}
-            selectedPatient={selectedPatient?.data}
-            action={selectedPatient?.action}
-            setShowPatientRegn={setShowPatientRegn}
-          />
+      {showDialog.show && (
+        <Dialog maxWidth={showDialog.modalWidth} fullWidth open={true}>
+          <DialogContent sx={{ m: 1 }}>
+            {(selectedPatient.action === "VIEW" ||
+              selectedPatient.action === "EDIT") && (
+              <Registration
+                dialogCloseBtn={<CloseBtnHtml />}
+                headerText={`${camelToTitle(
+                  selectedPatient?.action.toLocaleLowerCase()
+                )} Registration`}
+                selectedPatient={selectedPatient?.data}
+                action={selectedPatient?.action}
+                setShowDialog={setShowDialog}
+              />
+            )}
+
+            {selectedPatient.action === "PATIENT_VITALS" && (
+              <PatientVitals
+                dialogCloseBtn={<CloseBtnHtml />}
+                headerText={`Patient Vitals`}
+                selectedPatient={selectedPatient?.data}
+                action={selectedPatient?.action}
+                setShowDialog={setShowDialog}
+              />
+            )}
+          </DialogContent>
         </Dialog>
       )}
     </>

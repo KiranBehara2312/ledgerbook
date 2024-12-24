@@ -50,8 +50,8 @@ export default function ({
     setSelectedRow(null);
   };
 
-  const actionClickHandler = (action) => {
-    actionWithRecord(action, selectedRow);
+  const actionClickHandler = (action, modalWidth) => {
+    actionWithRecord(action, modalWidth, selectedRow);
     closeActions();
   };
 
@@ -186,7 +186,7 @@ export default function ({
                   opacity: x.disabled ? 0.2 : 1,
                   pointerEvents: x.disabled ? "none" : "all",
                 }}
-                onClick={() => actionClickHandler(x.name)}
+                onClick={() => actionClickHandler(x.privilege, x.modalWidth)}
               >
                 <span style={{ flexBasis: "15%" }}>{x.icon}</span>
                 <MyHeading variant="caption" text={x.name} />

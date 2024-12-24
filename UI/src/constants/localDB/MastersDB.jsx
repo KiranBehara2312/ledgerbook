@@ -242,12 +242,20 @@ const VISIT_TYPES = [
     value: "New Case",
   },
   {
+    label: "General OP",
+    value: "General OP",
+  },
+  {
+    label: "Consultation",
+    value: "Consultation",
+  },
+  {
     label: "Follow-up",
     value: "Follow-up",
   },
   {
-    label: "Lab",
-    value: "Lab",
+    label: "Report Check",
+    value: "Report Check",
   },
 ];
 

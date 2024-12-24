@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material";
 
 // Define your custom theme configuration
-  // nurse = #86320d
+// nurse = #86320d
 // doctor = #860d74
 // admin = #86690d
 // staff = #0d8672
@@ -44,6 +44,28 @@ const useCustomTheme = (curmode = "light", dColor = "#0d8672") => {
           root: {
             fontSize: "11px",
             marginTop: "-1px",
+          },
+        },
+      },
+      MuiAccordionSummary: {
+        styleOverrides: {
+          root: {
+            fontSize: "0.875rem",
+            backgroundColor: dColor,
+            padding: "8px",
+            color: "whitesmoke",
+            maxHeight: "40px !important",
+            minHeight: "40px !important",
+            height: "40px !important",
+          },
+        },
+      },
+      MuiAccordionDetails: {
+        styleOverrides: {
+          root: {
+            borderRight: `0.5px dashed ${dColor}`,
+            borderBottom: `0.5px dashed ${dColor}`,
+            borderLeft: `0.5px dashed ${dColor}`,
           },
         },
       },

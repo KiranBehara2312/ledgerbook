@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { calculateAge } = require("../helpers");
 
 const PatientRegnSchema = new mongoose.Schema(
   {
@@ -54,6 +55,9 @@ const PatientRegnSchema = new mongoose.Schema(
     dateOfBirth: {
       type: String,
       required: true,
+    },
+    ageString: {
+      type: String,
     },
     gender: {
       type: String,
@@ -126,6 +130,7 @@ const PatientRegnSchema = new mongoose.Schema(
 );
 PatientRegnSchema.pre("save", function (next) {
   this.fullName = `${this.salutation} ${this.firstName} ${this.middleName} ${this.lastName}`;
+  this.ageString = calculateAge(this.dateOfBirth)?.string;
   next();
 });
 const PatientRegn = mongoose.model("PatientRegn", PatientRegnSchema);
