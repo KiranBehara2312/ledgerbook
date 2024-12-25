@@ -57,12 +57,13 @@ apiClient.interceptors.response.use(
 );
 
 // Common function to make API calls
-const httpRequest = async (method, url, data = null) => {
+const httpRequest = async (method, url, data = null, headers = {}) => {
   try {
     const response = await apiClient({
       method,
       url,
       data,
+      headers: headers,
     });
     return response;
   } catch (error) {
@@ -70,7 +71,8 @@ const httpRequest = async (method, url, data = null) => {
   }
 };
 
-const getData = (endpoint) => httpRequest("GET", endpoint);
+const getData = (endpoint, headers = {}) =>
+  httpRequest("GET", endpoint, null, headers);
 
 const postData = (endpoint, payload) => httpRequest("POST", endpoint, payload);
 

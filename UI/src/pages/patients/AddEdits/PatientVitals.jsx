@@ -119,6 +119,7 @@ const PatientVitals = ({
     <>
       <HeaderWithSearch
         hideSearchBar
+        notScrollable
         headerIcon={<IconWrapper defaultColor icon={<MdNoteAlt size={20} />} />}
         headerText={headerText}
         html={<>{dialogCloseBtn}</>}
@@ -126,7 +127,7 @@ const PatientVitals = ({
       <Accordion
         expanded={expanded}
         onChange={() => setExpanded(!expanded)}
-        sx={{ mb: 1 }}
+        sx={{ mb: 1, pt: "40px" }}
       >
         <AccordionSummary
           expandIcon={<FaArrowCircleDown style={{ color: "white" }} />}
@@ -312,7 +313,11 @@ const PatientVitals = ({
               />
             }
           />
-          {tableObj?.columns?.length === 0 && <NoDataFound />}
+          {tableObj?.columns?.length === 0 && (
+            <Box sx={{ height: "70%" }}>
+              <NoDataFound />
+            </Box>
+          )}
           {tableObj.columns?.length > 0 && (
             <MyTable
               {...tableObj}

@@ -100,6 +100,14 @@ const useCustomTheme = (curmode = "light", dColor = "#0d8672") => {
           },
         },
       },
+      MuiDialog: {
+        styleOverrides: {
+          paper: {
+            height: "auto",
+            maxHeight: "calc(100% - 44px)",
+          },
+        },
+      },
       MuiDialogContent: {
         styleOverrides: {
           root: {

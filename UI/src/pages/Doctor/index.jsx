@@ -2,37 +2,49 @@ import React, { useEffect, useState } from "react";
 import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
 import { FaUserDoctor } from "react-icons/fa6";
 import IconWrapper from "../../components/custom/IconWrapper";
-import { Button, useTheme } from "@mui/material";
-import { FaEdit, FaEye, FaPlus, FaTrash } from "react-icons/fa";
+import { Button, Dialog, DialogContent, useTheme } from "@mui/material";
+import { FaCalendarAlt, FaEdit, FaEye, FaPlus, FaTrash } from "react-icons/fa";
 import DoctorInformation from "./AddEdits";
 import MyTable from "../../components/custom/MyTable";
 import { postData } from "../../helpers/http";
+import { ADMIN, STAFF } from "../../constants/roles";
+import { useSelector } from "react-redux";
+import { camelToTitle } from "../../helpers";
+import WorkInProgress from "../../components/shared/WorkInProgress";
 
 const ACTIONS = [
   {
     name: "Edit",
     privilege: "EDIT",
-    icon: <IconWrapper icon={<FaEdit size={15} />} />,
+    icon: <IconWrapper defaultColor icon={<FaEdit size={18} />} />,
     disabled: false,
+    access: [ADMIN, STAFF],
+    modalWidth: "md",
   },
   {
     name: "View",
     privilege: "VIEW",
-    icon: <IconWrapper icon={<FaEye size={15} />} />,
+    icon: <IconWrapper defaultColor icon={<FaEye size={18} />} />,
     disabled: false,
+    access: [ADMIN, STAFF],
+    modalWidth: "md",
   },
   {
-    name: "Delete",
-    privilege: "DELETE",
-    icon: <IconWrapper icon={<FaTrash size={15} />} />,
-    disabled: true,
+    name: "Generate Slots",
+    privilege: "GENERATE_SLOTS",
+    icon: <IconWrapper defaultColor icon={<FaCalendarAlt size={18} />} />,
+    disabled: false,
+    access: [ADMIN, STAFF],
+    modalWidth: "md",
   },
 ];
 const Doctor = () => {
   const theme = useTheme();
-  const [showAddDoc, setShowAddDoc] = useState({
+  const loggedInUser = useSelector((state) => state.userDetails.user);
+  const [showDialog, setShowDialog] = useState({
     show: false,
     rerender: false,
+    modalWidth: "md",
   });
   const [selectedDoc, setSelectedDoc] = useState({
     action: "Add",
@@ -44,12 +56,14 @@ const Doctor = () => {
     totalCount: 0,
     defaultPage: 0,
   });
+
   useEffect(() => {
     fetchDoctors({
       page: 1,
       limit: 10,
     });
-  }, [showAddDoc.rerender]);
+  }, [showDialog.rerender]);
+
   const Buttons = () => {
     return (
       <Button variant="outlined" size="small" onClick={addDoctorHandler}>
@@ -88,21 +102,78 @@ const Doctor = () => {
       action: "ADD",
       data: null,
     });
-    setShowAddDoc({
+    setShowDialog({
       show: true,
       rerender: false,
+      modalWidth: "md",
     });
   };
 
-  const actionsHandler = (action, modalWidth = null, row) => {
+  const actionsHandler = (action, modalWidth, row) => {
     setSelectedDoc({
       action,
       data: row,
     });
-    setShowAddDoc({
+    setShowDialog({
       show: true,
       rerender: false,
+      modalWidth: modalWidth,
     });
+  };
+
+  const closeDialog = () => {
+    setShowDialog({ rerender: false, show: false });
+    setSelectedDoc({ action: null, data: null });
+  };
+
+  const CloseBtnHtml = () => {
+    return (
+      <Button
+        size="small"
+        type="button"
+        variant="outlined"
+        color="error"
+        sx={{
+          maxWidth: "30px !important",
+          minWidth: "30px !important",
+          width: "30px !important",
+        }}
+        onClick={() => closeDialog()}
+      >
+        X
+      </Button>
+    );
+  };
+
+  const getDialogContent = (action) => {
+    switch (action) {
+      case "VIEW":
+      case "EDIT":
+      case "ADD":
+        return (
+          <DoctorInformation
+            dialogCloseBtn={<CloseBtnHtml />}
+            headerText={`${camelToTitle(
+              selectedDoc?.action.toLocaleLowerCase()
+            )} Doctor`}
+            docObj={selectedDoc}
+            selectedRow={selectedDoc?.data}
+            action={selectedDoc?.action}
+            setShowDialog={setShowDialog}
+          />
+        );
+      default:
+        return (
+          <>
+            <HeaderWithSearch
+              hideSearchBar
+              headerText={action}
+              html={<CloseBtnHtml />}
+            />
+            <WorkInProgress />
+          </>
+        );
+    }
   };
   return (
     <>
@@ -120,7 +191,7 @@ const Doctor = () => {
         <MyTable
           {...tableObj}
           helperNote={"Note: Right click on a record to view actions"}
-          actions={ACTIONS}
+          actions={ACTIONS.filter((x) => x.access.includes(loggedInUser?.role))}
           actionWithRecord={actionsHandler}
           changedPage={(newPage) => {
             fetchMastersData({
@@ -130,8 +201,16 @@ const Doctor = () => {
           }}
         />
       )}
-      {showAddDoc.show && (
+      {/* {showAddDoc.show && (
         <DoctorInformation setShowAddDoc={setShowAddDoc} docObj={selectedDoc} />
+      )} */}
+
+      {showDialog.show && (
+        <Dialog maxWidth={showDialog.modalWidth} fullWidth open={true}>
+          <DialogContent sx={{ m: 1 }}>
+            {getDialogContent(selectedDoc.action)}
+          </DialogContent>
+        </Dialog>
       )}
     </>
   );

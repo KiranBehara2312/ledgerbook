@@ -22,6 +22,7 @@ import { META } from "../../constants/projects";
 import { MENU_ITEMS } from "../../constants/Menu/MenuItems";
 import { useNavigate } from "react-router-dom";
 import { IoLogOutSharp } from "react-icons/io5";
+import { IoIosMail } from "react-icons/io";
 import useConfirmation from "../../hooks/useConfirmation";
 import IconWrapper from "../custom/IconWrapper";
 import HospitalDetailsLogo from "./HospitalDetailsLogo";
@@ -240,31 +241,50 @@ const MyHeader = () => {
           <Divider />
           <Box
             sx={{
+              flexDirection: "column",
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "flex-start",
               alignItems: "center",
               pt: 1,
               cursor: "pointer",
             }}
           >
             <Button
-              variant="text"
+              variant="outlined"
               fullWidth
               size="small"
               onClick={() =>
                 openDialog("Are you sure you want to logout?", logoutHanlder)
               }
+              sx={{ display: "flex", justifyContent: "flex-start" }}
             >
               <IconWrapper
                 icon={
                   <IoLogOutSharp
                     size={20}
-                    style={{ paddingRight: "10px" }}
+                    style={{ paddingRight: "10px", paddingTop: "5px" }}
                     color={theme.palette.primary.main}
                   />
                 }
               />
               Logout
+            </Button>
+            <Button
+              variant="outlined"
+              fullWidth
+              size="small"
+              sx={{ mt: 1, display: "flex", justifyContent: "flex-start" }}
+            >
+              <IconWrapper
+                icon={
+                  <IoIosMail
+                    size={20}
+                    style={{ paddingRight: "10px", paddingTop: "5px" }}
+                    color={theme.palette.primary.main}
+                  />
+                }
+              />
+              Issues / Feedback
             </Button>
           </Box>
         </Box>

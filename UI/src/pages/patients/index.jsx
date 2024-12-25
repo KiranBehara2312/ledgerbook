@@ -32,6 +32,7 @@ import { camelToTitle } from "../../helpers";
 import PatientVitals from "./AddEdits/PatientVitals";
 import NoDataFound from "../../components/shared/NoDataFound";
 import WorkInProgress from "../../components/shared/WorkInProgress";
+import PatientRegnCard from "./AddEdits/PatientRegnCard";
 
 const ACTIONS = [
   {
@@ -56,7 +57,7 @@ const ACTIONS = [
     icon: <IconWrapper defaultColor icon={<MdNoteAlt size={18} />} />,
     disabled: false,
     access: [ADMIN, NURSE, DOCTOR],
-    modalWidth: "xl",
+    modalWidth: "lg",
   },
   {
     name: "Patient Registration Card",
@@ -229,6 +230,16 @@ const Patients = () => {
           <PatientVitals
             dialogCloseBtn={<CloseBtnHtml />}
             headerText={`Patient Vitals`}
+            selectedPatient={selectedPatient?.data}
+            action={selectedPatient?.action}
+            setShowDialog={setShowDialog}
+          />
+        );
+      case "PATIENT_REGISTRATION_CARD":
+        return (
+          <PatientRegnCard
+            dialogCloseBtn={<CloseBtnHtml />}
+            headerText={`Patient Registration Card`}
             selectedPatient={selectedPatient?.data}
             action={selectedPatient?.action}
             setShowDialog={setShowDialog}
