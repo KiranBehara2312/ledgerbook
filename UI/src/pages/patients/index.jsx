@@ -11,6 +11,7 @@ import {
 import {
   FaAddressCard,
   FaCalendar,
+  FaCalendarAlt,
   FaEdit,
   FaEye,
   FaHistory,
@@ -29,6 +30,8 @@ import { useSelector } from "react-redux";
 import { ADMIN, DOCTOR, NURSE, STAFF } from "../../constants/roles";
 import { camelToTitle } from "../../helpers";
 import PatientVitals from "./AddEdits/PatientVitals";
+import NoDataFound from "../../components/shared/NoDataFound";
+import WorkInProgress from "../../components/shared/WorkInProgress";
 
 const ACTIONS = [
   {
@@ -61,12 +64,12 @@ const ACTIONS = [
     icon: <IconWrapper defaultColor icon={<FaAddressCard size={18} />} />,
     disabled: false,
     access: [ADMIN, STAFF],
-    modalWidth: "",
+    modalWidth: "sm",
   },
   {
     name: "Book an Appointment",
     privilege: "BOOK_APPOINTMENT",
-    icon: <IconWrapper defaultColor icon={<FaCalendar size={18} />} />,
+    icon: <IconWrapper defaultColor icon={<FaCalendarAlt size={18} />} />,
     disabled: false,
     access: [ADMIN, STAFF],
     modalWidth: "md",
@@ -90,7 +93,7 @@ const ACTIONS = [
   {
     name: "Prescription Print",
     privilege: "PRESCRIPTION_PRINT",
-    icon: <IconWrapper defaultColor icon={<GrNotes size={18} />} />,
+    icon: <IconWrapper defaultColor icon={<FaPrint size={18} />} />,
     disabled: false,
     access: [ADMIN, STAFF],
     modalWidth: "md",
@@ -205,6 +208,45 @@ const Patients = () => {
       </Button>
     );
   };
+
+  const getDialogContent = (action) => {
+    switch (action) {
+      case "VIEW":
+      case "EDIT":
+        return (
+          <Registration
+            dialogCloseBtn={<CloseBtnHtml />}
+            headerText={`${camelToTitle(
+              selectedPatient?.action.toLocaleLowerCase()
+            )} Registration`}
+            selectedPatient={selectedPatient?.data}
+            action={selectedPatient?.action}
+            setShowDialog={setShowDialog}
+          />
+        );
+      case "PATIENT_VITALS":
+        return (
+          <PatientVitals
+            dialogCloseBtn={<CloseBtnHtml />}
+            headerText={`Patient Vitals`}
+            selectedPatient={selectedPatient?.data}
+            action={selectedPatient?.action}
+            setShowDialog={setShowDialog}
+          />
+        );
+      default:
+        return (
+          <>
+            <HeaderWithSearch
+              hideSearchBar
+              headerText={action}
+              html={<CloseBtnHtml />}
+            />
+            <WorkInProgress />
+          </>
+        );
+    }
+  };
   return (
     <>
       <HeaderWithSearch
@@ -236,28 +278,7 @@ const Patients = () => {
       {showDialog.show && (
         <Dialog maxWidth={showDialog.modalWidth} fullWidth open={true}>
           <DialogContent sx={{ m: 1 }}>
-            {(selectedPatient.action === "VIEW" ||
-              selectedPatient.action === "EDIT") && (
-              <Registration
-                dialogCloseBtn={<CloseBtnHtml />}
-                headerText={`${camelToTitle(
-                  selectedPatient?.action.toLocaleLowerCase()
-                )} Registration`}
-                selectedPatient={selectedPatient?.data}
-                action={selectedPatient?.action}
-                setShowDialog={setShowDialog}
-              />
-            )}
-
-            {selectedPatient.action === "PATIENT_VITALS" && (
-              <PatientVitals
-                dialogCloseBtn={<CloseBtnHtml />}
-                headerText={`Patient Vitals`}
-                selectedPatient={selectedPatient?.data}
-                action={selectedPatient?.action}
-                setShowDialog={setShowDialog}
-              />
-            )}
+            {getDialogContent(selectedPatient.action)}
           </DialogContent>
         </Dialog>
       )}

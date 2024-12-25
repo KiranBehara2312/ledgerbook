@@ -22,6 +22,7 @@ import F_Input from "../../../components/custom/form/F_Input";
 import { REGEX_PATTERNS } from "../../../constants/Regex";
 import { formatDate, successAlert } from "../../../helpers";
 import MyTable from "../../../components/custom/MyTable";
+import NoDataFound from "../../../components/shared/NoDataFound";
 
 const DEFAULT_VAL = {};
 
@@ -311,6 +312,7 @@ const PatientVitals = ({
               />
             }
           />
+          {tableObj?.columns?.length === 0 && <NoDataFound />}
           {tableObj.columns?.length > 0 && (
             <MyTable
               {...tableObj}
