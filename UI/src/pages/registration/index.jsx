@@ -187,7 +187,15 @@ const Registration = ({
             }
           />
 
-          <Box sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              height: "calc(100vh - 130px)",
+              overflow: "auto",
+            }}
+          >
             <Primary
               control={control}
               errors={errors}

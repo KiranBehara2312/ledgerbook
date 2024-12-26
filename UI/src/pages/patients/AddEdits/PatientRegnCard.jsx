@@ -52,7 +52,7 @@ const PatientRegnCard = ({
         headerText={headerText}
         html={<>{dialogCloseBtn}</>}
       />
-      <Box sx={{ pt: "40px" }}>
+      <Box sx={{ pt: "40px", mt:2 }}>
         <Button
           variant="outlined"
           fullWidth

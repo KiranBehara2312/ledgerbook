@@ -21,4 +21,13 @@ const calculateAge = (birthDate = new Date()) => {
   };
 };
 
-module.exports = { calculateAge };
+const convertTo24HourFormat = (timeString) => {
+  const date = new Date(`1970-01-01T${timeString}:00Z`);
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+  return `${hours < 10 ? "0" : ""}${hours}:${
+    minutes < 10 ? "0" : ""
+  }${minutes}`;
+};
+
+module.exports = { calculateAge, convertTo24HourFormat };
