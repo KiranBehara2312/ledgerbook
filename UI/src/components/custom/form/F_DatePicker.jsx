@@ -2,7 +2,7 @@ import { FormControl, TextField } from "@mui/material";
 import React, { Fragment } from "react";
 import { Controller } from "react-hook-form";
 
-const F_TimeSelect = ({
+const F_DatePicker = ({
   name = "",
   label = "",
   control = {},
@@ -10,6 +10,7 @@ const F_TimeSelect = ({
   isRequired = false,
   errors = {},
   rules = {},
+  endAdornment = null,
   readOnly = false,
   ...props
 }) => {
@@ -35,7 +36,7 @@ const F_TimeSelect = ({
           <TextField
             onChange={onChange}
             ref={ref}
-            type={"time"}
+            type={"date"}
             value={value}
             label={label}
             fullWidth
@@ -50,6 +51,7 @@ const F_TimeSelect = ({
             disabled={isDisabled}
             slotProps={{
               input: {
+                endAdornment: endAdornment,
                 readOnly: readOnly,
               },
               inputLabel: {
@@ -63,4 +65,4 @@ const F_TimeSelect = ({
   );
 };
 
-export default F_TimeSelect;
+export default F_DatePicker;

@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import {
   DAILY_SHIFT,
+  DOCTOR_DEPARTMENTS,
   DOCTOR_DESIGNATIONS,
   GENDER_LIST,
   WEEK_DAYS_LIST,
@@ -32,6 +33,7 @@ import { camelToTitle, successAlert } from "../../../helpers";
 import HeaderWithSearch from "../../../components/custom/HeaderWithSearch";
 import { FaPlus } from "react-icons/fa";
 import IconWrapper from "../../../components/custom/IconWrapper";
+import F_Autocomplete from "../../../components/custom/form/F_AutoComplete";
 
 const DoctorInformation = ({
   dialogCloseBtn = null,
@@ -186,7 +188,6 @@ const DoctorInformation = ({
               variant="h6"
               sx={{ mt: "-10px", fontSize: "15px", fontWeight: "bold" }}
             />
-
             <F_Select
               control={control}
               readOnly={readOnly}
@@ -198,15 +199,15 @@ const DoctorInformation = ({
               errors={errors}
             />
 
-            <F_Input
-              name="department"
+            <F_Autocomplete
               control={control}
               readOnly={readOnly}
+              name={"department"}
+              label={"Department"}
+              list={DOCTOR_DEPARTMENTS}
+              rules={{ required: "Department is required" }}
+              isRequired={true}
               errors={errors}
-              rules={{
-                required: "Department is required",
-              }}
-              label="Department"
             />
 
             <F_Input
@@ -219,7 +220,6 @@ const DoctorInformation = ({
               }}
               label="Specialization"
             />
-
             <F_Input
               name="qualification"
               control={control}
@@ -230,7 +230,6 @@ const DoctorInformation = ({
               }}
               label="Qualification"
             />
-
             <F_Input
               name="medicalLicenseNumber"
               control={control}

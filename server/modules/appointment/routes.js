@@ -5,22 +5,10 @@ const { convertTo24HourFormat } = require("../../helpers");
 
 appointmentRoutes.post("/daySlotGeneration", async (req, res) => {
   try {
-    const { fromTime, toTime, slotDuration, timeGap } = req.body;
-    const startTime = convertTo24HourFormat(fromTime);
-    const endTime = convertTo24HourFormat(toTime);
-    const startTimeFormat = {
-      hours: startTime.split(":")[0],
-      minutes: startTime.split(":")[0],
-    };
-    const endTimeFormat = {
-      hours: endTime.split(":")[0],
-      minutes: endTime.split(":")[0],
-    };
-    console.log("startTime", startTime);
-    console.log("endTime", endTime);
+    const { startDate, endDate, slotDuration, timeGap } = req.body;
     const slots = AppointmentController.generateTimeSlots(
-      startTimeFormat,
-      endTimeFormat,
+      startDate,
+      endDate,
       +slotDuration,
       +timeGap
     );

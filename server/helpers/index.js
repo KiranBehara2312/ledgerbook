@@ -30,4 +30,15 @@ const convertTo24HourFormat = (timeString) => {
   }${minutes}`;
 };
 
-module.exports = { calculateAge, convertTo24HourFormat };
+const convertTo12HourFormat = (time) => {
+  // time = "2024-12-25T14:30:00";
+  let hours = time.getHours();
+  const minutes = time.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  const minutesFormatted = minutes < 10 ? "0" + minutes : minutes;
+  return `${hours}:${minutesFormatted} ${ampm}`;
+};
+
+module.exports = { calculateAge, convertTo24HourFormat, convertTo12HourFormat };

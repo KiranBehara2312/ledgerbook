@@ -23,7 +23,10 @@ const Login = () => {
       password,
     };
     const response = await postData("/auth/login", loginObj);
-    successAlert(response.message, { autoClose: 1500 });
+    const welcomeMsg = `Welcome ${
+      response?.user?.role === "DOCTOR" ? "Dr." : ""
+    } ${response?.user?.firstName} ${response?.user?.lastName}`;
+    successAlert(welcomeMsg, { autoClose: 1500 });
     dispatch(setUserDetails(response.token));
     localStorage.setItem("authToken", response.token);
     navigate("/pages/home");

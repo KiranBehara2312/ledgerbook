@@ -8,6 +8,7 @@ import { postData } from "../../../helpers/http";
 import { GlassBG, MyHeading } from "../../../components/custom";
 import F_TimeSelect from "../../../components/custom/form/F_TimeSelect";
 import F_Input from "../../../components/custom/form/F_Input";
+import F_DatePicker from "../../../components/custom/form/F_DatePicker";
 
 const DEFAULT_VAL = {};
 
@@ -37,6 +38,8 @@ const GenerateSlots = ({
   const onSubmit = async (formData) => {
     const payload = {
       doctor: selectedRow?.userName,
+      startDate: `${formData.date}T${formData.fromTime}:00`,
+      endDate: `${formData.date}T${formData.toTime}:00`,
       ...formData,
     };
     const response = await postData("/appointment/daySlotGeneration", payload);
@@ -67,6 +70,17 @@ const GenerateSlots = ({
             sx={{ mt: "-10px", fontSize: "15px", fontWeight: "bold" }}
           /> */}
           <form onSubmit={handleSubmit(onSubmit)}>
+            <F_DatePicker
+              name="date"
+              control={control}
+              errors={errors}
+              type="date"
+              rules={{
+                required: "Date is required",
+              }}
+              maxWidth="100%"
+              label="Date"
+            />
             <F_TimeSelect
               name="fromTime"
               control={control}
@@ -100,7 +114,7 @@ const GenerateSlots = ({
               endAdornment={
                 <InputAdornment
                   position="start"
-                  sx={{ cursor: "pointer", fontSize: "13px !important" }}
+                  sx={{ cursor: "pointer", fontSize: "0.75rem !important" }}
                 >
                   Min
                 </InputAdornment>
