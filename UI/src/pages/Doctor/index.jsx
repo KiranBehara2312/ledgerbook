@@ -3,7 +3,14 @@ import HeaderWithSearch from "../../components/custom/HeaderWithSearch";
 import { FaUserDoctor } from "react-icons/fa6";
 import IconWrapper from "../../components/custom/IconWrapper";
 import { Button, Dialog, DialogContent, useTheme } from "@mui/material";
-import { FaCalendarAlt, FaEdit, FaEye, FaPlus, FaTrash } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaCalendarCheck,
+  FaEdit,
+  FaEye,
+  FaPlus,
+  FaTrash,
+} from "react-icons/fa";
 import DoctorInformation from "./AddEdits";
 import MyTable from "../../components/custom/MyTable";
 import { postData } from "../../helpers/http";
@@ -11,6 +18,7 @@ import { ADMIN, STAFF } from "../../constants/roles";
 import { useSelector } from "react-redux";
 import { camelToTitle } from "../../helpers";
 import WorkInProgress from "../../components/shared/WorkInProgress";
+import GenerateSlots from "./AddEdits/GenerateSlots";
 
 const ACTIONS = [
   {
@@ -32,10 +40,10 @@ const ACTIONS = [
   {
     name: "Generate Slots",
     privilege: "GENERATE_SLOTS",
-    icon: <IconWrapper defaultColor icon={<FaCalendarAlt size={18} />} />,
+    icon: <IconWrapper defaultColor icon={<FaCalendarCheck size={18} />} />,
     disabled: false,
     access: [ADMIN, STAFF],
-    modalWidth: "md",
+    modalWidth: "sm",
   },
 ];
 const Doctor = () => {
@@ -156,7 +164,17 @@ const Doctor = () => {
             headerText={`${camelToTitle(
               selectedDoc?.action.toLocaleLowerCase()
             )} Doctor`}
-            docObj={selectedDoc}
+            selectedRow={selectedDoc?.data}
+            action={selectedDoc?.action}
+            setShowDialog={setShowDialog}
+          />
+        );
+
+      case "GENERATE_SLOTS":
+        return (
+          <GenerateSlots
+            dialogCloseBtn={<CloseBtnHtml />}
+            headerText={`Generate Slots for Dr.${selectedDoc?.data?.firstName} ${selectedDoc?.data?.lastName}`}
             selectedRow={selectedDoc?.data}
             action={selectedDoc?.action}
             setShowDialog={setShowDialog}

@@ -10,6 +10,7 @@ const doctorRoutes = require("./modules/doctor/routes");
 const registrationRoutes = require("./modules/registration/routes");
 const paymentLedgerRoutes = require("./modules/paymentledger/routes");
 const patientRoutes = require("./modules/patients/routes");
+const appointmentRoutes = require("./modules/appointment/routes");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 app.use("/auth", authRoutes);
 app.use("/masters", isAuthenticated, masterRoutes);
 app.use("/doctor", isAuthenticated, doctorRoutes);
+app.use("/appointment", isAuthenticated, appointmentRoutes);
 app.use("/registration", isAuthenticated, registrationRoutes);
 app.use("/paymentledger", isAuthenticated, paymentLedgerRoutes);
 app.use("/patients", isAuthenticated, patientRoutes);
