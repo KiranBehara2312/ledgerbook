@@ -45,8 +45,8 @@ const Login = () => {
       <GlassBG cardStyles={{ width: "300px", height: "auto" }}>
         <MyHeading
           alignCenter
-          text="Login"
-          variant="h5"
+          text="Login to My Ledger Book"
+          variant="h6"
           sx={{ mb: 1, mt: -1 }}
         />
         <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
@@ -76,14 +76,14 @@ const Login = () => {
           <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
             Submit
           </Button>
-          <Button
+          {/* <Button
             type="button"
             fullWidth
             sx={{ mt: 2 }}
             onClick={() => navigate("/auth/signup")}
           >
             Register? Click here
-          </Button>
+          </Button> */}
         </form>
       </GlassBG>
     </Box>
