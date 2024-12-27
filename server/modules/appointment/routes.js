@@ -3,16 +3,31 @@ const appointmentRoutes = express.Router();
 const AppointmentController = require("./Controller");
 const Doctor = require("../../models/Doctor");
 
-
 appointmentRoutes.post("/daySlotGeneration", async (req, res) => {
   try {
-    const { startDate, endDate, slotDuration, timeGap } = req.body;
+    const {
+      startDate,
+      endDate,
+      slotDuration,
+      timeGap,
+      doctor,
+      date,
+      doctorName,
+      doctorDepartment,
+      doctorDesignation,
+    } = req.body;
     const slots = AppointmentController.generateTimeSlots(
       startDate,
       endDate,
       +slotDuration,
-      +timeGap
+      +timeGap,
+      doctor,
+      date,
+      doctorName,
+      doctorDepartment,
+      doctorDesignation
     );
+    await AppointmentController.insertCalendarSlots(slots);
     res.status(200).json({
       message: "Doctor Slots generated successfully",
       data: slots,

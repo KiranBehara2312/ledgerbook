@@ -204,9 +204,26 @@ const DOCTOR_DESIGNATIONS = [
   { label: "Orthopaedist", value: "Orthopaedist" },
 ];
 const DAILY_SHIFT = [
-  { label: "Shift A (6AM - 2PM)", value: "Shift A" },
-  { label: "Shift B (2PM - 10PM)", value: "Shift B" },
-  { label: "Shift C (10PM - 6AM)", value: "Shift C" },
+  {
+    label: "Shift A (6AM - 2PM)",
+    value: "Shift A",
+    shiftTimingsFrom: "06:00",
+    shiftTimingsTo: "14:00",
+  },
+  {
+    label: "Shift B (2PM - 10PM)",
+    value: "Shift B",
+    shiftTimingsFrom: "14:00",
+    shiftTimingsTo: "22:00",
+  },
+  ,
+  {
+    label: "Shift C (10PM - 6AM)",
+    value: "Shift C",
+    shiftTimingsFrom: "22:00",
+    shiftTimingsTo: "06:00",
+  },
+  ,
 ];
 
 const PAYMENT_TYPES = [

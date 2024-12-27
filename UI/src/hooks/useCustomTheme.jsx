@@ -47,6 +47,15 @@ const useCustomTheme = (curmode = "light", dColor = "#0d8672") => {
           },
         },
       },
+      MuiInputAdornment: {
+        styleOverrides: {
+          root: {
+            "& p": {
+              fontSize: "12px",
+            },
+          },
+        },
+      },
       MuiAccordionSummary: {
         styleOverrides: {
           root: {

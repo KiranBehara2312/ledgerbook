@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import HeaderWithSearch from "../../../components/custom/HeaderWithSearch";
 import IconWrapper from "../../../components/custom/IconWrapper";
 import { useForm } from "react-hook-form";
-import { Box, Button, InputAdornment, useTheme } from "@mui/material";
+import { Alert, Box, Button, InputAdornment, useTheme } from "@mui/material";
 import { FaCalendarCheck, FaExpand, FaHistory } from "react-icons/fa";
 import { postData } from "../../../helpers/http";
 import { GlassBG, MyHeading } from "../../../components/custom";
 import F_TimeSelect from "../../../components/custom/form/F_TimeSelect";
 import F_Input from "../../../components/custom/form/F_Input";
 import F_DatePicker from "../../../components/custom/form/F_DatePicker";
-import { errorAlert } from "../../../helpers";
-import { WEEK_DAYS_LIST } from "../../../constants/localDB/MastersDB";
+import { errorAlert, successAlert } from "../../../helpers";
+import {
+  DAILY_SHIFT,
+  WEEK_DAYS_LIST,
+} from "../../../constants/localDB/MastersDB";
+import DisplayData from "../../../components/shared/DisplayData";
 
 const DEFAULT_VAL = {};
 
@@ -59,6 +63,9 @@ const GenerateSlots = ({
   const onSubmit = async (formData) => {
     const payload = {
       doctor: selectedRow?.userName,
+      doctorName: `Dr. ${selectedRow?.firstName} ${selectedRow?.lastName}`,
+      doctorDepartment: selectedRow?.department,
+      doctorDesignation: selectedRow?.designation,
       startDate: `${formData.date}T${formData.fromTime}:00`,
       endDate: `${formData.date}T${formData.toTime}:00`,
       ...formData,
@@ -84,7 +91,7 @@ const GenerateSlots = ({
       />
       <MyHeading
         alignCenter
-        text="Doctor Avialble Days"
+        text="Doctor Avialable Days"
         variant="h6"
         sx={{
           mt: "-10px",
@@ -107,6 +114,7 @@ const GenerateSlots = ({
               key={x.label}
               sx={{
                 height: "25px",
+                pointerEvents: "none",
                 textDecoration: selectedRow?.availableDays?.includes(x.label)
                   ? ""
                   : "line-through",
@@ -130,7 +138,7 @@ const GenerateSlots = ({
               }}
               maxWidth="100%"
               label="Date"
-              minDate={'2024-12-27'}
+              minDate={new Date().toISOString().split("T")[0]}
             />
             <F_TimeSelect
               name="fromTime"
@@ -141,7 +149,12 @@ const GenerateSlots = ({
               }}
               maxWidth="100%"
               label="From Time"
+              minTime={
+                DAILY_SHIFT?.find((x) => x.value === selectedRow?.shiftTimings)
+                  ?.shiftTimingsFrom
+              }
             />
+
             <F_TimeSelect
               name="toTime"
               control={control}
@@ -151,6 +164,10 @@ const GenerateSlots = ({
               }}
               maxWidth="100%"
               label="To Time"
+              maxTime={
+                DAILY_SHIFT?.find((x) => x.value === selectedRow?.shiftTimings)
+                  ?.shiftTimingsTo
+              }
             />
             <F_Input
               name="slotDuration"
@@ -196,6 +213,13 @@ const GenerateSlots = ({
             >
               Submit
             </Button>
+            <Alert severity="info" sx={{ mt: 1 }}>
+              Doctor is available in{" "}
+              {
+                DAILY_SHIFT?.find((x) => x.value === selectedRow?.shiftTimings)
+                  ?.label
+              }
+            </Alert>
           </form>
         </GlassBG>
       </Box>
