@@ -29,6 +29,9 @@ const AppointmentController = {
         startTime: formattedStartTime,
         endTime: formattedEndTime,
         slotNo: `S-${slotCounter}`,
+        bookingStatus: "Free",
+        color: "#078307",
+        date : startDate.split('T')[0]
       });
       // Move currentTime forward by the slot duration + gap
       currentTime.setMinutes(

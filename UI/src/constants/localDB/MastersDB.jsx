@@ -80,30 +80,37 @@ const WEEK_DAYS_LIST = [
   {
     label: "Monday",
     value: "Monday",
+    shortName: "Mon",
   },
   {
     label: "Tuesday",
     value: "Tuesday",
+    shortName: "Tue",
   },
   {
     label: "Wednesday",
     value: "Wednesday",
+    shortName: "Wed",
   },
   {
     label: "Thursday",
     value: "Thursday",
+    shortName: "Thu",
   },
   {
     label: "Friday",
     value: "Friday",
+    shortName: "Fri",
   },
   {
     label: "Saturday",
     value: "Saturday",
+    shortName: "Sat",
   },
   {
     label: "Sunday",
     value: "Sunday",
+    shortName: "Sun",
   },
 ];
 
@@ -258,6 +265,51 @@ const PATIENT_TYPES = [
   },
 ];
 
+const APPOINTMENT_BOOKING_STATUS = [
+  {
+    label: "Free",
+    value: "Free",
+    code: "ABS001",
+    color: "#078307", // Bright Green
+  },
+  {
+    label: "Hold",
+    value: "Hold",
+    code: "ABS003",
+    color: "#bd702c", // Bright Yellow
+  },
+  {
+    label: "Booked",
+    value: "Booked",
+    code: "ABS004",
+    color: "#0e0e93", // Bright Blue
+  },
+  {
+    label: "Cancelled",
+    value: "Cancelled",
+    code: "ABS005",
+    color: "#a71111", // Bright Red
+  },
+  {
+    label: "Rescheduled",
+    value: "Rescheduled",
+    code: "ABS006",
+    color: "#800080", // Bright Purple
+  },
+  {
+    label: "Completed",
+    value: "Completed",
+    code: "ABS007",
+    color: "#0997cf", // Bright Green
+  },
+  {
+    label: "No Show",
+    value: "No Show",
+    code: "ABS008",
+    color: "#55474a", // Bright Pink
+  },
+];
+
 const APP_USER_TYPES = [
   {
     label: "ADMIN",
@@ -349,4 +401,5 @@ export {
   PAYMENT_STATUSES,
   APP_USER_TYPES,
   DOCTOR_DEPARTMENTS,
+  APPOINTMENT_BOOKING_STATUS,
 };

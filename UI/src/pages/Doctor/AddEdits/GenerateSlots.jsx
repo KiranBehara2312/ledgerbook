@@ -9,6 +9,8 @@ import { GlassBG, MyHeading } from "../../../components/custom";
 import F_TimeSelect from "../../../components/custom/form/F_TimeSelect";
 import F_Input from "../../../components/custom/form/F_Input";
 import F_DatePicker from "../../../components/custom/form/F_DatePicker";
+import { errorAlert } from "../../../helpers";
+import { WEEK_DAYS_LIST } from "../../../constants/localDB/MastersDB";
 
 const DEFAULT_VAL = {};
 
@@ -34,6 +36,25 @@ const GenerateSlots = ({
     reValidateMode: "onBlur",
   });
   const formValues = watch();
+
+  useEffect(() => {
+    if (formValues.date) {
+      checkShouldWeGenerateSlots();
+    }
+  }, [formValues.date]);
+
+  const checkShouldWeGenerateSlots = () => {
+    const selectedDayName = new Intl.DateTimeFormat("en-US", {
+      weekday: "long",
+    }).format(new Date(formValues.date));
+    const doctorAvailableDays = selectedRow?.availableDays ?? [];
+    if (!doctorAvailableDays.includes(selectedDayName)) {
+      errorAlert(
+        `Dr. ${selectedRow?.firstName} ${selectedRow?.lastName} is not available on ${selectedDayName}`
+      );
+      setValue("date", "");
+    }
+  };
 
   const onSubmit = async (formData) => {
     const payload = {
@@ -61,14 +82,43 @@ const GenerateSlots = ({
         headerText={headerText}
         html={<>{dialogCloseBtn}</>}
       />
-      <Box sx={{ display: "flex", gap: 1, pt: "40px" }}>
+      <MyHeading
+        alignCenter
+        text="Doctor Avialble Days"
+        variant="h6"
+        sx={{
+          mt: "-10px",
+          fontSize: "15px",
+          fontWeight: "bold",
+          pt: "60px",
+          pb: "10px",
+        }}
+      />
+      <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
+        {WEEK_DAYS_LIST?.map((x) => {
+          return (
+            <Button
+              size="small"
+              variant={
+                selectedRow?.availableDays?.includes(x.label)
+                  ? "contained"
+                  : "outlined"
+              }
+              key={x.label}
+              sx={{
+                height: "25px",
+                textDecoration: selectedRow?.availableDays?.includes(x.label)
+                  ? ""
+                  : "line-through",
+              }}
+            >
+              <MyHeading text={x.shortName} variant="body2" alignCenter />
+            </Button>
+          );
+        })}
+      </Box>
+      <Box sx={{ display: "flex", gap: 1 }}>
         <GlassBG cardStyles={{ width: "100%", m: 2, height: "auto" }}>
-          {/* <MyHeading
-            alignCenter
-            text="Vital Information"
-            variant="h6"
-            sx={{ mt: "-10px", fontSize: "15px", fontWeight: "bold" }}
-          /> */}
           <form onSubmit={handleSubmit(onSubmit)}>
             <F_DatePicker
               name="date"
@@ -80,6 +130,7 @@ const GenerateSlots = ({
               }}
               maxWidth="100%"
               label="Date"
+              minDate={'2024-12-27'}
             />
             <F_TimeSelect
               name="fromTime"

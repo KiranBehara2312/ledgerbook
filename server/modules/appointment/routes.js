@@ -1,7 +1,8 @@
 const express = require("express");
 const appointmentRoutes = express.Router();
 const AppointmentController = require("./Controller");
-const { convertTo24HourFormat } = require("../../helpers");
+const Doctor = require("../../models/Doctor");
+
 
 appointmentRoutes.post("/daySlotGeneration", async (req, res) => {
   try {

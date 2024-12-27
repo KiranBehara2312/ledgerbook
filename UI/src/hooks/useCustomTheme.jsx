@@ -115,6 +115,13 @@ const useCustomTheme = (curmode = "light", dColor = "#0d8672") => {
           },
         },
       },
+      MuiAutocomplete: {
+        styleOverrides: {
+          listbox: {
+            fontSize: "13px",
+          },
+        },
+      },
       MuiInputLabel: {
         styleOverrides: {
           root: {
