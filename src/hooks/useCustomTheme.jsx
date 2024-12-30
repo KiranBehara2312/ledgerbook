@@ -5,7 +5,7 @@ import { createTheme } from "@mui/material";
 // doctor = #860d74
 // admin = #86690d
 // staff = #0d8672
-const useCustomTheme = (curmode = "light", dColor = "#0d8672") => {
+const useCustomTheme = (curmode = "light", dColor = "#860d78") => {
   const theme = createTheme({
     palette: {
       mode: curmode,
@@ -39,6 +39,23 @@ const useCustomTheme = (curmode = "light", dColor = "#0d8672") => {
       borderRadius: 8,
     },
     components: {
+      MuiTabs: {
+        styleOverrides: {
+          root: {
+            minHeight: "36px", // Adjust the height here
+          },
+        },
+      },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            textTransform: "capitalize",
+            minHeight: "36px",
+            padding: "0 16px",
+            fontSize: "14px",
+          },
+        },
+      },
       MuiFormHelperText: {
         styleOverrides: {
           root: {

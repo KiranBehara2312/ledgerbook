@@ -7,6 +7,10 @@ import { postData } from "../../helpers/http";
 import { successAlert } from "../../helpers";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "../../redux/slices/userDetailsSlice";
+import { auth } from "../../firebaseConfig";
+import {
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,13 +26,12 @@ const Login = () => {
       userName,
       password,
     };
-    const response = await postData("/auth/login", loginObj);
-    const welcomeMsg = `Welcome ${
-      response?.user?.role === "DOCTOR" ? "Dr." : ""
-    } ${response?.user?.firstName} ${response?.user?.lastName}`;
+    const response = await signInWithEmailAndPassword(auth, userName, password);
+    console.log(response);
+    const welcomeMsg = `Welcome ${response?.user?.email}`;
     successAlert(welcomeMsg, { autoClose: 1500 });
-    dispatch(setUserDetails(response.token));
-    localStorage.setItem("authToken", response.token);
+    dispatch(setUserDetails(response?.user?.accessToken));
+    localStorage.setItem("authToken", response?.user?.accessToken);
     navigate("/pages/home");
   };
 

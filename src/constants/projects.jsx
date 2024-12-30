@@ -1,5 +1,5 @@
 const META = {
-  PROJECT_TITLE: "HIMS",
+  PROJECT_TITLE: "Ledger Book",
 };
 
 export { META };

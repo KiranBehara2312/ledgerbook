@@ -17,6 +17,7 @@ import {
   Popover,
   Button,
 } from "@mui/material";
+import { signOut } from "firebase/auth";
 import { MdAccountCircle, MdMenu } from "react-icons/md";
 import { META } from "../../constants/projects";
 import { MENU_ITEMS } from "../../constants/Menu/MenuItems";
@@ -31,6 +32,7 @@ import { emptyUserDetails } from "../../redux/slices/userDetailsSlice";
 import { FaUserAlt, FaUserCog, FaUserNurse } from "react-icons/fa";
 import MyHeading from "../custom/MyHeading";
 import { FaUserDoctor } from "react-icons/fa6";
+import { auth } from "../../firebaseConfig";
 
 const MyHeader = () => {
   const loggedInUser = useSelector((state) => state.userDetails.user);
@@ -42,7 +44,8 @@ const MyHeader = () => {
   const [selectedMenuItem, setSelectedMenuItem] = useState("");
   const { DialogComponent, openDialog } = useConfirmation();
 
-  const logoutHanlder = () => {
+  const logoutHanlder = async () => {
+    await signOut(auth);
     navigate("/auth/login");
     dispatch(emptyUserDetails());
     localStorage.removeItem("authToken");
@@ -205,26 +208,14 @@ const MyHeader = () => {
             alignCenter
             sx={{ pt: 1 }}
             variant="h6"
-            text={`${loggedInUser?.role === "DOCTOR" ? "Dr." : ""} ${
-              loggedInUser?.firstName
-            } ${loggedInUser?.lastName}`}
+            text={`${loggedInUser?.fullName ?? "N/A"}`}
           />
           <Box sx={{ display: "flex", justifyContent: "space-between", pt: 2 }}>
-            <MyHeading alignCenter variant="caption" text={"User Name"} />
+            <MyHeading alignCenter variant="caption" text={"User Email"} />
             <MyHeading
               alignCenter
               variant="caption"
-              text={loggedInUser?.userName}
-            />
-          </Box>
-          <Box
-            sx={{ display: "flex", justifyContent: "space-between", pt: 0.5 }}
-          >
-            <MyHeading alignCenter variant="caption" text={"Role"} />
-            <MyHeading
-              alignCenter
-              variant="caption"
-              text={loggedInUser?.role}
+              text={loggedInUser?.email ?? "N/A"}
             />
           </Box>
           <Box

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
+import { USER_META } from "../../constants/ledger/meta";
 
 export const userDetailsSlice = createSlice({
   name: "userDetails",
@@ -11,7 +12,14 @@ export const userDetailsSlice = createSlice({
       let decodedToken = jwtDecode(payload);
       const issuedAt = new Date(decodedToken.iat * 1000).toLocaleString();
       const expiration = new Date(decodedToken.exp * 1000).toLocaleString();
-      const newObj = { ...decodedToken, iat: issuedAt, exp: expiration };
+      const fullName = USER_META?.fullName;
+      const newObj = {
+        ...decodedToken,
+        iat: issuedAt,
+        exp: expiration,
+        fullName,
+      };
+
       state.user = newObj;
     },
     getUserDetails: (state) => {

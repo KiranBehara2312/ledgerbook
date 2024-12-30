@@ -1,50 +1,65 @@
-import { Box, Paper, Stack } from "@mui/material";
+import { Box, Paper, Stack, Tab, Tabs } from "@mui/material";
 import React from "react";
-import { GlassBG, MyHeading } from "../../components/custom";
-import { IoPeople } from "react-icons/io5";
-import { FaBed, FaCalendarCheck } from "react-icons/fa";
+import { FaIndianRupeeSign } from "react-icons/fa6";
+import { GoArrowDownLeft } from "react-icons/go";
+import { GoArrowUpRight } from "react-icons/go";
+import IconWrapper from "../../components/custom/IconWrapper";
+import YouWillGet from "../ledger/YouWillGet";
+import YouWillGive from "../ledger/YouWillGive";
 
 const Home = () => {
-  const cards = [
-    {
-      count: 8,
-      label: "Registrations",
-      url: null,
-      icon: <IoPeople size={25} />,
-    },
-    {
-      count: 8,
-      label: "Appointments",
-      url: null,
-      icon: <FaCalendarCheck size={25} />,
-    },
-    {
-      count: 8,
-      label: "In Patients",
-      url: null,
-      icon: <FaBed size={25} />,
-    },
-  ];
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-    <Box
-      sx={{ display: "flex", m: 1, flexWrap: "wrap", justifyContent: "center" }}
-    >
-      {cards?.map((x, i) => {
-        return (
-          <GlassBG
-            key={i}
-            cardStyles={{ width: "150px", height: "60px", m: 0.5 }}
-          >
-            <Stack direction={"row"}>
-              <MyHeading text={x.count} variant="h4" />
-              <span style={{ flex: "1" }}></span>
-              <span>{x.icon}</span>
-            </Stack>
-            <MyHeading text={x.label} variant="body2" sx={{ pt: 0.5 }} />
-          </GlassBG>
-        );
-      })}
-    </Box>
+    <>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        aria-label="icon position tabs example"
+        centered
+      >
+        <Tab
+          icon={
+            <>
+              <IconWrapper
+                defaultColor
+                icon={<FaIndianRupeeSign style={{ marginTop: "5px" }} />}
+              />
+            </>
+          }
+          iconPosition="start"
+          label={"All"}
+        />
+        <Tab
+          icon={
+            <>
+              <GoArrowDownLeft />
+              <FaIndianRupeeSign />
+            </>
+          }
+          iconPosition="start"
+          label={"You will Get"}
+        />
+        <Tab
+          icon={
+            <>
+              <GoArrowUpRight />
+              <FaIndianRupeeSign />
+            </>
+          }
+          iconPosition="start"
+          label="You will Give"
+        />
+      </Tabs>
+      <Box sx={{ mt: 1 }}>
+        {value === 1 && <YouWillGet />}
+        {value === 2 && <YouWillGive />}
+      </Box>
+    </>
   );
 };
 
