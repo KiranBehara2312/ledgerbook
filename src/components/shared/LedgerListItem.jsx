@@ -4,7 +4,7 @@ import IconWrapper from "../custom/IconWrapper";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { formatDate } from "../../helpers";
 import { MyHeading } from "../custom";
-import { insertData } from "../../services/dynamoDb";
+import { getAllItems } from "../../services/dynamoDb";
 
 const LedgerListItem = ({
   transactionAmount = 0,
@@ -20,16 +20,7 @@ const LedgerListItem = ({
   }, []);
 
   const insertSomeData = async () => {
-    await insertData({
-      ledgerId: crypto.randomUUID(),
-      transactionAmount,
-      transactionDate,
-      transactionMode,
-      transactionNote,
-      transactionBy,
-      transactionTo,
-      transactionFor,
-    }).then((res) => {
+    await getAllItems().then((res) => {
       console.log(res);
     });
   };
