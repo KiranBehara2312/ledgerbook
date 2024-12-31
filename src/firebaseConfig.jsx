@@ -1,12 +1,12 @@
 import { initializeApp } from "firebase/app";
 import  { getAuth } from "firebase/auth";
 const firebaseConfig = {
-  apiKey: "AIzaSyCVOUnt-VVUAQvvjQWfag066kpD1_ao21c",
-  authDomain: "ledgerbook-7e18a.firebaseapp.com",
-  projectId: "ledgerbook-7e18a",
-  storageBucket: "ledgerbook-7e18a.firebasestorage.app",
-  messagingSenderId: "846523479616",
-  appId: "1:846523479616:web:4f07102f8dcc78a545d1a5",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MSG_SENDER_ID,
+  appId: process.env.REACT_APP_FIREABSE_APP_ID,
 };
 
 // Initialize Firebase
