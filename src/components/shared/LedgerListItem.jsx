@@ -1,20 +1,38 @@
 import { Box, Chip, Divider } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import IconWrapper from "../custom/IconWrapper";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { formatDate } from "../../helpers";
 import { MyHeading } from "../custom";
+import { insertData } from "../../services/dynamoDb";
 
 const LedgerListItem = ({
   transactionAmount = 0,
   transactionDate = formatDate("DD/MM/YYYY", new Date()),
   transactionMode = "Cash",
   transactionNote,
-  transactionId,
   transactionBy,
   transactionTo,
   transactionFor = "transactionFor transactionFor transactionFor",
 }) => {
+  useEffect(() => {
+    insertSomeData();
+  }, []);
+
+  const insertSomeData = async () => {
+    await insertData({
+      ledgerId: crypto.randomUUID(),
+      transactionAmount,
+      transactionDate,
+      transactionMode,
+      transactionNote,
+      transactionBy,
+      transactionTo,
+      transactionFor,
+    }).then((res) => {
+      console.log(res);
+    });
+  };
   return (
     <Box sx={{ pt: 2, pb: 2, display: "flex" }}>
       <Chip
