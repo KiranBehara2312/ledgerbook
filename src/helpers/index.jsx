@@ -100,6 +100,17 @@ const defaultAlert = (
     pauseOnFocusLoss: options.pauseOnFocusLoss,
   });
 
+const formatIndianCurrency = (amount) => {
+  let num = amount.toString();
+
+  let lastThree = num.slice(-3);
+  let otherNumbers = num.slice(0, num.length - 3);
+
+  otherNumbers = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+
+  return "₹" + otherNumbers + "," + lastThree;
+};
+
 export {
   formatDate,
   setUserInfoInSStorage,
@@ -111,5 +122,6 @@ export {
   infoAlert,
   camelToTitle,
   convertMongoDBDate,
-  calculateAge
+  calculateAge,
+  formatIndianCurrency,
 };

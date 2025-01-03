@@ -1,10 +1,10 @@
-import { Box, Chip, Divider } from "@mui/material";
+import { Box, Chip, Divider, useMediaQuery } from "@mui/material";
 import React, { useEffect } from "react";
-import IconWrapper from "../custom/IconWrapper";
-import { FaIndianRupeeSign } from "react-icons/fa6";
-import { formatDate } from "../../helpers";
+import { formatDate, formatIndianCurrency } from "../../helpers";
 import { MyHeading } from "../custom";
 import { getAllItems } from "../../services/dynamoDb";
+import { FaIndianRupeeSign } from "react-icons/fa6";
+import IconWrapper from "../custom/IconWrapper";
 
 const LedgerListItem = ({
   transactionAmount = 0,
@@ -13,38 +13,30 @@ const LedgerListItem = ({
   transactionNote,
   transactionBy,
   transactionTo,
-  transactionFor = "transactionFor transactionFor transactionFor",
+  transactionType = "Credit",
+  transactionFor = "transactionFor transactionFor transactionFor transactionFor transactionFor transactionFor transactionFor",
 }) => {
-  useEffect(() => {
-    insertSomeData();
-  }, []);
+  const ismdDown = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
-  const insertSomeData = async () => {
-    await getAllItems().then((res) => {
-      console.log(res);
-    });
-  };
   return (
-    <Box sx={{ pt: 2, pb: 2, display: "flex" }}>
-      <Chip
-        sx={{
-          minWidth: "105px",
-          maxWidth: "120px",
-          minHeight: "50px",
-          pl: 1,
-          pr: 1,
-        }}
-        icon={<IconWrapper defaultColor icon={<FaIndianRupeeSign />} />}
-        label={transactionAmount}
-        variant="outlined"
-      />
+    <Box
+      sx={{
+        pt: 2,
+        pb: 2,
+        pr:1, 
+        display: "flex",
+        justifyContent: "space-between",
+        background: transactionType === "Credit" ? "#0080001f" : "#ff00000f",
+      }}
+    >
       <Box
         sx={{
           ml: 1,
           pt: 0.5,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "flex-start",
+          justifyContent: "center",
         }}
       >
         <MyHeading text={transactionTo} variant="body1" />
@@ -57,12 +49,19 @@ const LedgerListItem = ({
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
-              maxWidth: "120px",
+              maxWidth: ismdDown ? "180px" : "70%",
             }}
             variant="caption"
           />
         </Box>
       </Box>
+      <MyHeading
+        text={formatIndianCurrency(transactionAmount)}
+        sx={{
+          color: transactionType === "Credit" ? "green" : "red",
+        }}
+        variant="h6"
+      />
     </Box>
   );
 };

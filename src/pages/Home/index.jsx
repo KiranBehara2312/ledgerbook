@@ -4,8 +4,8 @@ import { FaIndianRupeeSign } from "react-icons/fa6";
 import { GoArrowDownLeft } from "react-icons/go";
 import { GoArrowUpRight } from "react-icons/go";
 import IconWrapper from "../../components/custom/IconWrapper";
-import YouWillGet from "../ledger/YouWillGet";
-import YouWillGive from "../ledger/YouWillGive";
+import LedgerList from "../ledger/LedgerList";
+import { formatDate } from "../../helpers";
 
 const Home = () => {
   const [value, setValue] = React.useState(0);
@@ -13,6 +13,17 @@ const Home = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const objArray = Array.from({ length: 20 }, () => ({
+    transactionAmount: Math.floor(Math.random() * 100000000),
+    transactionDate: formatDate("DD/MM/YYYY", new Date()),
+    transactionMode: "Cash",
+    transactionNote: "Sample note",
+    transactionBy: "User",
+    transactionTo: "Mr. Krishna",
+    transactionType: Math.random() > 0.5 ? "Credit" : "Debit",
+    transactionFor: "Sample transaction for",
+  }));
 
   return (
     <>
@@ -56,8 +67,19 @@ const Home = () => {
         />
       </Tabs>
       <Box sx={{ mt: 1 }}>
-        {value === 1 && <YouWillGet />}
-        {value === 2 && <YouWillGive />}
+        {value === 0 && objArray?.length > 0 && (
+          <LedgerList ledgerArr={objArray} />
+        )}
+        {value === 1 && objArray?.length > 0 && (
+          <LedgerList
+            ledgerArr={objArray.filter((x) => x.transactionType === "Credit")}
+          />
+        )}
+        {value === 2 && objArray?.length > 0 && (
+          <LedgerList
+            ledgerArr={objArray.filter((x) => x.transactionType === "Debit")}
+          />
+        )}
       </Box>
     </>
   );
