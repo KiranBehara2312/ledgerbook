@@ -123,6 +123,3 @@ const LedgerListItem = ({
   );
 };
 export default LedgerListItem;
-
-//https://script.google.com/macros/s/AKfycbxJRDQHRSuWU1bq2pE0pW4bFSPCcG4928Fie8ggaKU5C8ckIMoWzMB-5Dtq9dVk4839/exec
-// save into sheet
